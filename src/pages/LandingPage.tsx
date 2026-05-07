@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { buttonClasses } from "../components/ui/Button";
-import { citySummary } from "../data/mockData";
-import { classNames } from "../utils";
+import { citySummary, mockRegions } from "../data/mockData";
+import { classNames, getCityScoringStats, getRankedRegions } from "../utils";
 
 // ─── Data konten ─────────────────────────────────────────────────────────────
 
@@ -76,6 +76,8 @@ function Divider() {
 // ─── Landing Page ─────────────────────────────────────────────────────────────
 
 export default function LandingPage() {
+  const cityStats = getCityScoringStats(getRankedRegions(mockRegions, "general"));
+
   return (
     <article className="space-y-16 pb-12">
 
@@ -97,7 +99,7 @@ export default function LandingPage() {
         {/* Badge */}
         <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold backdrop-blur-sm">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-          Data Simulasi Prototype · CIVICTWIN 2026
+          Data Prototype POC · CIVICTWIN 2026
         </span>
 
         <h1 className="mt-5 max-w-2xl text-3xl font-bold leading-snug tracking-tight md:text-4xl lg:text-5xl">
@@ -144,8 +146,8 @@ export default function LandingPage() {
         <div className="mt-10 flex flex-wrap gap-6 border-t border-white/10 pt-6">
           {[
             { val: citySummary.totalRegionsInPrototype, unit: "Kecamatan", sub: "dalam prototype" },
-            { val: citySummary.highPriorityCount, unit: "Prioritas Tinggi", sub: "butuh intervensi segera" },
-            { val: `${citySummary.averagePriorityScore}`, unit: "Rata-rata Skor", sub: "dari skala 100" },
+            { val: cityStats.highPriority, unit: "Prioritas Tinggi", sub: "butuh intervensi segera" },
+            { val: `${cityStats.averageScore}`, unit: "Rata-rata Skor", sub: "dari skala 100" },
             { val: "6", unit: "Indikator", sub: "kunci per wilayah" },
           ].map((s) => (
             <div key={s.unit} className="min-w-[90px]">

@@ -69,7 +69,7 @@ export default function PagePlaceholder({
         <div className="space-y-4">
           <InfoPanel
             title="Catatan Prototype"
-            description="Seluruh angka dan indikator pada tahap awal adalah data simulasi untuk demo, bukan data resmi pemerintah."
+            description="Prototype memakai kombinasi data publik, data olahan, dan simulasi terbatas; beberapa indikator belum tervalidasi resmi."
           />
           <EmptyState
             title="Belum ada data operasional"

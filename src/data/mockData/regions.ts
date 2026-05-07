@@ -1,6 +1,6 @@
 // =============================================================================
 // CIVICTWIN — Mock Data Wilayah Kota Semarang
-// STATUS: Data Simulasi Prototype — BUKAN data resmi pemerintah
+// STATUS: Data Prototype POC — BUKAN data resmi pemerintah
 // Dibuat untuk kebutuhan demo awal sistem CIVICTWIN
 // Sumber: estimasi berbasis literatur & laporan publik (disederhanakan)
 // =============================================================================
@@ -30,8 +30,6 @@ export type Region = {
   id: string;
   name: string;
   description: string;
-  priorityScore: number;
-  priorityCategory: PriorityCategory;
   indicators: RegionIndicator;
   dominantIssues: string[];
   policyRecommendations: string[];
@@ -42,8 +40,6 @@ export type Region = {
 
 export type CitySummary = {
   totalRegionsInPrototype: number;
-  highPriorityCount: number;
-  averagePriorityScore: number;
   dominantCityIssues: string[];
   generalRecommendations: string[];
   dataLabel: string;
@@ -62,8 +58,7 @@ export const mockRegions: Region[] = [
     name: "Genuk",
     description:
       "Kecamatan di pesisir timur Semarang yang rentan terhadap banjir rob dan penurunan muka tanah. Kawasan industri bercampur permukiman padat.",
-    priorityScore: 87,
-    priorityCategory: "Tinggi",
+
     indicators: {
       floodRisk: 91,
       populationDensity: 80,
@@ -92,9 +87,9 @@ export const mockRegions: Region[] = [
       "Komunitas Warga Pesisir Genuk",
     ],
     estimatedImpact:
-      "Intervensi tanggul & drainase diperkirakan mengurangi luas genangan hingga 60% dan melindungi ±12.000 jiwa dari dampak rob tahunan.",
+      "Intervensi tanggul dan drainase berpotensi mengurangi frekuensi genangan secara signifikan dan melindungi warga permukiman pesisir dari dampak rob musiman.",
     dataSourceNote:
-      "Data simulasi prototype CIVICTWIN — estimasi berbasis laporan BPBD Semarang 2022–2023 dan studi akademik penurunan muka tanah pesisir Jawa Tengah. Bukan data resmi.",
+      "Prototype CIVICTWIN — indikator disusun dari kombinasi data publik (laporan BPBD 2022–2023), data olahan literatur akademik, dan estimasi simulasi. Lihat halaman Metodologi untuk detail status setiap data.",
   },
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -105,8 +100,7 @@ export const mockRegions: Region[] = [
     name: "Semarang Utara",
     description:
       "Kawasan pesisir historis dengan kepadatan tinggi. Titik nol paling terdampak rob di Kota Semarang, mencakup area Pelabuhan Tanjung Emas dan permukiman padat Tambak Lorok.",
-    priorityScore: 92,
-    priorityCategory: "Tinggi",
+
     indicators: {
       floodRisk: 95,
       populationDensity: 88,
@@ -136,9 +130,9 @@ export const mockRegions: Region[] = [
       "Kelurahan Tambak Lorok",
     ],
     estimatedImpact:
-      "Sistem peringatan dini & penguatan tanggul dapat mengurangi kerugian ekonomi rob hingga Rp 45 miliar/tahun dan menjangkau ±28.000 jiwa terdampak.",
+      "Sistem peringatan dini dan penguatan infrastruktur pesisir berpotensi menekan kerugian ekonomi akibat rob dan meningkatkan keselamatan warga di kawasan terdampak.",
     dataSourceNote:
-      "Data simulasi prototype CIVICTWIN — estimasi berbasis laporan Walhi Jateng, riset UNDIP tentang rob Semarang, dan data BPS Kecamatan 2023. Bukan data resmi.",
+      "Prototype CIVICTWIN — indikator disusun dari kombinasi data publik (laporan Walhi Jateng, riset UNDIP, BPS 2023), data olahan, dan estimasi simulasi. Lihat halaman Metodologi untuk detail.",
   },
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -149,8 +143,7 @@ export const mockRegions: Region[] = [
     name: "Tugu",
     description:
       "Kecamatan paling barat Semarang, kawasan industri berat dan tambak. Menghadapi ancaman banjir rob, penurunan kualitas lingkungan, dan kepadatan rendah dengan layanan publik yang belum merata.",
-    priorityScore: 78,
-    priorityCategory: "Tinggi",
+
     indicators: {
       floodRisk: 84,
       populationDensity: 45,
@@ -179,9 +172,9 @@ export const mockRegions: Region[] = [
       "KLHK (Kementerian LHK)",
     ],
     estimatedImpact:
-      "Rehabilitasi mangrove 200 ha diperkirakan mereduksi dampak rob 30–40% dan memulihkan produktivitas tambak senilai ±Rp 8 miliar/tahun.",
+      "Rehabilitasi ekosistem mangrove berpotensi mereduksi dampak rob secara bertahap dan memulihkan produktivitas tambak warga di kawasan pesisir.",
     dataSourceNote:
-      "Data simulasi prototype CIVICTWIN — estimasi berbasis laporan DLH Semarang 2022 dan studi rehabilitasi mangrove pesisir Jawa Tengah. Bukan data resmi.",
+      "Prototype CIVICTWIN — indikator disusun dari kombinasi data publik (DLH Semarang 2022), studi rehabilitasi mangrove, dan estimasi simulasi. Lihat halaman Metodologi untuk detail.",
   },
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -192,8 +185,7 @@ export const mockRegions: Region[] = [
     name: "Pedurungan",
     description:
       "Kecamatan terpadat di Semarang dengan pertumbuhan permukiman pesat. Pusat perdagangan dan hunian yang menghadapi tantangan kemacetan, sampah, dan tekanan infrastruktur.",
-    priorityScore: 63,
-    priorityCategory: "Sedang",
+
     indicators: {
       floodRisk: 52,
       populationDensity: 92,
@@ -222,9 +214,9 @@ export const mockRegions: Region[] = [
       "Pokdarwis Wilayah Pedurungan",
     ],
     estimatedImpact:
-      "Optimalisasi drainase dan TPST diperkirakan mengurangi genangan lokal 50% dan meningkatkan indeks kebersihan lingkungan dari 62 menjadi 78 poin.",
+      "Optimalisasi drainase dan pengelolaan sampah terpadu berpotensi mengurangi genangan lokal dan meningkatkan kualitas lingkungan permukiman secara bertahap.",
     dataSourceNote:
-      "Data simulasi prototype CIVICTWIN — estimasi berbasis data BPS Kecamatan Pedurungan 2023 dan laporan Musrenbang kelurahan. Bukan data resmi.",
+      "Prototype CIVICTWIN — indikator disusun dari kombinasi data publik (BPS 2023, Musrenbang), data olahan, dan estimasi simulasi. Lihat halaman Metodologi untuk detail.",
   },
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -235,8 +227,7 @@ export const mockRegions: Region[] = [
     name: "Banyumanik",
     description:
       "Kecamatan dataran tinggi selatan Semarang dengan kualitas hidup relatif baik. Kawasan perumahan modern, perguruan tinggi, dan pusat komersial. Risiko bencana rendah namun menghadapi tantangan urban sprawl.",
-    priorityScore: 38,
-    priorityCategory: "Rendah",
+
     indicators: {
       floodRisk: 22,
       populationDensity: 65,
@@ -265,9 +256,9 @@ export const mockRegions: Region[] = [
       "Dinas Lingkungan Hidup",
     ],
     estimatedImpact:
-      "Penguatan RTH dan jalur hijau diperkirakan menurunkan suhu mikro 1–2°C dan meningkatkan indeks kenyamanan kota untuk ±65.000 jiwa.",
+      "Penguatan ruang terbuka hijau dan jalur hijau berpotensi meningkatkan kenyamanan lingkungan dan menjaga kualitas hidup warga di kawasan dataran tinggi.",
     dataSourceNote:
-      "Data simulasi prototype CIVICTWIN — estimasi berbasis RTRW Kota Semarang 2011–2031 dan laporan komunitas lingkungan Banyumanik. Bukan data resmi.",
+      "Prototype CIVICTWIN — indikator disusun dari kombinasi data publik (RTRW 2011–2031), laporan komunitas, dan estimasi simulasi. Lihat halaman Metodologi untuk detail.",
   },
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -278,8 +269,7 @@ export const mockRegions: Region[] = [
     name: "Semarang Tengah",
     description:
       "Jantung Kota Semarang — pusat pemerintahan, bisnis, dan warisan budaya (Kota Lama). Memiliki akses layanan terbaik namun menghadapi tekanan kemacetan, turis, dan konservasi heritage.",
-    priorityScore: 55,
-    priorityCategory: "Sedang",
+
     indicators: {
       floodRisk: 60,
       populationDensity: 78,
@@ -309,9 +299,9 @@ export const mockRegions: Region[] = [
       "UNESCO Jakarta Office",
     ],
     estimatedImpact:
-      "Revitalisasi drainase Kota Lama dan manajemen lalu lintas cerdas diperkirakan mengurangi kerugian kemacetan ±Rp 12 miliar/tahun dan meningkatkan kunjungan wisata 25%.",
+      "Revitalisasi drainase dan manajemen lalu lintas cerdas berpotensi mengurangi kerugian akibat kemacetan dan meningkatkan daya tarik kawasan heritage bagi wisatawan.",
     dataSourceNote:
-      "Data simulasi prototype CIVICTWIN — estimasi berbasis laporan Badan Pengelola Kota Lama 2023 dan kajian kemacetan Dinas Perhubungan Semarang. Bukan data resmi.",
+      "Prototype CIVICTWIN — indikator disusun dari kombinasi data publik (BP Kota Lama 2023, Dishub), data olahan, dan estimasi simulasi. Lihat halaman Metodologi untuk detail.",
   },
 ];
 
@@ -321,14 +311,6 @@ export const mockRegions: Region[] = [
 
 export const citySummary: CitySummary = {
   totalRegionsInPrototype: mockRegions.length,
-  highPriorityCount: mockRegions.filter((r) => r.priorityCategory === "Tinggi")
-    .length,
-  averagePriorityScore:
-    Math.round(
-      (mockRegions.reduce((sum, r) => sum + r.priorityScore, 0) /
-        mockRegions.length) *
-        10
-    ) / 10,
   dominantCityIssues: [
     "Banjir rob & penurunan muka tanah di kawasan pesisir utara",
     "Kepadatan penduduk tinggi dengan tekanan infrastruktur",
@@ -343,7 +325,7 @@ export const citySummary: CitySummary = {
     "Dorong ekonomi sirkular dan UMKM digital untuk meningkatkan ketahanan ekonomi warga",
     "Kembangkan sistem pelaporan warga digital yang terhubung langsung ke OPD terkait",
   ],
-  dataLabel: "Data Simulasi Prototype CIVICTWIN — Bukan Data Resmi Pemerintah",
+  dataLabel: "Prototype CIVICTWIN — menggunakan kombinasi data publik, data olahan, dan simulasi terbatas untuk proof of concept",
 };
 
 // ---------------------------------------------------------------------------
@@ -355,16 +337,20 @@ export function getRegionById(id: string): Region | undefined {
   return mockRegions.find((r) => r.id === id);
 }
 
-/** Ambil semua wilayah berdasarkan kategori prioritas */
+/** @deprecated — Gunakan getRankedRegions() dari scoring.ts untuk hasil yang konsisten */
 export function getRegionsByPriority(
-  category: PriorityCategory
+  _category: PriorityCategory
 ): Region[] {
-  return mockRegions.filter((r) => r.priorityCategory === category);
+  // Deprecated: kategori manual sudah dihapus dari Region.
+  // Gunakan scoring engine untuk filtering berdasarkan computedCategory.
+  return [];
 }
 
-/** Urutkan wilayah berdasarkan priority score (descending) */
+/** @deprecated — Gunakan getRankedRegions() dari scoring.ts untuk hasil yang konsisten */
 export function getRegionsSortedByScore(): Region[] {
-  return [...mockRegions].sort((a, b) => b.priorityScore - a.priorityScore);
+  // Deprecated: skor manual sudah dihapus dari Region.
+  // Gunakan scoring engine (getRankedRegions) untuk sorting.
+  return [...mockRegions];
 }
 
 /** Hitung rata-rata satu indikator dari semua wilayah */

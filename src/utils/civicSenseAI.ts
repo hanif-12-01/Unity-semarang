@@ -301,6 +301,7 @@ export function generateCitizenSummary(region: Region): CitizenSummary {
 // ---------------------------------------------------------------------------
 
 export const AI_DISCLAIMER =
-  "CivicSense AI pada prototype ini menggunakan simulasi rule-based dari data dummy. " +
-  "Pada implementasi nyata, fitur ini dapat dikembangkan dengan integrasi model AI dan data resmi pemerintah. " +
+  "CivicSense AI pada prototype ini menggunakan rule-based template engine dari data proof of concept. " +
+  "Data yang digunakan merupakan kombinasi data publik, data olahan, dan simulasi terbatas — bukan seluruhnya data resmi pemerintah. " +
+  "Pada implementasi nyata, fitur ini dapat dikembangkan dengan integrasi model AI dan data tervalidasi. " +
   "Seluruh narasi dihasilkan secara otomatis dari template berdasarkan indikator wilayah — bukan opini manusia atau rekomendasi resmi.";

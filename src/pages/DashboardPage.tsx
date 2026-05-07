@@ -383,11 +383,11 @@ export default function DashboardPage() {
               Catatan Data
             </p>
             <p className="mt-1 text-sm leading-relaxed text-civic-muted">
-              Data yang digunakan pada prototype ini merupakan{" "}
-              <strong className="font-semibold text-civic-ink">data simulasi</strong>{" "}
-              untuk kebutuhan demonstrasi awal. Pada implementasi nyata, data
-              dapat diintegrasikan dengan sumber resmi pemerintah daerah dan
-              portal data publik.
+              Prototype ini menggunakan{" "}
+              <strong className="font-semibold text-civic-ink">kombinasi data publik, data olahan, dan simulasi terbatas</strong>{" "}
+              untuk keperluan proof of concept. Lihat halaman{" "}
+              <a href="/methodology#source-log" className="font-semibold text-civic-primary hover:underline">Metodologi</a>{" "}
+              untuk detail status setiap data.
             </p>
           </div>
         </div>

@@ -75,7 +75,7 @@ Durasi estimasi: **5–7 menit**
 
 ### [03:15 — 04:15] AI Policy Brief Generator
 
-*(Klik: Policy Brief — `/policy-brief`)*
+*(Klik tombol Generate Policy Brief dari Simulator — `/policy-brief?region=genuk&mode=flood`)*
 
 > "Setelah pemerintah menentukan wilayah prioritas, langkah berikutnya adalah menyusun rekomendasi kebijakan. Di sinilah **AI Policy Brief Generator** bekerja."
 
@@ -117,10 +117,10 @@ Durasi estimasi: **5–7 menit**
 
 | Pertanyaan | Jawaban Ringkas |
 |------------|-----------------|
-| "Apakah datanya akurat?" | Data adalah simulasi prototype. Pada implementasi nyata, data bersumber dari BPS, BPBD, dan OPD yang telah divalidasi. Lihat halaman Metodologi. |
+| "Apakah datanya akurat?" | Prototype memakai kombinasi data publik, data olahan, dan simulasi terbatas. Beberapa indikator belum resmi dan perlu divalidasi dengan BPS, BPBD, serta OPD terkait. Lihat Source Log di halaman Metodologi. |
 | "Bagaimana formula scoring-nya?" | Priority Score = Σ(nilai × bobot). 6 indikator, bobot berjumlah 100%. Akses Layanan Publik diinversi karena logika terbalik. Formula tersedia di halaman Metodologi. |
 | "AI-nya pakai apa?" | Rule-based template engine berbasis data wilayah — tidak menggunakan API eksternal. Pada implementasi nyata dapat diintegrasikan dengan LLM. |
-| "Sudah ada data resminya?" | Belum. Ini proof of concept. Integrasi data resmi adalah prioritas pertama roadmap pengembangan. |
+| "Sudah ada data resminya?" | Sebagian rujukan berasal dari sumber publik/resmi, tetapi indeks prototype masih diolah dan sebagian disimulasikan. Integrasi data resmi penuh adalah prioritas pertama roadmap pengembangan. |
 | "Siapa penggunanya?" | Dua segmen: (1) Pejabat/staf pemerintah untuk dashboard dan policy brief. (2) Warga umum untuk portal transparansi publik. |
 | "Bagaimana keamanan datanya?" | Prototype tidak menggunakan backend/database. Pada produksi, akan ada autentikasi, enkripsi, dan audit trail sesuai SPBE. |
 

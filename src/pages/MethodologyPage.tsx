@@ -21,6 +21,21 @@ const DATA_SOURCES = [
   { icon: "⚖️", name: "Regulasi SPBE & Satu Data", desc: "Perpres No. 39/2019 tentang Satu Data dan Perpres No. 95/2018 tentang SPBE sebagai kerangka tata kelola.", tag: "Regulasi Acuan" },
 ];
 
+const SOURCE_LOG = [
+  { indicator: "Risiko Banjir/Rob", data: "Peta genangan historis & kejadian bencana", year: "2022–2023", source: "Laporan BPBD Semarang dan literatur pesisir", status: "Olahan" as const, usage: "Rujukan publik diolah menjadi indeks relatif 0–100" },
+  { indicator: "Kepadatan Penduduk", data: "Rujukan kepadatan penduduk per kecamatan", year: "2023", source: "BPS Kota Semarang / Kecamatan Dalam Angka", status: "Resmi" as const, usage: "Acuan resmi yang dinormalisasi menjadi indeks 0–100" },
+  { indicator: "Kerentanan Sosial", data: "Proxy warga rentan dan penerima bantuan", year: "2023", source: "Literatur DTKS dan konteks sosial wilayah", status: "Simulasi" as const, usage: "Estimasi terbatas untuk proof of concept, belum validasi OPD" },
+  { indicator: "Akses Layanan Publik", data: "Kedekatan ke faskes, sekolah, dan transportasi", year: "2023", source: "Mapping literatur dan observasi awal", status: "Simulasi" as const, usage: "Indeks gabungan akses layanan dasar, perlu data geospasial resmi" },
+  { indicator: "Laporan Warga", data: "Volume aduan warga aktif", year: "2023", source: "Pola umum kanal aduan kota", status: "Simulasi" as const, usage: "Proxy partisipasi warga sampai ada integrasi kanal resmi" },
+  { indicator: "Aktivitas UMKM", data: "Rujukan aktivitas usaha mikro per wilayah", year: "2023", source: "Publikasi ekonomi daerah dan Dinas UMKM", status: "Olahan" as const, usage: "Data publik disederhanakan menjadi indeks ketahanan ekonomi lokal" },
+];
+
+const STATUS_BADGE: Record<string, string> = {
+  Resmi: "border-emerald-200 bg-emerald-50 text-emerald-700",
+  Olahan: "border-blue-200 bg-blue-50 text-blue-700",
+  Simulasi: "border-amber-200 bg-amber-50 text-amber-700",
+};
+
 const INDICATORS = [
   {
     key: "floodRisk",
@@ -79,7 +94,7 @@ const INDICATORS = [
 ];
 
 const LIMITATIONS = [
-  { icon: "🔬", text: "Data yang ditampilkan adalah simulasi untuk keperluan demo — bukan data resmi pemerintah." },
+  { icon: "🔬", text: "Data prototype menggabungkan rujukan publik, data olahan, dan simulasi terbatas; beberapa indikator belum tervalidasi sebagai data resmi." },
   { icon: "🔌", text: "Belum terhubung ke API atau database pemerintah manapun." },
   { icon: "🏞", text: "Belum melalui validasi lapangan bersama OPD Kota Semarang." },
   { icon: "🤖", text: "CivicSense AI menggunakan rule-based template, bukan model AI/ML sungguhan." },
@@ -142,11 +157,11 @@ export default function MethodologyPage() {
           <div className="space-y-1">
             <p className="text-sm font-bold text-amber-900">Catatan Data Prototype</p>
             <p className="text-sm leading-relaxed text-amber-800">
-              Seluruh data yang ditampilkan dalam CIVICTWIN saat ini adalah{" "}
-              <strong>data simulasi untuk keperluan demonstrasi</strong>. Angka-angka pada setiap
-              indikator dirancang agar terasa realistis, namun tidak mewakili kondisi resmi Kota Semarang.
-              Pada implementasi nyata, semua indikator harus diambil dari sumber data resmi yang telah
-              divalidasi bersama OPD terkait.
+              Prototype CIVICTWIN menggunakan{" "}
+              <strong>kombinasi data publik, data olahan dari sumber literatur, dan data simulasi terbatas</strong>{" "}
+              untuk keperluan proof of concept. Beberapa indikator menggunakan estimasi berbasis laporan
+              resmi yang disederhanakan — lihat tabel <strong>Source Log & Status Data</strong> di bawah
+              untuk mengetahui status setiap data secara transparan.
             </p>
           </div>
         </div>
@@ -174,6 +189,58 @@ export default function MethodologyPage() {
             </div>
           ))}
         </div>
+      </MethodSection>
+
+      {/* ── 2b. Source Log & Data Status ──────────────────────────────── */}
+      <MethodSection id="source-log" eyebrow="Source Log" title="Source Log & Data Status">
+        <p className="text-sm leading-relaxed text-civic-muted">
+          Tabel berikut menjelaskan secara transparan data apa yang digunakan untuk setiap indikator,
+          beserta tahun acuan, sumber, dan status validasinya. Status data dibagi menjadi tiga kategori:
+        </p>
+        <div className="flex flex-wrap gap-2 mb-2">
+          <span className={classNames("rounded-md border px-2.5 py-1 text-xs font-semibold", STATUS_BADGE["Olahan"])}>
+            Olahan — data publik yang diolah/disederhanakan
+          </span>
+          <span className={classNames("rounded-md border px-2.5 py-1 text-xs font-semibold", STATUS_BADGE["Simulasi"])}>
+            Simulasi — estimasi untuk keperluan prototype
+          </span>
+          <span className={classNames("rounded-md border px-2.5 py-1 text-xs font-semibold", STATUS_BADGE["Resmi"])}>
+            Resmi — rujukan langsung dari instansi pemerintah
+          </span>
+        </div>
+        <div className="rounded-xl border border-civic-line bg-white shadow-sm overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-civic-line bg-civic-soft text-left">
+                <th className="py-3 px-4 font-semibold text-civic-muted text-xs uppercase">Indikator</th>
+                <th className="py-3 px-4 font-semibold text-civic-muted text-xs uppercase">Data yang Digunakan</th>
+                <th className="py-3 px-4 font-semibold text-civic-muted text-xs uppercase">Tahun</th>
+                <th className="py-3 px-4 font-semibold text-civic-muted text-xs uppercase">Sumber</th>
+                <th className="py-3 px-4 font-semibold text-civic-muted text-xs uppercase text-center">Status</th>
+                <th className="py-3 px-4 font-semibold text-civic-muted text-xs uppercase">Penggunaan</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-civic-line">
+              {SOURCE_LOG.map((row) => (
+                <tr key={row.indicator} className="hover:bg-civic-soft/60 transition">
+                  <td className="py-3 px-4 font-medium text-civic-ink whitespace-nowrap">{row.indicator}</td>
+                  <td className="py-3 px-4 text-civic-muted">{row.data}</td>
+                  <td className="py-3 px-4 text-civic-muted tabular-nums whitespace-nowrap">{row.year}</td>
+                  <td className="py-3 px-4 text-civic-muted">{row.source}</td>
+                  <td className="py-3 px-4 text-center">
+                    <span className={classNames("rounded-md border px-2 py-0.5 text-xs font-semibold", STATUS_BADGE[row.status] ?? STATUS_BADGE["Simulasi"])}>
+                      {row.status}
+                    </span>
+                  </td>
+                  <td className="py-3 px-4 text-civic-muted text-xs">{row.usage}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="text-xs text-civic-muted/70 italic pt-2">
+          Status "Resmi" berarti rujukan sumbernya resmi; nilai indeks prototype tetap dinormalisasi untuk demo. Pada implementasi nyata, seluruh indikator ditargetkan tervalidasi melalui integrasi data pemerintah.
+        </p>
       </MethodSection>
 
       {/* ── 3. Indicators ────────────────────────────────────────────── */}

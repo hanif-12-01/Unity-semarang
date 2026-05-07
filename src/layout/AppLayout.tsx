@@ -111,9 +111,9 @@ export default function AppLayout() {
 
             {/* Prototype badge */}
             <div className="hidden lg:block rounded-lg border border-amber-200 bg-amber-50 px-3 py-2.5">
-              <p className="text-xs font-bold text-amber-800">⚠️ Data Simulasi</p>
+              <p className="text-xs font-bold text-amber-800">⚠️ Data Prototype</p>
               <p className="mt-0.5 text-xs leading-relaxed text-amber-700">
-                Semua data adalah simulasi untuk keperluan demo. Bukan data resmi Kota Semarang.
+                Menggunakan kombinasi data publik, data olahan, dan simulasi terbatas. Beberapa indikator masih perlu validasi resmi.
               </p>
             </div>
           </div>
@@ -131,7 +131,7 @@ export default function AppLayout() {
               </div>
               <div className="flex items-center gap-2">
                 <span className="inline-flex items-center gap-1 rounded-md border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700">
-                  ⚠️ Data simulasi prototype
+                  ⚠️ Data prototype POC
                 </span>
                 {/* Mobile demo trigger */}
                 <Link
@@ -155,7 +155,7 @@ export default function AppLayout() {
                 CIVICTWIN Semarang Prototype Smart City · Lomba UNY 2026
               </p>
               <p className="text-xs text-civic-muted">
-                Data simulasi · CivicSense AI (rule-based) · Tidak menggunakan data resmi
+                Data publik/olahan/simulasi terbatas · CivicSense AI (rule-based) · Bukan dokumen resmi
               </p>
             </div>
           </footer>

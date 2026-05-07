@@ -9,6 +9,7 @@ export {
   getPriorityCategory,
   getWeightsForMode,
   getPolicyModeConfig,
+  isIndicatorInvertedForMode,
   getDominantIndicators,
   scoreRegion,
   scoreAllRegions,

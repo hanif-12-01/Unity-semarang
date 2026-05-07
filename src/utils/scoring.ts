@@ -216,7 +216,10 @@ export const POLICY_MODES: PolicyModeConfig[] = [
  * - `publicServiceAccess` selalu diinversi (akses tinggi = kondisi baik = prioritas rendah)
  * - `smeActivity` diinversi HANYA di mode "economy" (UMKM rendah = perlu intervensi)
  */
-function isInverted(key: keyof RegionIndicator, mode: PolicyMode): boolean {
+export function isIndicatorInvertedForMode(
+  key: keyof RegionIndicator,
+  mode: PolicyMode
+): boolean {
   if (INVERTED_INDICATORS.has(key)) return true;
   if (key === "smeActivity" && mode === "economy") return true;
   return false;
@@ -231,7 +234,7 @@ function getEffectiveValue(
   rawValue: number,
   mode: PolicyMode
 ): number {
-  return isInverted(key, mode) ? 100 - rawValue : rawValue;
+  return isIndicatorInvertedForMode(key, mode) ? 100 - rawValue : rawValue;
 }
 
 /**
@@ -325,7 +328,7 @@ export function getDominantIndicators(
   const result: DominantIndicator[] = (
     Object.keys(indicators) as (keyof RegionIndicator)[]
   ).map((key) => {
-    const inverted = isInverted(key, mode);
+    const inverted = isIndicatorInvertedForMode(key, mode);
     const effective = getEffectiveValue(key, indicators[key], mode);
     return {
       key,

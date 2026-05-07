@@ -4,7 +4,7 @@
 
 CIVICTWIN Semarang adalah prototype *Decision Support System* berbasis digital twin untuk Pemerintah Kota Semarang. Sistem ini memungkinkan pemerintah membaca kondisi wilayah, menghitung *priority score*, mensimulasikan fokus kebijakan, dan menghasilkan *policy brief* berbasis data — dalam satu platform terintegrasi.
 
-> ⚠️ **Catatan:** Seluruh data yang digunakan dalam prototype ini adalah **data simulasi** untuk keperluan demonstrasi. Data tidak mewakili kondisi resmi Kota Semarang. Lihat bagian [Catatan Data](#catatan-data) untuk detail lengkap.
+> ⚠️ **Catatan:** Prototype ini menggunakan **kombinasi data publik, data olahan, dan simulasi terbatas** untuk proof of concept. Data tidak mewakili kondisi resmi Kota Semarang. Lihat bagian [Catatan Data](#catatan-data) untuk detail lengkap.
 
 ---
 
@@ -85,6 +85,7 @@ Portal terbuka untuk warga. Menampilkan kondisi dan prioritas wilayah dalam baha
 ### 7. 📋 Methodology Page
 Halaman dokumentasi teknis untuk menjawab pertanyaan juri:
 - Sumber data pada implementasi nyata
+- Source Log & Data Status per indikator
 - Penjelasan 6 indikator + bobot
 - Formula Priority Score
 - Penjelasan inversi indikator (Akses Layanan Publik)
@@ -103,7 +104,7 @@ Halaman dokumentasi teknis untuk menjawab pertanyaan juri:
 | Styling | Tailwind CSS 3.4 |
 | Routing | React Router DOM 7 |
 | AI Engine | Rule-based templates (no external API) |
-| Data | Mock data lokal (simulasi) |
+| Data | Mock data lokal berbasis kombinasi data publik, data olahan, dan simulasi terbatas |
 
 **Tidak menggunakan:**
 - Backend / server
@@ -257,19 +258,23 @@ CivicSense AI adalah asisten analisis kebijakan berbasis data wilayah. Pada prot
 | `generateSimulatorNarration()` | Policy Simulator | Narasi perubahan ranking per mode kebijakan |
 | `generateCitizenSummary()` | Public Transparency | Ringkasan bahasa awam untuk warga |
 
-> ⚠️ **Disclaimer AI:** CivicSense AI pada prototype ini menggunakan simulasi rule-based dari data dummy. Pada implementasi nyata, fitur ini dapat dikembangkan dengan integrasi model AI dan data resmi pemerintah.
+> ⚠️ **Disclaimer AI:** CivicSense AI pada prototype ini menggunakan rule-based template engine dari data proof of concept. Data berasal dari kombinasi data publik, data olahan, dan simulasi terbatas; beberapa indikator masih perlu validasi resmi.
 
 ---
 
 ## 📌 Catatan Data
 
 ```
-DATA SIMULASI PROTOTYPE — BUKAN DATA RESMI
+CATATAN DATA PROTOTYPE
 
-Seluruh angka, indikator, dan ranking yang ditampilkan dalam
-CIVICTWIN adalah data simulasi yang dirancang untuk keperluan
-demonstrasi. Data tidak mewakili kondisi resmi Kota Semarang
-dan tidak boleh digunakan sebagai dasar kebijakan nyata.
+Prototype CIVICTWIN menggunakan kombinasi data publik, data olahan
+dari sumber literatur, dan data simulasi terbatas untuk keperluan
+proof of concept. Beberapa indikator menggunakan estimasi berbasis
+laporan resmi yang disederhanakan.
+
+Data tidak mewakili kondisi resmi Kota Semarang dan tidak boleh
+digunakan sebagai dasar kebijakan nyata. Lihat halaman Metodologi
+(Source Log) untuk status setiap data secara transparan.
 
 Pada implementasi nyata, data harus bersumber dari:
 - BPS Kota Semarang
@@ -316,4 +321,4 @@ Tidak untuk didistribusikan atau digunakan sebagai produk komersial tanpa izin t
 ---
 
 *CIVICTWIN Semarang Prototype Smart City · Lomba UNY 2026*  
-*Data simulasi · CivicSense AI (rule-based) · Tidak menggunakan data resmi pemerintah*
+*Data publik/olahan/simulasi terbatas · CivicSense AI (rule-based) · Bukan dokumen resmi pemerintah*

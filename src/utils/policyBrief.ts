@@ -3,8 +3,13 @@
 // Template-based policy brief generator (tidak menggunakan AI API)
 // =============================================================================
 
-import type { Region } from "../data/mockData/regions";
-import { scoreRegion, getDominantIndicators, INDICATOR_LABELS } from "./scoring";
+import type { Region, RegionIndicator } from "../data/mockData/regions";
+import {
+  scoreRegion,
+  getDominantIndicators,
+  INDICATOR_LABELS,
+  isIndicatorInvertedForMode,
+} from "./scoring";
 import type { PolicyMode } from "./scoring";
 
 // ---------------------------------------------------------------------------
@@ -20,8 +25,8 @@ export type PolicyBrief = {
   regionId: string;
   regionName: string;
   /** Skor dan kategori */
-  priorityScore: number;
-  priorityCategory: string;
+  computedScore: number;
+  computedCategory: string;
   /** Konten utama */
   executiveSummary: string;
   problemStatement: string;
@@ -71,7 +76,7 @@ const UNIVERSAL_IMPLEMENTATION_NOTES: ImplementationNote[] = [
     step: 1,
     title: "Validasi Data Wilayah",
     detail:
-      "Verifikasi data simulasi dengan data operasional dari dinas terkait sebelum dijadikan basis keputusan resmi.",
+      "Verifikasi data prototype dengan data operasional dari dinas terkait sebelum dijadikan basis keputusan resmi.",
   },
   {
     step: 2,
@@ -136,16 +141,15 @@ function urgencyOf(val: number, inverted: boolean): DataInsight["urgency"] {
   return "Rendah";
 }
 
-const INVERTED_KEYS = new Set(["publicServiceAccess"]);
-
 // ---------------------------------------------------------------------------
 // INTERPRETATION TEMPLATES per indicator
 // ---------------------------------------------------------------------------
 
 function interpretIndicator(
-  key: string,
+  key: keyof RegionIndicator,
   value: number,
-  urgency: DataInsight["urgency"]
+  urgency: DataInsight["urgency"],
+  inverted = false
 ): string {
   const urg = urgency === "Kritis" || urgency === "Tinggi" ? "tinggi" : "rendah";
 
@@ -160,8 +164,16 @@ function interpretIndicator(
       return `Akses layanan publik ${value}/100 — semakin rendah skor ini, semakin besar kesenjangan layanan yang perlu diatasi. Nilai ${value} menunjukkan urgensi ${urg}.`;
     case "citizenReports":
       return `Volume laporan warga ${value}/100 mencerminkan tingkat kepedulian dan keaktifan masyarakat dalam melaporkan masalah ke pemerintah.`;
-    case "smeActivity":
-      return `Aktivitas UMKM ${value}/100 menggambarkan daya tahan ekonomi lokal — nilai ini ${urg === "tinggi" ? "baik namun perlu dijaga" : "membutuhkan stimulus agar ekonomi warga menguat"}.`;
+    case "smeActivity": {
+      const interpretation = inverted
+        ? urg === "tinggi"
+          ? "menandakan kebutuhan stimulus dan pendampingan ekonomi yang lebih kuat"
+          : "menunjukkan aktivitas ekonomi lokal relatif terjaga"
+        : urg === "tinggi"
+        ? "baik namun perlu dijaga"
+        : "membutuhkan stimulus agar ekonomi warga menguat";
+      return `Aktivitas UMKM ${value}/100 menggambarkan daya tahan ekonomi lokal — nilai ini ${interpretation}.`;
+    }
     default:
       return `Nilai ${value}/100 pada indikator ini perlu mendapat perhatian dalam perencanaan wilayah.`;
   }
@@ -238,12 +250,12 @@ function generateDataInsights(region: Region, mode: PolicyMode): DataInsight[] {
   const dominant = getDominantIndicators(region.indicators, mode, 4);
 
   return dominant.map((d) => {
-    const inv = INVERTED_KEYS.has(d.key);
+    const inv = isIndicatorInvertedForMode(d.key, mode);
     const urgency = urgencyOf(d.value, inv);
     return {
       indicator: INDICATOR_LABELS[d.key],
       value: d.value,
-      interpretation: interpretIndicator(d.key, d.value, urgency),
+      interpretation: interpretIndicator(d.key, d.value, urgency, inv),
       urgency,
     };
   });
@@ -276,8 +288,8 @@ export function generatePolicyBrief(
     generatedAt: dateStr,
     regionId: region.id,
     regionName: region.name,
-    priorityScore: scored.computedScore,
-    priorityCategory: scored.computedCategory,
+    computedScore: scored.computedScore,
+    computedCategory: scored.computedCategory,
     executiveSummary: generateExecutiveSummary(region, scored.computedScore, scored.computedCategory),
     problemStatement: generateProblemStatement(region),
     dataInsights: generateDataInsights(region, mode),
@@ -286,7 +298,7 @@ export function generatePolicyBrief(
     implementationNotes: UNIVERSAL_IMPLEMENTATION_NOTES,
     expectedImpacts: UNIVERSAL_EXPECTED_IMPACTS,
     disclaimer:
-      "Dokumen ini dihasilkan oleh sistem CIVICTWIN Prototype berdasarkan data simulasi untuk kebutuhan demonstrasi. Bukan dokumen resmi pemerintah. Pada implementasi nyata, data harus divalidasi dengan sumber resmi sebelum dijadikan dasar kebijakan.",
+      "Dokumen ini dihasilkan oleh sistem CIVICTWIN Prototype menggunakan kombinasi data publik, data olahan, dan simulasi terbatas untuk keperluan proof of concept. Bukan dokumen resmi pemerintah. Pada implementasi nyata, data harus divalidasi dengan sumber resmi sebelum dijadikan dasar kebijakan.",
     dataMode: mode,
   };
 }

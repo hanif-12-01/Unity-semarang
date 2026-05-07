@@ -592,7 +592,7 @@ export default function PolicySimulatorPage() {
               Tindak Lanjut
             </p>
             <Link
-              to="/policy-brief"
+              to={`/policy-brief?region=${simulatedRanked[0]?.id ?? "genuk"}&mode=${activeMode}`}
               id="sim-goto-policybrief"
               className={classNames(buttonClasses("primary"), "w-full justify-center text-sm")}
             >
@@ -613,7 +613,7 @@ export default function PolicySimulatorPage() {
               Perubahan ranking mencerminkan penerapan bobot berbeda pada indikator yang sama. Tidak ada data baru yang ditambahkan — hanya perspektif analisis yang berubah sesuai fokus kebijakan yang dipilih.
             </p>
             <p className="mt-1">
-              Semua data merupakan <strong className="text-civic-ink">data simulasi prototype</strong> — bukan data resmi pemerintah.
+              Data prototype menggunakan <strong className="text-civic-ink">kombinasi data publik, data olahan, dan simulasi terbatas</strong> untuk proof of concept.
             </p>
           </div>
         </aside>

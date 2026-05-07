@@ -461,11 +461,11 @@ export default function PublicTransparencyPage() {
             </p>
             <p className="text-sm leading-relaxed text-amber-800">
               Halaman ini merupakan bagian dari{" "}
-              <strong>prototype CIVICTWIN</strong>. Data yang ditampilkan adalah{" "}
-              <strong>simulasi untuk keperluan demonstrasi</strong> sistem. Pada
-              implementasi nyata, data perlu divalidasi oleh pemerintah daerah
-              dan sumber resmi terkait sebelum dijadikan dasar kebijakan atau
-              informasi publik resmi.
+              <strong>prototype CIVICTWIN</strong>. Data yang ditampilkan merupakan{" "}
+              <strong>kombinasi data publik, data olahan, dan simulasi terbatas</strong>{" "}
+              untuk keperluan proof of concept. Pada implementasi nyata, data
+              perlu divalidasi oleh pemerintah daerah dan sumber resmi terkait
+              sebelum dijadikan dasar kebijakan atau informasi publik resmi.
             </p>
           </div>
         </div>
