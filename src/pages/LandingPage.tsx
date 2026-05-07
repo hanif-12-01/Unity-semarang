@@ -97,7 +97,7 @@ export default function LandingPage() {
         {/* Badge */}
         <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold backdrop-blur-sm">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-          Data Simulasi Prototype · CIVICTWIN 2025
+          Data Simulasi Prototype · CIVICTWIN 2026
         </span>
 
         <h1 className="mt-5 max-w-2xl text-3xl font-bold leading-snug tracking-tight md:text-4xl lg:text-5xl">

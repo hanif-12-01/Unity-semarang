@@ -152,7 +152,7 @@ export default function AppLayout() {
           <footer className="border-t border-civic-line bg-white px-8 py-4">
             <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-xs text-civic-muted">
-                CIVICTWIN Semarang — Prototype Smart City · Lomba UNY 2025
+                CIVICTWIN Semarang Prototype Smart City · Lomba UNY 2026
               </p>
               <p className="text-xs text-civic-muted">
                 Data simulasi · CivicSense AI (rule-based) · Tidak menggunakan data resmi

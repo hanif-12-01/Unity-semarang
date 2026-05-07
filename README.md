@@ -310,10 +310,10 @@ Jika prototype ini dilanjutkan ke tahap produksi:
 
 ## 📄 Lisensi
 
-Prototype ini dibuat untuk keperluan **Lomba Smart City UNY 2025**.  
+Prototype ini dibuat untuk keperluan **Lomba Smart City UNY 2026**.  
 Tidak untuk didistribusikan atau digunakan sebagai produk komersial tanpa izin tim.
 
 ---
 
-*CIVICTWIN Semarang — Prototype Smart City · Lomba UNY 2025*  
+*CIVICTWIN Semarang Prototype Smart City · Lomba UNY 2026*  
 *Data simulasi · CivicSense AI (rule-based) · Tidak menggunakan data resmi pemerintah*

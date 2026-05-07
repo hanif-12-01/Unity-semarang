@@ -1,5 +1,5 @@
 # CIVICTWIN Semarang — Demo Script
-**Lomba Smart City UNY 2025**  
+**Lomba Smart City UNY 2026**  
 Durasi estimasi: **5–7 menit**
 
 ---
@@ -126,4 +126,4 @@ Durasi estimasi: **5–7 menit**
 
 ---
 
-*CIVICTWIN Semarang — Prototype Smart City · Lomba UNY 2025*
+*CIVICTWIN Semarang Prototype Smart City · Lomba UNY 2026*
