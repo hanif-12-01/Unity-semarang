@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Globe2, TriangleAlert, ClipboardList, CheckCircle2, Waves, Hospital, Users, MessageSquareWarning, Store, UsersRound, Sparkles, BookOpenCheck, BarChart3 } from "lucide-react";
 import { buttonClasses } from "../components/ui/Button";
 import { mockRegions, citySummary } from "../data/mockData";
 import { getRankedRegions, generateCitizenSummary, AI_DISCLAIMER } from "../utils";
@@ -15,7 +16,7 @@ const PRIORITY_CONFIG: Record<
     border: string;
     bg: string;
     dot: string;
-    icon: string;
+    icon: React.ReactNode;
     statusLabel: string;
   }
 > = {
@@ -25,7 +26,7 @@ const PRIORITY_CONFIG: Record<
     border: "border-red-200",
     bg: "bg-red-50/30",
     dot: "bg-red-500",
-    icon: "🔴",
+    icon: <TriangleAlert size={14} className="shrink-0" />,
     statusLabel: "Perlu Validasi Data & Tindakan Segera",
   },
   Sedang: {
@@ -34,7 +35,7 @@ const PRIORITY_CONFIG: Record<
     border: "border-amber-200",
     bg: "bg-amber-50/30",
     dot: "bg-amber-500",
-    icon: "🟡",
+    icon: <ClipboardList size={14} className="shrink-0" />,
     statusLabel: "Dalam Kajian Lintas Dinas",
   },
   Rendah: {
@@ -43,7 +44,7 @@ const PRIORITY_CONFIG: Record<
     border: "border-emerald-200",
     bg: "bg-emerald-50/20",
     dot: "bg-emerald-500",
-    icon: "🟢",
+    icon: <CheckCircle2 size={14} className="shrink-0" />,
     statusLabel: "Simulasi Rekomendasi Tersedia",
   },
 };
@@ -58,32 +59,32 @@ function buildPublicReason(dominantIssues: string[]): string {
 // Simple indicator descriptions for public
 const INDICATOR_EXPLAINERS = [
   {
-    icon: "🌊",
+    icon: <Waves size={24} className="text-civic-primary" />,
     title: "Risiko Banjir & Rob",
     desc: "Seberapa sering wilayah ini terkena banjir atau genangan rob dari laut. Makin tinggi, makin butuh perhatian.",
   },
   {
-    icon: "🏥",
+    icon: <Hospital size={24} className="text-civic-primary" />,
     title: "Kebutuhan Layanan Publik",
     desc: "Apakah warga mudah menjangkau fasilitas seperti puskesmas, sekolah, dan transportasi umum.",
   },
   {
-    icon: "🤝",
+    icon: <Users size={24} className="text-civic-primary" />,
     title: "Kondisi Sosial Warga",
     desc: "Proporsi warga yang berada dalam kondisi rentan — perlu perlindungan sosial, bantuan, atau pemberdayaan.",
   },
   {
-    icon: "📣",
+    icon: <MessageSquareWarning size={24} className="text-civic-primary" />,
     title: "Laporan Warga",
     desc: "Seberapa aktif warga melaporkan masalah di lingkungan mereka kepada pemerintah.",
   },
   {
-    icon: "🏪",
+    icon: <Store size={24} className="text-civic-primary" />,
     title: "Potensi Ekonomi UMKM",
     desc: "Kondisi usaha kecil dan menengah di wilayah. Makin rendah, makin perlu dorongan program ekonomi.",
   },
   {
-    icon: "👥",
+    icon: <UsersRound size={24} className="text-civic-primary" />,
     title: "Kepadatan Penduduk",
     desc: "Berapa padat wilayah tersebut. Semakin padat, semakin besar tekanan pada layanan dan infrastruktur.",
   },
@@ -105,7 +106,7 @@ function PublicRegionCard({
   return (
     <article
       className={classNames(
-        "group rounded-2xl border bg-white shadow-sm transition hover:shadow-md",
+        "group rounded-2xl border bg-civic-surface shadow-sm transition hover:shadow-md",
         cfg.border
       )}
     >
@@ -134,7 +135,7 @@ function PublicRegionCard({
         </div>
         <span
           className={classNames(
-            "rounded-full border px-3 py-1 text-xs font-semibold",
+            "rounded-full border px-3 py-1 text-xs font-semibold flex items-center gap-1.5",
             cfg.badge
           )}
         >
@@ -227,7 +228,7 @@ export default function PublicTransparencyPage() {
         <div className="relative">
           {/* Public badge */}
           <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold">
-            🌐 Halaman Publik · CIVICTWIN Semarang
+            <Globe2 size={14} /> Halaman Publik · CIVICTWIN Semarang
           </span>
 
           <h1 className="mt-4 text-3xl font-bold md:text-4xl">
@@ -260,9 +261,9 @@ export default function PublicTransparencyPage() {
       {/* ── Draft Citizen Summary ─────────────────────────────── */}
       <section id="civicsense-citizen" className="overflow-hidden rounded-2xl border border-civic-primary/30 shadow-sm">
         <div className="flex items-center justify-between gap-3 bg-gradient-to-r from-civic-ink to-slate-800 px-6 py-4">
-          <div className="flex items-center gap-2">
-            <span className="text-lg">✨</span>
-            <div>
+          <div className="flex items-center gap-2 text-civic-primary">
+            <Sparkles size={20} />
+            <div className="text-left">
               <p className="text-xs font-bold uppercase tracking-widest text-white/50">CivicSense Policy Assistant</p>
               <p className="text-sm font-semibold text-white">Ringkasan Publik — Kondisi Kota Semarang</p>
             </div>
@@ -282,7 +283,12 @@ export default function PublicTransparencyPage() {
               const summary = generateCitizenSummary(region);
               return (
                 <div key={region.id} className="rounded-xl border border-civic-line bg-civic-soft/50 p-4 space-y-2">
-                  <p className="text-sm font-bold text-civic-ink">{summary.headline}</p>
+                  <p className="text-sm font-bold text-civic-ink flex items-center gap-1.5">
+                    {region.computedCategory === "Tinggi" ? <TriangleAlert size={16} className="text-red-600 shrink-0" /> :
+                     region.computedCategory === "Sedang" ? <ClipboardList size={16} className="text-amber-600 shrink-0" /> :
+                     <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />}
+                    {summary.headline}
+                  </p>
                   <p className="text-xs leading-relaxed text-civic-muted">{summary.layman}</p>
                   <p className="text-xs leading-relaxed text-civic-ink">{summary.whatItMeans}</p>
                   <p className="text-xs leading-relaxed text-civic-muted italic">{summary.whatWillHappen}</p>
@@ -315,9 +321,9 @@ export default function PublicTransparencyPage() {
           {INDICATOR_EXPLAINERS.map((ind) => (
             <div
               key={ind.title}
-              className="flex items-start gap-3 rounded-xl border border-civic-line bg-white p-5 shadow-sm transition hover:border-civic-primary/30 hover:shadow-md"
+              className="flex items-start gap-3 rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm transition hover:border-civic-primary/30 hover:shadow-md"
             >
-              <span className="text-2xl shrink-0 mt-0.5">{ind.icon}</span>
+              <span className="shrink-0 mt-0.5">{ind.icon}</span>
               <div>
                 <p className="text-sm font-semibold text-civic-ink">{ind.title}</p>
                 <p className="mt-1 text-xs leading-relaxed text-civic-muted">{ind.desc}</p>
@@ -330,7 +336,7 @@ export default function PublicTransparencyPage() {
       {/* ── Priority Legend ─────────────────────────────────────────── */}
       <section
         id="priority-legend"
-        className="rounded-2xl border border-civic-line bg-white p-6 shadow-sm"
+        className="rounded-2xl border border-civic-line bg-civic-surface p-6 shadow-sm"
       >
         <p className="mb-4 text-xs font-bold uppercase tracking-widest text-civic-primary">
           Arti Status Prioritas
@@ -421,7 +427,7 @@ export default function PublicTransparencyPage() {
       {/* ── CTA ────────────────────────────────────────────────────── */}
       <section
         id="cta-public"
-        className="flex flex-col items-center gap-5 rounded-2xl border border-civic-line bg-white px-8 py-10 text-center shadow-sm"
+        className="flex flex-col items-center gap-5 rounded-2xl border border-civic-line bg-civic-surface px-8 py-10 text-center shadow-sm"
       >
         <h2 className="text-xl font-bold text-civic-ink max-w-md">
           Ingin mengetahui lebih lanjut?
@@ -434,16 +440,16 @@ export default function PublicTransparencyPage() {
           <Link
             to="/methodology"
             id="cta-methodology"
-            className={buttonClasses("primary")}
+            className={classNames(buttonClasses("primary"), "gap-2")}
           >
-            📐 Lihat Metodologi Data
+            <BookOpenCheck size={16} /> Lihat Metodologi Data
           </Link>
           <Link
             to="/dashboard"
             id="cta-dashboard-from-public"
-            className={buttonClasses("secondary")}
+            className={classNames(buttonClasses("secondary"), "gap-2")}
           >
-            📊 Kembali ke Dashboard
+            <BarChart3 size={16} /> Kembali ke Dashboard
           </Link>
         </div>
       </section>
@@ -454,7 +460,7 @@ export default function PublicTransparencyPage() {
         className="rounded-2xl border border-amber-200 bg-amber-50 px-6 py-5"
       >
         <div className="flex items-start gap-3">
-          <span className="text-xl shrink-0">⚠️</span>
+          <TriangleAlert size={20} className="text-amber-600 shrink-0 mt-0.5" />
           <div className="space-y-1">
             <p className="text-sm font-bold text-amber-900">
               Catatan Penting untuk Masyarakat
@@ -473,3 +479,6 @@ export default function PublicTransparencyPage() {
     </div>
   );
 }
+
+
+

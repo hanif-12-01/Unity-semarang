@@ -1,5 +1,6 @@
-import { useState, useMemo } from "react";
+import React, { useState, useMemo, ReactNode } from "react";
 import { Link } from "react-router-dom";
+import { Scale, Waves, Hospital, Users, Store, MessageSquareWarning, Sparkles, Lightbulb, FileText, BarChart3, Info } from "lucide-react";
 import { buttonClasses } from "../components/ui/Button";
 import IndicatorBar from "../components/ui/IndicatorBar";
 import PageHeader from "../components/ui/PageHeader";
@@ -19,17 +20,17 @@ import type { RegionIndicator } from "../data/mockData";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const MODE_ICONS: Record<PolicyMode, string> = {
-  general: "⚖️",
-  flood: "🌊",
-  publicService: "🏥",
-  socialVulnerability: "🤝",
-  economy: "🏪",
-  citizenReports: "📣",
+const MODE_ICONS: Record<PolicyMode, ReactNode> = {
+  general: <Scale />,
+  flood: <Waves />,
+  publicService: <Hospital />,
+  socialVulnerability: <Users />,
+  economy: <Store />,
+  citizenReports: <MessageSquareWarning />,
 };
 
 const MODE_ACCENT: Record<PolicyMode, { bg: string; border: string; text: string; pill: string }> = {
-  general:             { bg: "bg-slate-50",   border: "border-slate-300",  text: "text-slate-700",  pill: "bg-slate-100 text-slate-700"  },
+  general:             { bg: "bg-civic-soft",  border: "border-civic-line",  text: "text-civic-ink",   pill: "bg-civic-soft text-civic-ink"   },
   flood:               { bg: "bg-blue-50",    border: "border-blue-300",   text: "text-blue-700",   pill: "bg-blue-100 text-blue-700"    },
   publicService:       { bg: "bg-purple-50",  border: "border-purple-300", text: "text-purple-700", pill: "bg-purple-100 text-purple-700" },
   socialVulnerability: { bg: "bg-orange-50",  border: "border-orange-300", text: "text-orange-700", pill: "bg-orange-100 text-orange-700" },
@@ -136,10 +137,10 @@ function ModeTab({
         "flex flex-col items-start gap-1 rounded-xl border px-4 py-3 text-left transition",
         isActive
           ? classNames(acc.bg, acc.border, "shadow-sm")
-          : "border-civic-line bg-white hover:border-civic-primary/40 hover:bg-civic-soft"
+          : "border-civic-line bg-civic-surface hover:border-civic-primary/40 hover:bg-civic-soft"
       )}
     >
-      <span className="text-xl">{MODE_ICONS[mode.id]}</span>
+      <span className="shrink-0 flex items-center justify-center [&>svg]:w-6 [&>svg]:h-6">{MODE_ICONS[mode.id]}</span>
       <span
         className={classNames(
           "text-sm font-semibold",
@@ -305,9 +306,9 @@ export default function PolicySimulatorPage() {
 
   // Top-moved regions (rose in ranking vs general)
   const movedUp = simulatedRanked
-    .map((r, i) => ({ region: r, simRank: i + 1, genRank: generalRankMap[r.id] }))
-    .filter((x) => x.simRank < x.genRank)
-    .sort((a, b) => (a.genRank - a.simRank) - (b.genRank - b.simRank));
+    .map((r: ScoredRegion, i: number) => ({ region: r, simRank: i + 1, genRank: generalRankMap[r.id] }))
+    .filter((x: { region: ScoredRegion; simRank: number; genRank: number }) => x.simRank < x.genRank)
+    .sort((a: { region: ScoredRegion; simRank: number; genRank: number }, b: { region: ScoredRegion; simRank: number; genRank: number }) => (a.genRank - a.simRank) - (b.genRank - b.simRank));
 
   // Highest-weight indicator key for this mode
   const topWeightKey = (Object.entries(weights) as [keyof RegionIndicator, number][])
@@ -362,7 +363,7 @@ export default function PolicySimulatorPage() {
           {/* Left: description */}
           <div className="flex-1 space-y-3">
             <div className="flex items-center gap-2">
-              <span className="text-2xl">{MODE_ICONS[activeMode]}</span>
+              <span className="shrink-0 flex items-center justify-center [&>svg]:w-7 [&>svg]:h-7">{MODE_ICONS[activeMode]}</span>
               <div>
                 <p className="text-xs font-bold uppercase tracking-wider text-civic-muted">
                   Mode Aktif
@@ -413,9 +414,9 @@ export default function PolicySimulatorPage() {
           <section id="civicsense-narration" className="overflow-hidden rounded-xl border border-civic-primary/30 shadow-sm">
             {/* Header */}
             <div className="flex items-center justify-between gap-3 bg-gradient-to-r from-civic-ink to-slate-800 px-5 py-4">
-              <div className="flex items-center gap-2">
-                <span className="text-lg">✨</span>
-                <div>
+              <div className="flex items-center gap-2 text-civic-primary">
+                <Sparkles size={20} />
+                <div className="text-left">
                   <p className="text-xs font-bold uppercase tracking-widest text-white/50">CivicSense AI</p>
                   <p className="text-sm font-semibold text-white">
                     Narasi Simulasi — {narration.modeLabel}
@@ -431,7 +432,7 @@ export default function PolicySimulatorPage() {
               <p className="text-sm leading-relaxed text-civic-ink">{narration.summary}</p>
               <p className="text-sm leading-relaxed text-civic-muted">{narration.whyChanged}</p>
               <div className="rounded-lg border border-civic-primary/20 bg-civic-primary/5 px-4 py-3">
-                <p className="text-xs font-bold text-civic-primary mb-1">💡 Implikasi Kebijakan</p>
+                <p className="text-xs font-bold text-civic-primary mb-1 flex items-center gap-1.5"><Lightbulb size={14} /> Implikasi Kebijakan</p>
                 <p className="text-sm leading-relaxed text-civic-ink">{narration.policyImplication}</p>
               </div>
               <p className="text-xs text-civic-muted/60 italic pt-1">{AI_DISCLAIMER}</p>
@@ -454,12 +455,12 @@ export default function PolicySimulatorPage() {
                 Ranking wilayah — {modeConfig.label}
               </h2>
             </div>
-            <span className={classNames("rounded-full px-3 py-1 text-xs font-semibold", acc.pill)}>
+            <span className={classNames("rounded-full px-3 py-1 text-xs font-semibold flex items-center gap-1.5 [&>svg]:w-4 [&>svg]:h-4", acc.pill)}>
               {MODE_ICONS[activeMode]} {modeConfig.label}
             </span>
           </div>
 
-          <div className="overflow-hidden rounded-xl border border-civic-line bg-white shadow-sm">
+          <div className="overflow-hidden rounded-xl border border-civic-line bg-civic-surface shadow-sm">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-civic-line bg-civic-soft text-xs font-bold uppercase tracking-wider text-civic-muted">
@@ -502,7 +503,7 @@ export default function PolicySimulatorPage() {
               {simulatedRanked.map((region, i) => (
                 <div
                   key={region.id}
-                  className="rounded-xl border border-civic-line bg-white p-4 shadow-sm space-y-3"
+                  className="rounded-xl border border-civic-line bg-civic-surface p-4 shadow-sm space-y-3"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
@@ -539,7 +540,7 @@ export default function PolicySimulatorPage() {
         <aside className="space-y-5">
 
           {/* Wilayah yang naik prioritas */}
-          <div className="rounded-xl border border-civic-line bg-white p-5 shadow-sm space-y-3">
+          <div className="rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm space-y-3">
             <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
               Wilayah yang Naik Prioritas
             </p>
@@ -570,12 +571,12 @@ export default function PolicySimulatorPage() {
           </div>
 
           {/* Mode Recommendations */}
-          <div className="rounded-xl border border-civic-line bg-white p-5 shadow-sm space-y-3">
+          <div className="rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm space-y-3">
             <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
               Rekomendasi — {modeConfig.label}
             </p>
             <ol className="space-y-2.5">
-              {MODE_RECOMMENDATIONS[activeMode].map((rec, i) => (
+              {MODE_RECOMMENDATIONS[activeMode].map((rec: string, i: number) => (
                 <li key={i} className="flex items-start gap-2.5">
                   <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-civic-primary text-xs font-bold text-white mt-0.5">
                     {i + 1}
@@ -587,28 +588,28 @@ export default function PolicySimulatorPage() {
           </div>
 
           {/* Quick action buttons */}
-          <div className="rounded-xl border border-civic-line bg-white p-5 shadow-sm space-y-3">
+          <div className="rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm space-y-3">
             <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
               Tindak Lanjut
             </p>
             <Link
               to={`/policy-brief?region=${simulatedRanked[0]?.id ?? "genuk"}&mode=${activeMode}`}
               id="sim-goto-policybrief"
-              className={classNames(buttonClasses("primary"), "w-full justify-center text-sm")}
+              className={classNames(buttonClasses("primary"), "w-full justify-center text-sm gap-2")}
             >
-              📋 Generate Policy Brief
+              <FileText size={16} /> Generate Policy Brief
             </Link>
             <Link
               to="/dashboard"
-              className={classNames(buttonClasses("secondary"), "w-full justify-center text-sm")}
+              className={classNames(buttonClasses("secondary"), "w-full justify-center text-sm gap-2")}
             >
-              📊 Kembali ke Dashboard
+              <BarChart3 size={16} /> Kembali ke Dashboard
             </Link>
           </div>
 
           {/* Simulation note */}
           <div className="rounded-xl border border-civic-line bg-civic-soft p-4 text-xs leading-relaxed text-civic-muted space-y-1">
-            <p className="font-semibold text-civic-ink">ℹ️ Catatan Simulasi</p>
+            <p className="font-semibold text-civic-ink flex items-center gap-1.5"><Info size={16} /> Catatan Simulasi</p>
             <p>
               Perubahan ranking mencerminkan penerapan bobot berbeda pada indikator yang sama. Tidak ada data baru yang ditambahkan — hanya perspektif analisis yang berubah sesuai fokus kebijakan yang dipilih.
             </p>
@@ -621,3 +622,6 @@ export default function PolicySimulatorPage() {
     </div>
   );
 }
+
+
+

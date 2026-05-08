@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { MapPinned, BarChart3, TriangleAlert, MessageSquareWarning, Tag, Building, Sparkles, Waves, Hospital, Store, Info, SlidersHorizontal } from "lucide-react";
 import IndicatorBar from "../components/ui/IndicatorBar";
 import PageHeader from "../components/ui/PageHeader";
 import PriorityBadge from "../components/ui/PriorityBadge";
@@ -89,7 +90,7 @@ function RegionCard({ region, rank }: { region: ScoredRegion; rank: number }) {
 
   return (
     <article className={classNames(
-      "group rounded-xl border bg-white shadow-sm transition hover:shadow-md",
+      "group rounded-xl border bg-civic-surface shadow-sm transition hover:shadow-md",
       level === "high"   ? "border-red-200"    :
       level === "medium" ? "border-amber-200"  : "border-emerald-200"
     )}>
@@ -212,7 +213,7 @@ export default function DashboardPage() {
       label: "Total Wilayah",
       value: stats.total.toString(),
       sub: "dalam prototype",
-      icon: "🏘️",
+      icon: <MapPinned size={24} className="text-civic-muted" />,
       accent: "border-civic-line",
     },
     {
@@ -220,7 +221,7 @@ export default function DashboardPage() {
       label: "Prioritas Tinggi",
       value: stats.highPriority.toString(),
       sub: "butuh intervensi segera",
-      icon: "🔴",
+      icon: <div className="h-5 w-5 rounded-full bg-red-500" />,
       accent: "border-red-200 bg-red-50/40",
     },
     {
@@ -228,7 +229,7 @@ export default function DashboardPage() {
       label: "Rata-rata Skor",
       value: stats.averageScore.toString(),
       sub: "dari skala 0–100",
-      icon: "📊",
+      icon: <BarChart3 size={24} className="text-civic-muted" />,
       accent: "border-civic-line",
     },
     {
@@ -236,7 +237,7 @@ export default function DashboardPage() {
       label: "Wilayah Teratas",
       value: stats.topRegion,
       sub: `skor ${stats.topScore} — prioritas tertinggi`,
-      icon: "⚠️",
+      icon: <TriangleAlert size={24} className="text-amber-600" />,
       accent: "border-amber-200 bg-amber-50/40",
     },
   ];
@@ -252,10 +253,10 @@ export default function DashboardPage() {
         />
         <Link
           to="/simulator"
-          className={classNames(buttonClasses("secondary"), "shrink-0 text-sm")}
+          className={classNames(buttonClasses("secondary"), "shrink-0 text-sm flex items-center gap-2")}
           id="goto-simulator"
         >
-          🎛️ Buka Policy Simulator
+          <SlidersHorizontal size={16} /> Buka Policy Simulator
         </Link>
       </div>
 
@@ -274,9 +275,9 @@ export default function DashboardPage() {
         </div>
         <Link
           to={`/policy-brief?region=${ranked[0].id}&mode=general`}
-          className={classNames(buttonClasses("primary"), "shrink-0 text-xs")}
+          className={classNames(buttonClasses("primary"), "shrink-0 text-xs flex items-center gap-1.5")}
         >
-          ✨ Generate Brief {ranked[0].name}
+          <Sparkles size={16} /> Generate Brief {ranked[0].name}
         </Link>
       </section>
 
@@ -287,7 +288,7 @@ export default function DashboardPage() {
             key={c.id}
             id={c.id}
             className={classNames(
-              "rounded-xl border bg-white p-5 shadow-sm",
+              "rounded-xl border bg-civic-surface p-5 shadow-sm",
               c.accent
             )}
           >
@@ -302,7 +303,7 @@ export default function DashboardPage() {
       </section>
 
       {/* ── Priority Map Semarang ──────────────────────────────────────── */}
-      <section id="priority-map" className="rounded-xl border border-civic-line bg-white p-6 shadow-sm">
+      <section id="priority-map" className="rounded-xl border border-civic-line bg-civic-surface p-6 shadow-sm">
         <div className="mb-5">
           <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
             Spatial Digital Twin
@@ -318,11 +319,11 @@ export default function DashboardPage() {
       </section>
 
       {/* ── Citizen Reports Snapshot ───────────────────────────────────── */}
-      <section id="citizen-reports-snapshot" className="rounded-xl border border-civic-line bg-white p-6 shadow-sm">
+      <section id="citizen-reports-snapshot" className="rounded-xl border border-civic-line bg-civic-surface p-6 shadow-sm">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-5 gap-4">
           <div>
             <p className="text-xs font-bold uppercase tracking-wider text-civic-primary flex items-center gap-1.5">
-              <span>📣</span> Intelligence Data
+              <MessageSquareWarning size={14} /> Intelligence Data
             </p>
             <h2 className="mt-1 text-base font-semibold text-civic-ink">
               Citizen Reports Snapshot
@@ -361,7 +362,7 @@ export default function DashboardPage() {
         <h3 className="text-xs font-bold text-civic-ink uppercase tracking-wider mb-3">3 Laporan Paling Urgent</h3>
         <div className="grid gap-3 md:grid-cols-3">
           {urgentReports.map(report => (
-            <div key={report.id} className="rounded-lg border border-civic-line p-4 flex flex-col hover:shadow-sm transition bg-white">
+            <div key={report.id} className="rounded-lg border border-civic-line p-4 flex flex-col hover:shadow-sm transition bg-civic-surface">
               <div className="flex justify-between items-start mb-2 gap-2">
                 <span className={classNames(
                   "text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border",
@@ -375,17 +376,17 @@ export default function DashboardPage() {
               </div>
               <p className="text-sm font-bold text-civic-ink leading-snug line-clamp-2" title={report.title}>{report.title}</p>
               <div className="mt-2 space-y-1">
-                <p className="text-xs text-civic-muted">📍 {report.locationName}, {report.regionName}</p>
-                <p className="text-xs text-civic-muted">🏷️ {report.category}</p>
-                <p className="text-xs font-medium text-civic-ink mt-2">🏢 <span className="text-civic-muted">OPD:</span> {report.recommendedAgency}</p>
+                <p className="text-xs text-civic-muted flex items-center gap-1.5"><MapPinned size={12} /> {report.locationName}, {report.regionName}</p>
+                <p className="text-xs text-civic-muted flex items-center gap-1.5"><Tag size={12} /> {report.category}</p>
+                <p className="text-xs font-medium text-civic-ink mt-2 flex items-center gap-1.5"><Building size={12} /> <span><span className="text-civic-muted">OPD:</span> {report.recommendedAgency}</span></p>
               </div>
             </div>
           ))}
         </div>
 
         <div className="mt-6 rounded border border-amber-200 bg-amber-50 p-3 text-center">
-          <p className="text-[10px] font-medium text-amber-700">
-            ⚠️ Data laporan pada prototype ini adalah simulasi. Pada implementasi nyata, laporan harus diverifikasi melalui kanal resmi dan OPD terkait.
+          <p className="text-[10px] font-medium text-amber-700 flex items-start gap-1.5">
+            <TriangleAlert size={14} className="shrink-0" /> Data laporan pada prototype ini adalah simulasi. Pada implementasi nyata, laporan harus diverifikasi melalui kanal resmi dan OPD terkait.
           </p>
         </div>
       </section>
@@ -393,7 +394,7 @@ export default function DashboardPage() {
       {/* ── Isu Dominan Kota ───────────────────────────────────────────── */}
       <section
         id="city-issues"
-        className="rounded-xl border border-civic-line bg-white p-5 shadow-sm"
+        className="rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm"
       >
         <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
           Isu Dominan Kota
@@ -411,7 +412,7 @@ export default function DashboardPage() {
       </section>
 
       {/* ── Spatial Priority Overview ────────────────────────────────────── */}
-      <section id="spatial-overview" className="rounded-xl border border-civic-line bg-white p-6 shadow-sm">
+      <section id="spatial-overview" className="rounded-xl border border-civic-line bg-civic-surface p-6 shadow-sm">
         <div className="mb-4">
           <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
             Spatial Priority Overview
@@ -445,7 +446,7 @@ export default function DashboardPage() {
                   <p className="text-xs text-civic-muted mb-1">Wilayah di zona ini:</p>
                   <div className="flex flex-wrap gap-1 mb-3">
                     {zoneRegions.map(r => (
-                      <span key={r.id} className="text-[10px] bg-white border border-civic-line rounded px-1.5 py-0.5 text-civic-ink shadow-sm font-medium">
+                      <span key={r.id} className="text-[10px] bg-civic-surface border border-civic-line rounded px-1.5 py-0.5 text-civic-ink shadow-sm font-medium">
                         {r.name}
                       </span>
                     ))}
@@ -459,7 +460,7 @@ export default function DashboardPage() {
                 </div>
                 <Link
                   to={`/regions/${topRegion.id}`}
-                  className={classNames(buttonClasses("secondary"), "w-full justify-center text-[10px] py-1.5 bg-white")}
+                  className={classNames(buttonClasses("secondary"), "w-full justify-center text-[10px] py-1.5 bg-civic-surface")}
                 >
                   Detail {topRegion.name} (Top Prioritas) →
                 </Link>
@@ -472,7 +473,7 @@ export default function DashboardPage() {
       {/* ── Visual: Score Bar Chart ─────────────────────────────────────── */}
       <section
         id="score-chart"
-        className="rounded-xl border border-civic-line bg-white p-6 shadow-sm"
+        className="rounded-xl border border-civic-line bg-civic-surface p-6 shadow-sm"
       >
         <div className="mb-5 flex items-center justify-between">
           <div>
@@ -544,7 +545,7 @@ export default function DashboardPage() {
       </section>
 
       {/* ── Policy Simulation Snapshot ─────────────────────────────────── */}
-      <section id="policy-simulation-snapshot" className="rounded-xl border border-civic-line bg-white p-6 shadow-sm">
+      <section id="policy-simulation-snapshot" className="rounded-xl border border-civic-line bg-civic-surface p-6 shadow-sm">
         <div className="mb-4">
           <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
             Policy Simulation Snapshot
@@ -561,12 +562,12 @@ export default function DashboardPage() {
             const simulatedRanked = getRankedRegions(mockRegions, mode);
             const topSim = simulatedRanked[0];
             const modeConfig = getPolicyModeConfig(mode);
-            const icon = mode === "flood" ? "🌊" : mode === "publicService" ? "🏥" : "🏪";
+            const Icon = mode === "flood" ? Waves : mode === "publicService" ? Hospital : Store;
             return (
               <div key={mode} className="rounded-xl border border-civic-line p-4 bg-civic-soft/30 flex flex-col justify-between">
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="text-xl">{icon}</span>
+                    <Icon size={20} className="text-civic-ink" />
                     <h3 className="font-bold text-civic-ink text-sm">{modeConfig.label}</h3>
                   </div>
                   <p className="text-xs text-civic-muted mb-4 line-clamp-2">{modeConfig.description}</p>
@@ -582,7 +583,7 @@ export default function DashboardPage() {
                 </div>
                 <Link
                   to={`/simulator?mode=${mode}`}
-                  className={classNames(buttonClasses("secondary"), "w-full justify-center text-[10px] py-1.5 bg-white")}
+                  className={classNames(buttonClasses("secondary"), "w-full justify-center text-[10px] py-1.5 bg-civic-surface")}
                 >
                   Buka Simulator {modeConfig.label} →
                 </Link>
@@ -595,7 +596,7 @@ export default function DashboardPage() {
       {/* ── Disaster Signal Monitor ────────────────────────────────────────── */}
       <section
         id="disaster-signal-monitor"
-        className="rounded-xl border border-red-200 bg-white p-6 shadow-sm mb-8"
+        className="rounded-xl border border-red-200 bg-civic-surface p-6 shadow-sm mb-8"
       >
         <div className="mb-5 flex items-center justify-between">
           <div>
@@ -637,15 +638,16 @@ export default function DashboardPage() {
             </div>
           ))}
         </div>
-        <div className="mt-4 rounded-lg bg-amber-50 p-3 text-xs text-amber-800">
-          <strong>⚠️ Catatan Simulasi:</strong> Emergency Review Signal adalah data simulasi prototype. Pada skenario riil, skor ini terhubung dengan sensor IoT tata air dan pelaporan BPBD untuk memandu inspeksi darurat.
+        <div className="mt-4 rounded-lg bg-amber-50 p-3 text-xs text-amber-800 flex items-start gap-1.5">
+          <TriangleAlert size={16} className="shrink-0" />
+          <span><strong>Catatan Simulasi:</strong> Emergency Review Signal adalah data simulasi prototype. Pada skenario riil, skor ini terhubung dengan sensor IoT tata air dan pelaporan BPBD untuk memandu inspeksi darurat.</span>
         </div>
       </section>
 
       {/* ── Rekomendasi Umum ───────────────────────────────────────────── */}
       <section
         id="general-recommendations"
-        className="rounded-xl border border-civic-line bg-white p-6 shadow-sm"
+        className="rounded-xl border border-civic-line bg-civic-surface p-6 shadow-sm"
       >
         <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
           Rekomendasi Umum Kota
@@ -671,7 +673,7 @@ export default function DashboardPage() {
         className="rounded-xl border border-civic-line bg-civic-soft px-6 py-4"
       >
         <div className="flex items-start gap-3">
-          <span className="text-lg">ℹ️</span>
+          <Info size={24} className="text-civic-muted shrink-0" />
           <div>
             <p className="text-xs font-bold uppercase tracking-wider text-civic-muted">
               Catatan Data
@@ -689,3 +691,6 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+
+

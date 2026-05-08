@@ -34,7 +34,7 @@ export default function PagePlaceholder({
           value={`${checklist.length}`}
           description="Elemen utama halaman yang akan dikembangkan secara bertahap."
         />
-        <div className="rounded-lg border border-civic-line bg-white p-5 shadow-sm">
+        <div className="rounded-lg border border-civic-line bg-civic-surface p-5 shadow-sm">
           <p className="text-sm font-medium text-civic-muted">Contoh Status</p>
           <div className="mt-4 flex flex-wrap gap-2">
             <PriorityBadge level="high" />
@@ -80,3 +80,6 @@ export default function PagePlaceholder({
     </section>
   );
 }
+
+
+

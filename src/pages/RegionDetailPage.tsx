@@ -1,4 +1,5 @@
 import { Link, useParams, useNavigate } from "react-router-dom";
+import { Waves, UsersRound, Users, Hospital, MessageSquareWarning, Store, MapPinned, TriangleAlert, ClipboardList, CheckCircle2, Tag, FileText, SlidersHorizontal, Info, Map } from "lucide-react";
 import { buttonClasses } from "../components/ui/Button";
 import IndicatorBar from "../components/ui/IndicatorBar";
 import CivicSenseInsightCard from "../components/ui/CivicSenseInsightCard";
@@ -60,13 +61,13 @@ const INDICATOR_ORDER: (keyof RegionIndicator)[] = [
   "smeActivity",
 ];
 
-const INDICATOR_ICONS: Record<keyof RegionIndicator, string> = {
-  floodRisk: "🌊",
-  populationDensity: "👥",
-  socialVulnerability: "🤝",
-  publicServiceAccess: "🏥",
-  citizenReports: "📣",
-  smeActivity: "🏪",
+const INDICATOR_ICONS: Record<keyof RegionIndicator, React.ReactNode> = {
+  floodRisk: <Waves size={18} />,
+  populationDensity: <UsersRound size={18} />,
+  socialVulnerability: <Users size={18} />,
+  publicServiceAccess: <Hospital size={18} />,
+  citizenReports: <MessageSquareWarning size={18} />,
+  smeActivity: <Store size={18} />,
 };
 
 const INDICATOR_NOTE: Partial<Record<keyof RegionIndicator, string>> = {
@@ -89,8 +90,8 @@ function severityOf(val: number, inverted: boolean) {
 
 function RegionNotFound({ regionId }: { regionId?: string }) {
   return (
-    <div className="flex min-h-[60vh] flex-col items-center justify-center gap-6 rounded-2xl border border-civic-line bg-white p-12 text-center shadow-sm">
-      <span className="text-5xl">🗺️</span>
+    <div className="flex min-h-[60vh] flex-col items-center justify-center gap-6 rounded-2xl border border-civic-line bg-civic-surface p-12 text-center shadow-sm">
+      <Map size={48} className="text-civic-muted" />
       <div>
         <h2 className="text-xl font-bold text-civic-ink">Wilayah tidak ditemukan</h2>
         <p className="mt-2 text-sm text-civic-muted">
@@ -202,12 +203,12 @@ export default function RegionDetailPage() {
                 style={{ width: `${region.computedScore}%` }}
               />
             </div>
-            <p className="mt-2 text-xs font-semibold text-white/80">
+            <p className="mt-2 text-xs font-semibold text-white/80 flex items-center justify-center gap-1.5">
               {region.computedCategory === "Tinggi"
-                ? "⚠️ Prioritas Tinggi"
+                ? <><TriangleAlert size={14} /> Prioritas Tinggi</>
                 : region.computedCategory === "Sedang"
-                ? "📋 Prioritas Sedang"
-                : "✅ Prioritas Rendah"}
+                ? <><ClipboardList size={14} /> Prioritas Sedang</>
+                : <><CheckCircle2 size={14} /> Prioritas Rendah</>}
             </p>
           </div>
         </div>
@@ -222,7 +223,7 @@ export default function RegionDetailPage() {
           {/* Indicator Panel */}
           <section
             id="indicator-panel"
-            className="rounded-xl border border-civic-line bg-white p-6 shadow-sm"
+            className="rounded-xl border border-civic-line bg-civic-surface p-6 shadow-sm"
           >
             <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
               Panel Indikator
@@ -252,7 +253,7 @@ export default function RegionDetailPage() {
                     {/* Icon + label */}
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex items-center gap-2">
-                        <span className="text-lg">{INDICATOR_ICONS[key]}</span>
+                        <span className="text-civic-ink flex items-center">{INDICATOR_ICONS[key]}</span>
                         <span className="text-sm font-semibold text-civic-ink">
                           {INDICATOR_LABELS[key]}
                         </span>
@@ -319,27 +320,27 @@ export default function RegionDetailPage() {
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-5">
-              <div className="rounded-lg bg-white p-3 border border-red-100 shadow-sm">
+              <div className="rounded-lg bg-civic-surface p-3 border border-red-100 shadow-sm">
                 <p className="text-[10px] uppercase font-bold text-civic-muted">Water Level</p>
                 <p className="text-sm font-semibold text-civic-ink mt-0.5">{region.emergencySignals.waterLevelStatus}</p>
               </div>
-              <div className="rounded-lg bg-white p-3 border border-red-100 shadow-sm">
+              <div className="rounded-lg bg-civic-surface p-3 border border-red-100 shadow-sm">
                 <p className="text-[10px] uppercase font-bold text-civic-muted">Verified Reports</p>
                 <p className="text-sm font-semibold text-civic-ink mt-0.5">{region.emergencySignals.verifiedReports}</p>
               </div>
-              <div className="rounded-lg bg-white p-3 border border-red-100 shadow-sm">
+              <div className="rounded-lg bg-civic-surface p-3 border border-red-100 shadow-sm">
                 <p className="text-[10px] uppercase font-bold text-civic-muted">Hist. Risk</p>
                 <p className="text-sm font-semibold text-civic-ink mt-0.5">{region.emergencySignals.historicalDisasterRisk}</p>
               </div>
-              <div className="rounded-lg bg-white p-3 border border-red-100 shadow-sm">
+              <div className="rounded-lg bg-civic-surface p-3 border border-red-100 shadow-sm">
                 <p className="text-[10px] uppercase font-bold text-civic-muted">Pop. Exposure</p>
                 <p className="text-sm font-semibold text-civic-ink mt-0.5">{region.emergencySignals.populationExposure}</p>
               </div>
-              <div className="rounded-lg bg-white p-3 border border-red-100 shadow-sm">
+              <div className="rounded-lg bg-civic-surface p-3 border border-red-100 shadow-sm">
                 <p className="text-[10px] uppercase font-bold text-civic-muted">Critical Fac.</p>
                 <p className="text-sm font-semibold text-civic-ink mt-0.5">{region.emergencySignals.criticalFacilitiesExposure}</p>
               </div>
-              <div className="rounded-lg bg-white p-3 border border-red-100 shadow-sm">
+              <div className="rounded-lg bg-civic-surface p-3 border border-red-100 shadow-sm">
                 <p className="text-[10px] uppercase font-bold text-civic-muted">Social Vuln.</p>
                 <p className="text-sm font-semibold text-civic-ink mt-0.5">{region.emergencySignals.socialVulnerability}</p>
               </div>
@@ -362,7 +363,7 @@ export default function RegionDetailPage() {
           {/* ── Issue Hotspots ───────────────────────────────────────────── */}
           <section
             id="issue-hotspots"
-            className="rounded-xl border border-civic-line bg-white p-6 shadow-sm"
+            className="rounded-xl border border-civic-line bg-civic-surface p-6 shadow-sm"
           >
             <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
               Issue Hotspots
@@ -388,7 +389,7 @@ export default function RegionDetailPage() {
                         "bg-green-100 text-green-700 border-green-200"
                       )}>{h.urgency}</span>
                     </div>
-                    <p className="text-xs text-civic-muted mb-2">📍 {h.locationDetail} | 🏷️ {h.issueType}</p>
+                    <p className="text-xs text-civic-muted mb-2 flex items-center gap-1.5"><MapPinned size={12} /> {h.locationDetail} | <Tag size={12} /> {h.issueType}</p>
                     <p className="text-sm text-civic-ink leading-relaxed">{h.description}</p>
                   </div>
                   <div className="sm:w-48 shrink-0 flex flex-col gap-2 border-t sm:border-t-0 sm:border-l border-civic-line pt-3 sm:pt-0 sm:pl-4">
@@ -412,8 +413,8 @@ export default function RegionDetailPage() {
             </div>
             
             <div className="mt-4 rounded border border-amber-200 bg-amber-50 p-3 text-center">
-              <p className="text-[10px] font-medium text-amber-700">
-                ⚠️ Hotspot ini merupakan simulasi prototype dan perlu validasi OPD sebelum digunakan sebagai dasar tindakan resmi.
+              <p className="text-[10px] font-medium text-amber-700 flex items-start justify-center gap-1.5">
+                <TriangleAlert size={14} className="shrink-0" /> Hotspot ini merupakan simulasi prototype dan perlu validasi OPD sebelum digunakan sebagai dasar tindakan resmi.
               </p>
             </div>
           </section>
@@ -421,7 +422,7 @@ export default function RegionDetailPage() {
           {/* ── Laporan Masyarakat Terkait ───────────────────────────────── */}
           <section
             id="related-reports"
-            className="rounded-xl border border-civic-line bg-white p-6 shadow-sm"
+            className="rounded-xl border border-civic-line bg-civic-surface p-6 shadow-sm"
           >
             <div className="flex justify-between items-end mb-4">
               <div>
@@ -442,7 +443,7 @@ export default function RegionDetailPage() {
                 <div key={r.id} className="rounded-lg border border-civic-line p-3 flex flex-col sm:flex-row justify-between sm:items-center gap-2 hover:shadow-sm transition">
                   <div>
                     <h3 className="text-sm font-bold text-civic-ink line-clamp-1">{r.title}</h3>
-                    <p className="text-xs text-civic-muted mt-0.5">📍 {r.locationDetail}</p>
+                    <p className="text-xs text-civic-muted mt-0.5 flex items-center gap-1.5"><MapPinned size={12} /> {r.locationDetail}</p>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
                     <span className="text-[10px] font-medium bg-civic-soft border border-civic-line px-1.5 py-0.5 rounded text-civic-muted">
@@ -468,7 +469,7 @@ export default function RegionDetailPage() {
           {/* Dominant Issues */}
           <section
             id="dominant-issues"
-            className="rounded-xl border border-civic-line bg-white p-6 shadow-sm"
+            className="rounded-xl border border-civic-line bg-civic-surface p-6 shadow-sm"
           >
             <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
               Masalah Dominan
@@ -491,7 +492,7 @@ export default function RegionDetailPage() {
           {/* Policy Recommendations */}
           <section
             id="policy-recommendations"
-            className="rounded-xl border border-civic-line bg-white p-6 shadow-sm"
+            className="rounded-xl border border-civic-line bg-civic-surface p-6 shadow-sm"
           >
             <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
               Rekomendasi Kebijakan
@@ -534,7 +535,7 @@ export default function RegionDetailPage() {
           {/* Action Buttons */}
           <div
             id="action-buttons"
-            className="rounded-xl border border-civic-line bg-white p-5 shadow-sm space-y-3"
+            className="rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm space-y-3"
           >
             <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
               Tindak Lanjut
@@ -548,7 +549,7 @@ export default function RegionDetailPage() {
                 "w-full justify-center gap-2"
               )}
             >
-              📋 Generate Policy Brief
+              <FileText size={16} /> Generate Policy Brief
             </Link>
 
             <Link
@@ -559,7 +560,7 @@ export default function RegionDetailPage() {
                 "w-full justify-center gap-2"
               )}
             >
-              🎛️ Buka Policy Simulator
+              <SlidersHorizontal size={16} /> Buka Policy Simulator
             </Link>
 
             <button
@@ -575,7 +576,7 @@ export default function RegionDetailPage() {
           </div>
 
           {/* Quick Score Breakdown */}
-          <div className="rounded-xl border border-civic-line bg-white p-5 shadow-sm space-y-4">
+          <div className="rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm space-y-4">
             <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
               Ringkasan Indikator
             </p>
@@ -598,7 +599,7 @@ export default function RegionDetailPage() {
           {/* Stakeholders */}
           <div
             id="stakeholders"
-            className="rounded-xl border border-civic-line bg-white p-5 shadow-sm space-y-3"
+            className="rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm space-y-3"
           >
             <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
               Stakeholder Terkait
@@ -619,7 +620,7 @@ export default function RegionDetailPage() {
           </div>
 
           {/* All Regions Quick Nav */}
-          <div className="rounded-xl border border-civic-line bg-white p-5 shadow-sm space-y-3">
+          <div className="rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm space-y-3">
             <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
               Wilayah Lainnya
             </p>
@@ -657,7 +658,7 @@ export default function RegionDetailPage() {
             id="data-note"
             className="rounded-xl border border-civic-line bg-civic-soft p-4 text-xs leading-relaxed text-civic-muted"
           >
-            <p className="font-semibold text-civic-ink mb-1">ℹ️ Catatan Data</p>
+            <p className="font-semibold text-civic-ink mb-1 flex items-center gap-1.5"><Info size={16} /> Catatan Data</p>
             <p>{region.dataSourceNote}</p>
           </aside>
         </aside>
@@ -665,3 +666,6 @@ export default function RegionDetailPage() {
     </div>
   );
 }
+
+
+

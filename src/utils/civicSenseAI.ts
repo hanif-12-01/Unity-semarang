@@ -267,9 +267,9 @@ export function generateCitizenSummary(region: Region): CitizenSummary {
   const rec = region.policyRecommendations[0];
 
   const headlines: Record<string, string> = {
-    Tinggi: `⚠️ ${region.name} butuh perhatian segera`,
-    Sedang: `📋 ${region.name} sedang dalam pemantauan`,
-    Rendah: `✅ ${region.name} dalam kondisi terjaga`,
+    Tinggi: `${region.name} butuh perhatian segera`,
+    Sedang: `${region.name} sedang dalam pemantauan`,
+    Rendah: `${region.name} dalam kondisi terjaga`,
   };
 
   const layman =

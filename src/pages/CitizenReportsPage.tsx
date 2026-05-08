@@ -10,6 +10,7 @@ import {
 } from "../data/citizenReports";
 import { mockRegions } from "../data/mockData";
 import { classNames } from "../utils/classNames";
+import { BrainCircuit, TriangleAlert, MapPinned } from "lucide-react";
 
 export default function CitizenReportsPage() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -90,8 +91,8 @@ export default function CitizenReportsPage() {
       {/* ── AI Triage Panel ────────────────────────────────────────── */}
       <section className="rounded-xl border border-civic-primary/30 bg-civic-primary/5 p-5">
         <div className="flex items-start gap-4">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-civic-primary text-white text-xl">
-            🤖
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-civic-primary text-white">
+            <BrainCircuit size={24} />
           </div>
           <div>
             <h2 className="text-sm font-bold text-civic-primary uppercase tracking-wider">
@@ -101,9 +102,9 @@ export default function CitizenReportsPage() {
               Membantu klasifikasi kategori, ringkasan laporan, penentuan prioritas awal, 
               serta memberikan rekomendasi OPD dan deteksi kebutuhan validasi.
             </p>
-            <p className="mt-2 text-xs font-semibold text-amber-700 bg-amber-100 px-3 py-1.5 rounded-md inline-block">
-              ⚠️ AI tidak mengambil keputusan final. CivicSense AI hanya memberikan klasifikasi dan rekomendasi awal. 
-              Validasi akhir dan tindakan resmi tetap dilakukan oleh petugas/OPD terkait.
+            <p className="mt-2 text-[10px] sm:text-xs font-semibold text-amber-700 bg-amber-100 px-3 py-1.5 rounded-md inline-flex items-start gap-1.5">
+              <TriangleAlert size={14} className="shrink-0 mt-0.5" /> 
+              <span>AI tidak mengambil keputusan final. CivicSense AI hanya memberikan klasifikasi dan rekomendasi awal. Validasi akhir dan tindakan resmi tetap dilakukan oleh petugas/OPD terkait.</span>
             </p>
           </div>
         </div>
@@ -111,7 +112,7 @@ export default function CitizenReportsPage() {
 
       {/* ── Summary Cards ──────────────────────────────────────────── */}
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <article className="rounded-xl border border-civic-line bg-white p-5 shadow-sm">
+        <article className="rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm">
           <p className="text-sm font-medium text-civic-muted">Total Laporan (Simulasi)</p>
           <p className="mt-2 text-3xl font-bold text-civic-ink">{stats.total}</p>
         </article>
@@ -127,7 +128,7 @@ export default function CitizenReportsPage() {
             {mockCitizenReports.filter(r => r.status === "Perlu Validasi" || r.status === "Baru Masuk").length}
           </p>
         </article>
-        <article className="rounded-xl border border-civic-line bg-white p-5 shadow-sm">
+        <article className="rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm">
           <p className="text-sm font-medium text-civic-muted">Isu Paling Dominan</p>
           <p className="mt-2 text-xl font-bold text-civic-ink break-words leading-tight h-9 flex items-center">
             {dominantCategory}
@@ -138,7 +139,7 @@ export default function CitizenReportsPage() {
       {/* ── Distributions (2 Columns) ──────────────────────────────── */}
       <section className="grid gap-6 lg:grid-cols-2">
         {/* Category Breakdown */}
-        <div className="rounded-xl border border-civic-line bg-white p-5 shadow-sm">
+        <div className="rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm">
           <h3 className="text-sm font-bold uppercase tracking-wider text-civic-primary mb-4">
             Kategori Laporan
           </h3>
@@ -161,7 +162,7 @@ export default function CitizenReportsPage() {
         </div>
 
         {/* Urgency Breakdown */}
-        <div className="rounded-xl border border-civic-line bg-white p-5 shadow-sm">
+        <div className="rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm">
           <h3 className="text-sm font-bold uppercase tracking-wider text-civic-primary mb-4">
             Distribusi Urgensi
           </h3>
@@ -189,7 +190,7 @@ export default function CitizenReportsPage() {
       </section>
 
       {/* ── Filters & Search ───────────────────────────────────────── */}
-      <section className="rounded-xl border border-civic-line bg-white p-5 shadow-sm">
+      <section className="rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm">
         <div className="flex flex-col sm:flex-row gap-4 items-end">
           <div className="w-full sm:flex-1">
             <label className="block text-xs font-semibold text-civic-muted mb-1.5">Pencarian</label>
@@ -258,7 +259,7 @@ export default function CitizenReportsPage() {
         ) : (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {filteredReports.map((report) => (
-              <div key={report.id} className="rounded-xl border border-civic-line bg-white flex flex-col overflow-hidden shadow-sm hover:shadow-md transition">
+              <div key={report.id} className="rounded-xl border border-civic-line bg-civic-surface flex flex-col overflow-hidden shadow-sm hover:shadow-md transition">
                 <div className="p-4 border-b border-civic-line flex flex-col gap-3">
                   <div className="flex justify-between items-start gap-2">
                     <span className={classNames("inline-flex px-2 py-0.5 rounded text-[10px] font-bold border uppercase tracking-wide", getUrgencyBadge(report.urgency))}>
@@ -270,8 +271,8 @@ export default function CitizenReportsPage() {
                   </div>
                   <div>
                     <h4 className="font-bold text-civic-ink line-clamp-2" title={report.title}>{report.title}</h4>
-                    <p className="text-xs text-civic-muted mt-1 flex items-center gap-1">
-                      <span>📍</span> {report.locationName} ({report.regionName})
+                    <p className="text-xs text-civic-muted mt-1 flex items-center gap-1.5">
+                      <MapPinned size={12} className="shrink-0" /> {report.locationName} ({report.regionName})
                     </p>
                   </div>
                 </div>
@@ -305,3 +306,6 @@ export default function CitizenReportsPage() {
     </div>
   );
 }
+
+
+

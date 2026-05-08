@@ -4,6 +4,7 @@
 // =============================================================================
 
 import { useEffect, useState, useMemo } from "react";
+import { MapPinned, Users, Target, BarChart3, Megaphone, Sparkles, ClipboardList, Printer, SlidersHorizontal, Globe2, Building, Calendar, TriangleAlert, BrainCircuit, CheckCircle2 } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import { buttonClasses } from "../components/ui/Button";
 import IndicatorBar from "../components/ui/IndicatorBar";
@@ -47,15 +48,15 @@ const TIMELINE_STYLE: Record<string, string> = {
 };
 
 const IMPL_STEPS = [
-  { icon: "🔍", title: "Validasi Data Wilayah",
+  { icon: <MapPinned size={16} />, title: "Validasi Data Wilayah",
     desc: "Verifikasi data prototype dengan data operasional dari dinas terkait sebelum dijadikan basis keputusan resmi." },
-  { icon: "🤝", title: "Koordinasi Lintas OPD",
+  { icon: <Users size={16} />, title: "Koordinasi Lintas OPD",
     desc: "Selenggarakan rapat koordinasi dengan seluruh OPD dalam daftar stakeholder untuk menyamakan pemahaman kondisi wilayah." },
-  { icon: "🎯", title: "Penentuan Program Prioritas",
+  { icon: <Target size={16} />, title: "Penentuan Program Prioritas",
     desc: "Tetapkan program unggulan per semester yang sesuai kapasitas anggaran berdasarkan hasil koordinasi." },
-  { icon: "📊", title: "Monitoring Indikator",
+  { icon: <BarChart3 size={16} />, title: "Monitoring Indikator",
     desc: "Pantau perubahan indikator secara berkala dan perbarui Priority Score setiap kuartal." },
-  { icon: "📢", title: "Publikasi Ringkasan Transparansi",
+  { icon: <Megaphone size={16} />, title: "Publikasi Ringkasan Transparansi",
     desc: "Publikasikan ringkasan kondisi dan rencana intervensi melalui kanal Transparansi Publik." },
 ];
 
@@ -80,7 +81,7 @@ function Section({
   return (
     <section
       id={id}
-      className="rounded-xl border border-civic-line bg-white shadow-sm print:shadow-none"
+      className="rounded-xl border border-civic-line bg-civic-surface shadow-sm print:shadow-none"
     >
       <div className="flex items-center gap-3 border-b border-civic-line px-6 py-4">
         <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-civic-ink text-xs font-bold text-white">
@@ -89,7 +90,7 @@ function Section({
         <h2 className="flex-1 text-sm font-bold text-civic-ink">{title}</h2>
         {aiTagged && (
           <span className="inline-flex items-center gap-1 rounded-full border border-civic-primary/30 bg-civic-primary/5 px-2.5 py-0.5 text-xs font-semibold text-civic-primary">
-            ✨ CivicSense AI
+            <Sparkles size={12} /> CivicSense AI
           </span>
         )}
       </div>
@@ -176,8 +177,8 @@ export default function PolicyBriefPage() {
           className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between print:hidden"
         >
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-civic-primary">
-              ✨ CivicSense AI
+            <p className="text-xs font-bold uppercase tracking-widest text-civic-primary flex items-center gap-1.5">
+              <Sparkles size={14} /> CivicSense AI
             </p>
             <h1 className="text-2xl font-bold text-civic-ink">AI Policy Brief Generator</h1>
             <p className="text-sm text-civic-muted">
@@ -198,7 +199,7 @@ export default function PolicyBriefPage() {
         {/* ── Region Selector ───────────────────────────────────────── */}
         <div
           id="pb-region-bar"
-          className="flex flex-wrap items-end gap-4 rounded-xl border border-civic-line bg-white p-5 shadow-sm print:hidden"
+          className="flex flex-wrap items-end gap-4 rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm print:hidden"
         >
           <div className="flex-1 min-w-[200px] space-y-1">
             <label htmlFor="sel-region" className="text-xs font-bold uppercase tracking-wider text-civic-primary">
@@ -208,7 +209,7 @@ export default function PolicyBriefPage() {
               id="sel-region"
               value={selectedId}
               onChange={(e) => setSelectedId(e.target.value)}
-              className="w-full rounded-lg border border-civic-line bg-white px-3 py-2 text-sm font-medium text-civic-ink shadow-sm focus:outline-none focus:ring-2 focus:ring-civic-primary"
+              className="w-full rounded-lg border border-civic-line bg-civic-surface px-3 py-2 text-sm font-medium text-civic-ink shadow-sm focus:outline-none focus:ring-2 focus:ring-civic-primary"
             >
               {mockRegions.map((r) => (
                 <option key={r.id} value={r.id}>{r.name}</option>
@@ -221,14 +222,14 @@ export default function PolicyBriefPage() {
               onClick={handleCopy}
               className={classNames(buttonClasses("secondary"), "text-sm gap-1.5")}
             >
-              {copied ? "✅ Tersalin!" : "📋 Salin Brief"}
+              {copied ? <><CheckCircle2 size={16} /> Tersalin!</> : <><ClipboardList size={16} /> Salin Brief</>}
             </button>
             <button
               id="btn-print-ai-brief"
               onClick={() => window.print()}
               className={classNames(buttonClasses("secondary"), "text-sm gap-1.5")}
             >
-              🖨️ Cetak PDF
+              <Printer size={16} /> Cetak PDF
             </button>
           </div>
         </div>
@@ -253,7 +254,7 @@ export default function PolicyBriefPage() {
             <div className="space-y-3">
               {/* AI badge */}
               <div className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-bold backdrop-blur-sm">
-                ✨ Drafted by CivicSense Policy Assistant
+                <Sparkles size={14} /> Drafted by CivicSense Policy Assistant
               </div>
               <p className="text-xs text-white/50 font-mono">{docId} · {dateStr}</p>
               <h2 className="text-4xl font-bold tracking-tight md:text-5xl">
@@ -306,7 +307,7 @@ export default function PolicyBriefPage() {
         <Section id="sec-priority" num="02" title="Priority Analysis" aiTagged>
           {/* AI insight banner */}
           <div className="rounded-lg border border-civic-primary/25 bg-gradient-to-r from-civic-ink/5 to-transparent p-4">
-            <p className="text-xs font-bold text-civic-primary mb-1">✨ CivicSense AI — {insight.headline}</p>
+            <p className="text-xs font-bold text-civic-primary mb-1 flex items-center gap-1.5"><Sparkles size={14} /> CivicSense AI — {insight.headline}</p>
             <p className="text-sm leading-relaxed text-civic-ink">{insight.body}</p>
           </div>
 
@@ -335,7 +336,7 @@ export default function PolicyBriefPage() {
             insight.urgencyLevel === "high" ? "border-amber-200 bg-amber-50 text-amber-800" :
             "border-civic-line bg-civic-soft text-civic-ink"
           )}>
-            <span className="font-bold">💡 Rekomendasi Awal AI: </span>
+            <span className="font-bold flex items-center gap-1.5"><BrainCircuit size={14} /> Rekomendasi Awal AI: </span>
             {insight.callToAction}
           </div>
         </Section>
@@ -374,7 +375,7 @@ export default function PolicyBriefPage() {
         <Section id="sec-rec" num="04" title="Rekomendasi Kebijakan" aiTagged>
           <div className="space-y-3">
             {brief.policyRecommendations.map((rec) => (
-              <div key={rec.priority} className="rounded-xl border border-civic-line bg-white p-4 shadow-sm">
+              <div key={rec.priority} className="rounded-xl border border-civic-line bg-civic-surface p-4 shadow-sm">
                 <div className="flex items-start gap-3">
                   <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-civic-primary text-sm font-bold text-white">
                     {rec.priority}
@@ -383,10 +384,10 @@ export default function PolicyBriefPage() {
                     <p className="text-sm font-semibold text-civic-ink">{rec.action}</p>
                     <div className="flex flex-wrap gap-4 text-xs pt-0.5">
                       <span className="flex items-center gap-1 text-civic-muted">
-                        🏢 <span className="font-medium text-civic-ink">{rec.lead}</span>
+                        <Building size={14} /> <span className="font-medium text-civic-ink">{rec.lead}</span>
                       </span>
                       <span className={classNames("flex items-center gap-1", TIMELINE_STYLE[rec.timeline] ?? "text-civic-muted")}>
-                        🗓 {rec.timeline}
+                        <Calendar size={14} /> {rec.timeline}
                       </span>
                     </div>
                   </div>
@@ -407,7 +408,7 @@ export default function PolicyBriefPage() {
                 key={s}
                 className="inline-flex items-center gap-1.5 rounded-full border border-civic-line bg-civic-soft px-3 py-1.5 text-xs font-medium text-civic-ink"
               >
-                🏛 {s}
+                <Building size={12} /> {s}
               </span>
             ))}
           </div>
@@ -440,7 +441,7 @@ export default function PolicyBriefPage() {
           <div className="grid gap-3 sm:grid-cols-2">
             {brief.expectedImpacts.map((impact) => (
               <div key={impact.dimension} className="flex items-start gap-3 rounded-lg border border-civic-line bg-civic-soft/60 p-4">
-                <span className="text-xl shrink-0 mt-0.5">{impact.icon}</span>
+                <Target size={20} className="text-civic-primary shrink-0 mt-0.5" />
                 <div>
                   <p className="text-sm font-semibold text-civic-ink">{impact.dimension}</p>
                   <p className="mt-1 text-xs leading-relaxed text-civic-muted">{impact.description}</p>
@@ -453,7 +454,12 @@ export default function PolicyBriefPage() {
         {/* ── 08 Citizen Communication Summary (AI) ────────────────── */}
         <Section id="sec-citizen" num="08" title="Citizen Communication Summary" aiTagged>
           <div className="rounded-xl border border-civic-primary/20 bg-civic-primary/5 p-5 space-y-3">
-            <p className="text-sm font-bold text-civic-ink">{citizen.headline}</p>
+            <p className="text-sm font-bold text-civic-ink flex items-center gap-1.5">
+              {scored.computedCategory === "Tinggi" ? <TriangleAlert size={16} className="text-red-600 shrink-0" /> :
+               scored.computedCategory === "Sedang" ? <ClipboardList size={16} className="text-amber-600 shrink-0" /> :
+               <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />}
+              {citizen.headline}
+            </p>
             <p className="text-sm leading-relaxed text-civic-ink">{citizen.layman}</p>
             <p className="text-sm leading-relaxed text-civic-ink">{citizen.whatItMeans}</p>
             <p className="text-sm leading-relaxed text-civic-muted italic">{citizen.whatWillHappen}</p>
@@ -466,7 +472,7 @@ export default function PolicyBriefPage() {
         {/* ── AI Disclaimer ─────────────────────────────────────────── */}
         <div className="rounded-xl border border-amber-200 bg-amber-50 px-5 py-4">
           <div className="flex items-start gap-3">
-            <span className="text-lg shrink-0">⚠️</span>
+            <TriangleAlert size={20} className="text-amber-600 shrink-0" />
             <div className="space-y-1">
               <p className="text-xs font-bold uppercase tracking-wider text-amber-800">
                 AI Disclaimer — CivicSense AI · Prototype
@@ -483,33 +489,33 @@ export default function PolicyBriefPage() {
         {/* ── Bottom Action Bar ─────────────────────────────────────── */}
         <div
           id="pb-action-bar"
-          className="flex flex-wrap items-center gap-3 rounded-xl border border-civic-line bg-white p-5 shadow-sm print:hidden"
+          className="flex flex-wrap items-center gap-3 rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm print:hidden"
         >
           <button
             onClick={handleCopy}
             className={classNames(buttonClasses("primary"), "gap-2")}
           >
-            {copied ? "✅ Tersalin!" : "📋 Salin Brief"}
+            {copied ? <><CheckCircle2 size={16} /> Tersalin!</> : <><ClipboardList size={16} /> Salin Brief</>}
           </button>
           <button
             onClick={() => window.print()}
             className={classNames(buttonClasses("secondary"), "gap-2")}
           >
-            🖨️ Cetak / Export PDF
+            <Printer size={16} /> Cetak / Export PDF
           </button>
           <Link
             to="/simulator"
             id="btn-open-simulator"
             className={classNames(buttonClasses("secondary"), "gap-2")}
           >
-            ⚖️ Buka Policy Simulator
+            <SlidersHorizontal size={16} /> Buka Policy Simulator
           </Link>
           <Link
             to="/public"
             id="btn-open-public"
             className={classNames(buttonClasses("secondary"), "gap-2")}
           >
-            🌐 Transparansi Publik
+            <Globe2 size={16} /> Transparansi Publik
           </Link>
           <Link
             to="/dashboard"
@@ -522,3 +528,6 @@ export default function PolicyBriefPage() {
     </>
   );
 }
+
+
+

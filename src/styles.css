@@ -2,9 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Root: Warm Ivory baseline (Semarang Civic palette) ────────────────── */
 :root {
-  color: #16202a;
-  background: #f8fafc;
+  color: #1F1A17;           /* civic-ink */
+  background: #FFFDF7;      /* civic-surface: warm ivory, not cold white */
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -15,9 +16,33 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #F4EFE6; /* civic-panel: main app background */
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+/* ─── Civic Scrollbar — subtle warm tone ────────────────────────────────── */
+::-webkit-scrollbar        { width: 6px; height: 6px; }
+::-webkit-scrollbar-track  { background: #EAE2D3; }          /* civic-soft */
+::-webkit-scrollbar-thumb  { background: #D8CCBA; border-radius: 9999px; } /* civic-line */
+::-webkit-scrollbar-thumb:hover { background: #B58A27; }     /* civic-gold on hover */
+
+/* ─── Leaflet popup override for civic style ────────────────────────────── */
+.civic-popup .leaflet-popup-content-wrapper {
+  border-radius: 0.75rem;
+  border: 1px solid #D8CCBA;
+  box-shadow: 0 4px 16px rgba(31, 26, 23, 0.12);
+  padding: 0;
+}
+.civic-popup .leaflet-popup-tip {
+  background: #FFFDF7;
+}
+
+/* ─── Custom Leaflet marker: remove default white box ───────────────────── */
+.custom-leaflet-marker {
+  background: transparent !important;
+  border: none !important;
 }

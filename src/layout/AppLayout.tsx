@@ -1,5 +1,19 @@
-import { useState } from "react";
-import { NavLink, Outlet, Link } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { 
+  Home, 
+  LayoutDashboard, 
+  MapPinned, 
+  MessageSquareWarning, 
+  SlidersHorizontal, 
+  FileText, 
+  Globe2, 
+  BookOpenCheck, 
+  PlayCircle, 
+  TriangleAlert, 
+  Sparkles, 
+  ChevronDown 
+} from "lucide-react";
+import { NavLink, Outlet, Link, useLocation } from "react-router-dom";
 import { classNames } from "../utils/classNames";
 import { mockRegions } from "../data/mockData";
 
@@ -11,17 +25,13 @@ const demoRegionId = mockRegions.find(r => r.id === "genuk") ? "genuk" : fallbac
 const DEFAULT_DETAIL_REGION_ID = detailRegionId;
 const DEMO_REGION_ID = demoRegionId;
 
-// ─── Nav Items ────────────────────────────────────────────────────────────────
-
 const NAV_ITEMS = [
-  { label: "Overview",           to: "/",              icon: "🏠", end: true  },
-  { label: "Dashboard Kota",     to: "/dashboard",     icon: "📊", end: false },
-  { label: "Detail Wilayah",     to: `/regions/${DEFAULT_DETAIL_REGION_ID}`, icon: "🔍", end: false },
-  { label: "Laporan Masyarakat", to: "/reports",       icon: "📣", end: false },
-  { label: "Policy Simulator",   to: "/simulator",     icon: "⚖️", end: false },
-  { label: "Policy Brief",       to: "/policy-brief",  icon: "✨", end: false },
-  { label: "Transparansi Publik",to: "/public",        icon: "🌐", end: false },
-  { label: "Metodologi Data",    to: "/methodology",   icon: "📋", end: false },
+  { label: "Command Center",     to: "/dashboard",     icon: <LayoutDashboard size={16} />, end: false },
+  { label: "Reports",            to: "/reports",       icon: <MessageSquareWarning size={16} />, end: false },
+  { label: "Simulator",          to: "/simulator",     icon: <SlidersHorizontal size={16} />, end: false },
+  { label: "Policy Brief",       to: "/policy-brief",  icon: <FileText size={16} />, end: false },
+  { label: "Public",             to: "/public",        icon: <Globe2 size={16} />, end: false },
+  { label: "Methodology",        to: "/methodology",   icon: <BookOpenCheck size={16} />, end: false },
 ];
 
 // Demo flow steps for jury presentation
@@ -39,29 +49,54 @@ const DEMO_FLOW = [
 
 export default function AppLayout() {
   const [showDemo, setShowDemo] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowDemo(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Close dropdown on route change
+  useEffect(() => {
+    setShowDemo(false);
+  }, [location.pathname]);
 
   return (
-    <div className="min-h-screen bg-civic-panel text-civic-ink">
-      <div className="mx-auto flex min-h-screen max-w-[1440px] flex-col lg:flex-row">
+    <div className="min-h-screen bg-civic-panel text-civic-ink font-sans flex flex-col">
+      {/* ── Sticky Header ── */}
+      <header className="sticky top-0 z-50 border-b border-civic-line bg-civic-surface/95 backdrop-blur-sm shadow-sm">
+        {/* Top Brand Row */}
+        <div className="mx-auto flex max-w-[1500px] flex-col gap-3 px-5 py-3 md:flex-row md:items-center md:justify-between lg:px-8">
+          <Link to="/" className="group inline-block">
+            <h1 className="text-xl font-bold text-civic-ink tracking-tight flex items-baseline gap-2 group-hover:text-civic-primary transition">
+              CIVICTWIN <span className="text-civic-primary text-sm">Semarang</span>
+            </h1>
+            <p className="text-xs font-semibold text-civic-muted tracking-wide uppercase mt-0.5">
+              Central Java Civic Intelligence
+            </p>
+          </Link>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 rounded border border-civic-brick/25 bg-civic-brick/5 px-2.5 py-1 text-[11px] font-semibold text-civic-brick">
+              <TriangleAlert size={14} /> Data Prototype POC
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded border border-civic-primary/20 bg-civic-primary/5 px-2.5 py-1 text-[11px] font-semibold text-civic-primary">
+              <Sparkles size={14} /> CivicSense Policy Assistant
+            </span>
+          </div>
+        </div>
 
-        {/* ── Sidebar ─────────────────────────────────────────────── */}
-        <aside className="border-b border-civic-line bg-white px-5 py-5 lg:sticky lg:top-0 lg:h-screen lg:w-72 lg:flex-none lg:border-b-0 lg:border-r lg:overflow-y-auto">
-          <div className="flex flex-col gap-5">
-
-            {/* Brand */}
-            <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-civic-primary">
-                Prototype Smart City
-              </p>
-              <h1 className="mt-1.5 text-xl font-bold text-civic-ink">CIVICTWIN Semarang</h1>
-              <p className="mt-1 text-xs leading-5 text-civic-muted">
-                Digital twin wilayah untuk prioritas kebijakan kota yang transparan dan berbasis data.
-              </p>
-            </div>
-
-            {/* Navigation */}
+        {/* Navigation Row */}
+        <div className="border-t border-civic-line/40 bg-civic-surface">
+          <div className="mx-auto flex max-w-[1500px] items-center justify-between px-5 lg:px-8">
             <nav
-              className="flex gap-1.5 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0"
+              className="flex gap-1 overflow-x-auto py-2 pr-4 scrollbar-hide -mb-px"
               aria-label="Navigasi utama"
             >
               {NAV_ITEMS.map((item) => (
@@ -71,106 +106,74 @@ export default function AppLayout() {
                   end={item.end}
                   className={({ isActive }) =>
                     classNames(
-                      "flex items-center gap-2 whitespace-nowrap rounded-lg border px-3 py-2 text-sm font-medium transition lg:whitespace-normal",
+                      "flex items-center gap-2 whitespace-nowrap rounded-md px-3 py-2 text-sm transition-colors",
                       isActive
-                        ? "border-civic-primary bg-civic-primary text-white shadow-sm"
-                        : "border-transparent text-civic-muted hover:border-civic-line hover:bg-civic-soft hover:text-civic-ink"
+                        ? "bg-civic-primary/10 text-civic-primary font-semibold"
+                        : "text-civic-muted hover:bg-civic-soft hover:text-civic-ink font-medium"
                     )
                   }
                 >
-                  <span className="text-base leading-none">{item.icon}</span>
+                  <span className="shrink-0">{item.icon}</span>
                   {item.label}
                 </NavLink>
               ))}
             </nav>
 
-            {/* Demo Flow Panel */}
-            <div className="hidden lg:block">
+            {/* Demo Flow Dropdown */}
+            <div className="relative shrink-0 ml-2" ref={dropdownRef}>
               <button
-                onClick={() => setShowDemo((p) => !p)}
-                className="flex w-full items-center justify-between rounded-lg border border-civic-line bg-civic-soft px-3 py-2.5 text-xs font-semibold text-civic-ink transition hover:border-civic-primary/30 hover:bg-white"
+                onClick={() => setShowDemo(!showDemo)}
+                className="flex items-center gap-1.5 rounded-md border border-civic-line bg-civic-panel px-3 py-2 text-sm font-medium text-civic-ink shadow-sm transition hover:bg-civic-soft hover:border-civic-primary/30"
               >
-                <span className="flex items-center gap-1.5">
-                  🎬 <span>Demo Flow</span>
-                </span>
-                <span className={classNames("transition-transform text-civic-muted", showDemo ? "rotate-180" : "")}>▾</span>
+                <PlayCircle size={16} className="text-civic-primary" />
+                <span className="hidden sm:inline">Presentation Flow</span>
+                <span className="sm:hidden">Demo</span>
+                <ChevronDown size={14} className={classNames("text-civic-muted transition-transform", showDemo ? "rotate-180" : "")} />
               </button>
-
+              
               {showDemo && (
-                <div className="mt-2 rounded-lg border border-civic-primary/20 bg-white p-3 space-y-1.5">
-                  <p className="text-xs font-bold text-civic-primary uppercase tracking-wider mb-2">Urutan Demo Juri</p>
-                  {DEMO_FLOW.map((d) => (
-                    <Link
-                      key={d.step}
-                      to={d.to}
-                      onClick={() => setShowDemo(false)}
-                      className="flex items-start gap-2 rounded-md px-2 py-1.5 text-xs transition hover:bg-civic-soft"
-                    >
-                      <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-civic-ink text-xs font-bold text-white leading-none mt-0.5">
-                        {d.step}
-                      </span>
-                      <div>
-                        <p className="font-semibold text-civic-ink">{d.label}</p>
-                        <p className="text-civic-muted">{d.hint}</p>
-                      </div>
-                    </Link>
-                  ))}
+                <div className="absolute right-0 top-full mt-2 w-64 rounded-xl border border-civic-line bg-civic-surface p-3 shadow-lg">
+                  <p className="mb-3 px-2 text-[10px] font-bold uppercase tracking-wider text-civic-gold">Urutan Demo Juri</p>
+                  <div className="space-y-1">
+                    {DEMO_FLOW.map((d) => (
+                      <Link
+                        key={d.step}
+                        to={d.to}
+                        className="flex items-start gap-2.5 rounded-lg p-2 transition hover:bg-civic-soft"
+                      >
+                        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-civic-primary/10 text-[10px] font-bold text-civic-primary mt-0.5">
+                          {d.step}
+                        </span>
+                        <div>
+                          <p className="text-xs font-semibold text-civic-ink">{d.label}</p>
+                          <p className="text-[10px] text-civic-muted mt-0.5">{d.hint}</p>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
-
-            {/* Prototype badge */}
-            <div className="hidden lg:block rounded-lg border border-amber-200 bg-amber-50 px-3 py-2.5">
-              <p className="text-xs font-bold text-amber-800">⚠️ Data Prototype</p>
-              <p className="mt-0.5 text-xs leading-relaxed text-amber-700">
-                Menggunakan kombinasi data publik, data olahan, dan simulasi terbatas. Beberapa indikator masih perlu validasi resmi.
-              </p>
-            </div>
           </div>
-        </aside>
-
-        {/* ── Main Content ─────────────────────────────────────────── */}
-        <div className="min-w-0 flex-1">
-          <header className="sticky top-0 z-10 border-b border-civic-line bg-white/95 backdrop-blur-sm px-5 py-3">
-            <div className="flex flex-col gap-1.5 md:flex-row md:items-center md:justify-between">
-              <div>
-                <p className="text-sm font-bold text-civic-ink">CIVICTWIN Semarang</p>
-                <p className="text-xs text-civic-muted">
-                  Data-driven policy prioritization for smarter city governance.
-                </p>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="inline-flex items-center gap-1 rounded-md border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700">
-                  ⚠️ Data prototype POC
-                </span>
-                {/* Mobile demo trigger */}
-                <Link
-                  to="/dashboard"
-                  className="inline-flex items-center gap-1 rounded-md border border-civic-primary/30 bg-civic-primary/5 px-2.5 py-1 text-xs font-semibold text-civic-primary hover:bg-civic-primary hover:text-white transition lg:hidden"
-                >
-                  🎬 Demo
-                </Link>
-              </div>
-            </div>
-          </header>
-
-          <main className="px-5 py-6 lg:px-8 lg:py-8">
-            <Outlet />
-          </main>
-
-          {/* Footer */}
-          <footer className="border-t border-civic-line bg-white px-8 py-4">
-            <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-xs text-civic-muted">
-                CIVICTWIN Semarang Prototype Smart City · Lomba UNY 2026
-              </p>
-              <p className="text-xs text-civic-muted">
-                Data publik/olahan/simulasi terbatas · CivicSense AI (rule-based) · Bukan dokumen resmi
-              </p>
-            </div>
-          </footer>
         </div>
-      </div>
+      </header>
+
+      {/* ── Main Content ── */}
+      <main className="mx-auto flex-1 w-full max-w-[1500px] px-5 py-6 lg:px-8 lg:py-8">
+        <Outlet />
+      </main>
+
+      {/* ── Footer ── */}
+      <footer className="mt-auto border-t border-civic-line bg-civic-panel">
+        <div className="mx-auto max-w-[1500px] flex flex-col gap-2 px-5 py-4 sm:flex-row sm:items-center sm:justify-between lg:px-8">
+          <p className="text-[11px] font-medium text-civic-muted">
+            CIVICTWIN Semarang Prototype Smart City · Lomba UNY 2026
+          </p>
+          <p className="text-[10px] text-civic-muted/70">
+            Data publik/olahan/simulasi terbatas · CivicSense rule-based · Bukan dokumen resmi
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }

@@ -4,6 +4,7 @@
 // =============================================================================
 
 import { Link } from "react-router-dom";
+import { BarChart3, Globe2, Building, Waves, Laptop, Home, MessageSquareWarning, Scale, UsersRound, Users, Hospital, Store, Microscope, PlugZap, MapPinned, Bot, TestTube, Map, Database, Radio, BrainCircuit, ClipboardList, Smartphone, TriangleAlert, RefreshCcw, UserCheck, ShieldCheck, Link as LinkIcon, CheckCircle2, XCircle, SlidersHorizontal, Sparkles } from "lucide-react";
 import { buttonClasses } from "../components/ui/Button";
 import { POLICY_MODES, INDICATOR_LABELS } from "../utils";
 import { classNames } from "../utils/classNames";
@@ -11,14 +12,14 @@ import { classNames } from "../utils/classNames";
 // ─── Static Data ──────────────────────────────────────────────────────────────
 
 const DATA_SOURCES = [
-  { icon: "📊", name: "BPS Kota Semarang", desc: "Data kependudukan, kepadatan, dan statistik sosial-ekonomi per kecamatan.", tag: "Implementasi Nyata" },
-  { icon: "🌐", name: "Portal Data Pemerintah Daerah", desc: "Open data Kota Semarang dan portal Satu Data Indonesia untuk akses data terpadu.", tag: "Implementasi Nyata" },
-  { icon: "🏛", name: "Data OPD Kota Semarang", desc: "Data lintas Dinas: Sosial, Kesehatan, PU, UMKM, Pendidikan, dan Perhubungan.", tag: "Implementasi Nyata" },
-  { icon: "🌊", name: "Data BPBD Kota Semarang", desc: "Peta risiko banjir, rob, dan bencana yang diperbarui berkala dari Badan Penanggulangan Bencana.", tag: "Implementasi Nyata" },
-  { icon: "💻", name: "Data Diskominfo", desc: "Infrastruktur digital, kanal aduan warga (LAPOR!), dan data SPBE Kota Semarang.", tag: "Implementasi Nyata" },
-  { icon: "🏘", name: "Data Kecamatan / Kelurahan", desc: "Profil wilayah, laporan rutin, dan monografi kecamatan sebagai data granular.", tag: "Implementasi Nyata" },
-  { icon: "📣", name: "Laporan & Aduan Warga", desc: "Agregat laporan dari kanal LAPOR!, aplikasi pengaduan, dan forum warga.", tag: "Implementasi Nyata" },
-  { icon: "⚖️", name: "Regulasi SPBE & Satu Data", desc: "Perpres No. 39/2019 tentang Satu Data dan Perpres No. 95/2018 tentang SPBE sebagai kerangka tata kelola.", tag: "Regulasi Acuan" },
+  { icon: <BarChart3 />, name: "BPS Kota Semarang", desc: "Data kependudukan, kepadatan, dan statistik sosial-ekonomi per kecamatan.", tag: "Implementasi Nyata" },
+  { icon: <Globe2 />, name: "Portal Data Pemerintah Daerah", desc: "Open data Kota Semarang dan portal Satu Data Indonesia untuk akses data terpadu.", tag: "Implementasi Nyata" },
+  { icon: <Building />, name: "Data OPD Kota Semarang", desc: "Data lintas Dinas: Sosial, Kesehatan, PU, UMKM, Pendidikan, dan Perhubungan.", tag: "Implementasi Nyata" },
+  { icon: <Waves />, name: "Data BPBD Kota Semarang", desc: "Peta risiko banjir, rob, dan bencana yang diperbarui berkala dari Badan Penanggulangan Bencana.", tag: "Implementasi Nyata" },
+  { icon: <Laptop />, name: "Data Diskominfo", desc: "Infrastruktur digital, kanal aduan warga (LAPOR!), dan data SPBE Kota Semarang.", tag: "Implementasi Nyata" },
+  { icon: <Home />, name: "Data Kecamatan / Kelurahan", desc: "Profil wilayah, laporan rutin, dan monografi kecamatan sebagai data granular.", tag: "Implementasi Nyata" },
+  { icon: <MessageSquareWarning />, name: "Laporan & Aduan Warga", desc: "Agregat laporan dari kanal LAPOR!, aplikasi pengaduan, dan forum warga.", tag: "Implementasi Nyata" },
+  { icon: <Scale />, name: "Regulasi SPBE & Satu Data", desc: "Perpres No. 39/2019 tentang Satu Data dan Perpres No. 95/2018 tentang SPBE sebagai kerangka tata kelola.", tag: "Regulasi Acuan" },
 ];
 
 const SOURCE_LOG = [
@@ -39,7 +40,7 @@ const STATUS_BADGE: Record<string, string> = {
 const INDICATORS = [
   {
     key: "floodRisk",
-    icon: "🌊",
+    icon: <Waves />,
     name: "Risiko Banjir / Rob",
     desc: "Mengukur seberapa tinggi ancaman banjir musiman dan rob terhadap permukiman dan infrastruktur wilayah. Nilai tinggi = risiko besar = perlu intervensi.",
     source: "BPBD, peta genangan, data historis kejadian bencana",
@@ -48,7 +49,7 @@ const INDICATORS = [
   },
   {
     key: "populationDensity",
-    icon: "👥",
+    icon: <UsersRound />,
     name: "Kepadatan Penduduk",
     desc: "Mengukur tekanan jumlah penduduk terhadap layanan dan infrastruktur. Kepadatan tinggi meningkatkan kerentanan dan kebutuhan intervensi.",
     source: "BPS, data kependudukan kecamatan",
@@ -57,7 +58,7 @@ const INDICATORS = [
   },
   {
     key: "socialVulnerability",
-    icon: "🤝",
+    icon: <Users />,
     name: "Kerentanan Sosial",
     desc: "Proporsi warga yang berada dalam kondisi rentan: penerima bansos, warga miskin, lansia tanpa pendamping, dan penyandang disabilitas.",
     source: "Dinas Sosial, DTKS (Data Terpadu Kesejahteraan Sosial)",
@@ -66,7 +67,7 @@ const INDICATORS = [
   },
   {
     key: "publicServiceAccess",
-    icon: "🏥",
+    icon: <Hospital />,
     name: "Akses Layanan Publik",
     desc: "Mengukur kemudahan warga menjangkau fasilitas dasar: puskesmas, sekolah, transportasi umum, dan kantor pemerintah.",
     source: "Dinas Kesehatan, Dinas Pendidikan, Dishub",
@@ -75,7 +76,7 @@ const INDICATORS = [
   },
   {
     key: "citizenReports",
-    icon: "📣",
+    icon: <MessageSquareWarning />,
     name: "Laporan Warga",
     desc: "Volume dan frekuensi laporan atau pengaduan warga ke pemerintah. Nilai tinggi = banyak keluhan aktif = kebutuhan respons tinggi.",
     source: "Diskominfo, kanal LAPOR!, aplikasi aduan daerah",
@@ -84,7 +85,7 @@ const INDICATORS = [
   },
   {
     key: "smeActivity",
-    icon: "🏪",
+    icon: <Store />,
     name: "Aktivitas UMKM",
     desc: "Daya hidup usaha kecil dan menengah sebagai cerminan ketahanan ekonomi lokal. Nilai rendah = kerentanan ekonomi = perlu stimulus.",
     source: "Dinas UMKM, Dinas Perindustrian, survei lapangan",
@@ -94,21 +95,21 @@ const INDICATORS = [
 ];
 
 const LIMITATIONS = [
-  { icon: "🔬", text: "Data prototype menggabungkan rujukan publik, data olahan, dan simulasi terbatas; beberapa indikator belum tervalidasi sebagai data resmi." },
-  { icon: "🔌", text: "Belum terhubung ke API atau database pemerintah manapun." },
-  { icon: "🏞", text: "Belum melalui validasi lapangan bersama OPD Kota Semarang." },
-  { icon: "🤖", text: "CivicSense AI menggunakan rule-based template, bukan model AI/ML sungguhan." },
-  { icon: "🧪", text: "Tahap proof of concept — belum diuji pada skala operasional." },
-  { icon: "🗺", text: "Belum terintegrasi visualisasi geospasial / peta interaktif." },
+  { icon: <Microscope />, text: "Data prototype menggabungkan rujukan publik, data olahan, dan simulasi terbatas; beberapa indikator belum tervalidasi sebagai data resmi." },
+  { icon: <PlugZap />, text: "Belum terhubung ke API atau database pemerintah manapun." },
+  { icon: <MapPinned />, text: "Belum melalui validasi lapangan bersama OPD Kota Semarang." },
+  { icon: <Bot />, text: "CivicSense AI menggunakan rule-based template, bukan model AI/ML sungguhan." },
+  { icon: <TestTube />, text: "Tahap proof of concept — belum diuji pada skala operasional." },
+  { icon: <Map />, text: "Belum terintegrasi visualisasi geospasial / peta interaktif." },
 ];
 
 const FUTURE_DEV = [
-  { icon: "🗄", title: "Integrasi Data Resmi", desc: "Koneksi ke Open Data Semarang, BPS API, dan Data OPD secara real-time melalui middleware data." },
-  { icon: "🤝", title: "Validasi Bersama OPD", desc: "Workshop bersama Bappeda, Diskominfo, dan dinas teknis untuk memvalidasi indikator dan bobot scoring." },
-  { icon: "📡", title: "Dashboard Real-Time", desc: "Pembaruan data otomatis berbasis IoT, sensor kota, dan integrasi kanal aduan warga." },
-  { icon: "🧠", title: "AI Policy Recommendation", desc: "Integrasi LLM untuk menghasilkan narasi kebijakan yang lebih kontekstual dan adaptif." },
-  { icon: "📋", title: "Audit Trail Keputusan", desc: "Pencatatan historis setiap perubahan bobot dan prioritas untuk akuntabilitas pengambilan keputusan." },
-  { icon: "📱", title: "Integrasi Kanal Aduan Warga", desc: "Sinkronisasi dengan LAPOR!, SP4N, dan aplikasi aduan lokal untuk memperkaya indikator laporan warga." },
+  { icon: <Database />, title: "Integrasi Data Resmi", desc: "Koneksi ke Open Data Semarang, BPS API, dan Data OPD secara real-time melalui middleware data." },
+  { icon: <Users />, title: "Validasi Bersama OPD", desc: "Workshop bersama Bappeda, Diskominfo, dan dinas teknis untuk memvalidasi indikator dan bobot scoring." },
+  { icon: <Radio />, title: "Dashboard Real-Time", desc: "Pembaruan data otomatis berbasis IoT, sensor kota, dan integrasi kanal aduan warga." },
+  { icon: <BrainCircuit />, title: "AI Policy Recommendation", desc: "Integrasi LLM untuk menghasilkan narasi kebijakan yang lebih kontekstual dan adaptif." },
+  { icon: <ClipboardList />, title: "Audit Trail Keputusan", desc: "Pencatatan historis setiap perubahan bobot dan prioritas untuk akuntabilitas pengambilan keputusan." },
+  { icon: <Smartphone />, title: "Integrasi Kanal Aduan Warga", desc: "Sinkronisasi dengan LAPOR!, SP4N, dan aplikasi aduan lokal untuk memperkaya indikator laporan warga." },
 ];
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -153,7 +154,7 @@ export default function MethodologyPage() {
       {/* ── 1. Prototype Data Notice ─────────────────────────────────── */}
       <div className="rounded-2xl border border-amber-200 bg-amber-50 px-6 py-5">
         <div className="flex items-start gap-3">
-          <span className="text-2xl shrink-0">⚠️</span>
+          <TriangleAlert size={28} className="text-amber-600 shrink-0" />
           <div className="space-y-1">
             <p className="text-sm font-bold text-amber-900">Catatan Data Prototype</p>
             <p className="text-sm leading-relaxed text-amber-800">
@@ -176,10 +177,10 @@ export default function MethodologyPage() {
           {DATA_SOURCES.map((src) => (
             <div
               key={src.name}
-              className="rounded-xl border border-civic-line bg-white p-4 shadow-sm space-y-2 hover:border-civic-primary/30 hover:shadow-md transition"
+              className="rounded-xl border border-civic-line bg-civic-surface p-4 shadow-sm space-y-2 hover:border-civic-primary/30 hover:shadow-md transition"
             >
               <div className="flex items-center justify-between gap-2">
-                <span className="text-xl">{src.icon}</span>
+                <span className="text-civic-primary shrink-0 [&>svg]:w-6 [&>svg]:h-6">{src.icon}</span>
                 <span className="rounded-full border border-civic-line bg-civic-soft px-2 py-0.5 text-xs font-medium text-civic-muted">
                   {src.tag}
                 </span>
@@ -208,7 +209,7 @@ export default function MethodologyPage() {
             Resmi — rujukan langsung dari instansi pemerintah
           </span>
         </div>
-        <div className="rounded-xl border border-civic-line bg-white shadow-sm overflow-x-auto">
+        <div className="rounded-xl border border-civic-line bg-civic-surface shadow-sm overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-civic-line bg-civic-soft text-left">
@@ -254,10 +255,10 @@ export default function MethodologyPage() {
           {INDICATORS.map((ind) => (
             <div
               key={ind.key}
-              className="rounded-xl border border-civic-line bg-white p-5 shadow-sm space-y-3"
+              className="rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm space-y-3"
             >
               <div className="flex items-center gap-2">
-                <span className="text-2xl">{ind.icon}</span>
+                <span className="text-civic-primary shrink-0 [&>svg]:w-6 [&>svg]:h-6">{ind.icon}</span>
                 <div>
                   <p className="text-sm font-bold text-civic-ink">{ind.name}</p>
                   <span className="text-xs font-semibold text-civic-primary">
@@ -270,8 +271,8 @@ export default function MethodologyPage() {
                 <span className="font-semibold text-civic-ink">Sumber: </span>{ind.source}
               </div>
               {ind.inverted && (
-                <div className="inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700">
-                  🔄 Logika Terbalik
+                <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700">
+                  <RefreshCcw size={12} /> Logika Terbalik
                 </div>
               )}
             </div>
@@ -302,7 +303,7 @@ export default function MethodologyPage() {
         </div>
 
         {/* Category thresholds */}
-        <div className="rounded-xl border border-civic-line bg-white p-6 shadow-sm">
+        <div className="rounded-xl border border-civic-line bg-civic-surface p-6 shadow-sm">
           <p className="text-xs font-bold uppercase tracking-wider text-civic-muted mb-4">Kategori Prioritas</p>
           <div className="grid gap-3 sm:grid-cols-3">
             {[
@@ -323,7 +324,7 @@ export default function MethodologyPage() {
         </div>
 
         {/* General mode weights table */}
-        <div className="rounded-xl border border-civic-line bg-white p-6 shadow-sm overflow-x-auto">
+        <div className="rounded-xl border border-civic-line bg-civic-surface p-6 shadow-sm overflow-x-auto">
           <p className="text-xs font-bold uppercase tracking-wider text-civic-muted mb-4">
             Distribusi Bobot — Mode General Priority
           </p>
@@ -352,8 +353,8 @@ export default function MethodologyPage() {
                   </td>
                   <td className="py-2.5 text-center">
                     {row.inv ? (
-                      <span className="rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 text-xs font-semibold text-amber-700">
-                        🔄 Terbalik
+                      <span className="inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 text-xs font-semibold text-amber-700">
+                        <RefreshCcw size={12} /> Terbalik
                       </span>
                     ) : (
                       <span className="rounded-full border border-gray-200 bg-gray-50 px-2 py-0.5 text-xs text-gray-500">
@@ -384,19 +385,19 @@ export default function MethodologyPage() {
           CIVICTWIN mengadopsi pendekatan dua lapis (two-layer approach) untuk perencanaan dan respons bencana.
         </p>
         <div className="grid gap-4 sm:grid-cols-2 mt-4">
-          <div className="rounded-xl border border-civic-line bg-white p-5 shadow-sm space-y-3">
-            <h3 className="font-bold text-civic-ink">📊 Priority Score</h3>
+          <div className="rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm space-y-3">
+            <h3 className="font-bold text-civic-ink flex items-center gap-1.5"><BarChart3 size={18} /> Priority Score</h3>
             <p className="text-sm text-civic-muted"><strong>Tujuan:</strong> Perencanaan kebijakan jangka panjang dan alokasi anggaran tahunan.</p>
             <p className="text-sm text-civic-muted"><strong>Karakteristik:</strong> Menggunakan 6 indikator komposit (Banjir, Kepadatan, Kerentanan Sosial, Layanan Publik, Laporan Warga, UMKM). Bobot dapat disimulasikan sesuai fokus kebijakan.</p>
           </div>
           <div className="rounded-xl border border-red-200 bg-red-50/50 p-5 shadow-sm space-y-3">
-            <h3 className="font-bold text-red-700">🚨 Emergency Review Score</h3>
+            <h3 className="font-bold text-red-700 flex items-center gap-1.5"><TriangleAlert size={18} /> Emergency Review Score</h3>
             <p className="text-sm text-civic-muted"><strong>Tujuan:</strong> Prioritas tinjauan darurat lapangan saat ada indikasi bencana (misal: curah hujan ekstrim, rob naik).</p>
             <p className="text-sm text-civic-muted"><strong>Karakteristik:</strong> Bersifat taktis dan berfokus pada keselamatan jiwa. Memiliki formula tetap untuk respons cepat.</p>
           </div>
         </div>
 
-        <div className="mt-5 rounded-xl border border-red-100 bg-white p-6 shadow-sm overflow-x-auto">
+        <div className="mt-5 rounded-xl border border-red-100 bg-civic-surface p-6 shadow-sm overflow-x-auto">
           <p className="text-xs font-bold uppercase tracking-wider text-red-600 mb-4">
             Formula Emergency Review Score (Taktis)
           </p>
@@ -456,7 +457,7 @@ export default function MethodologyPage() {
             const topLabel = INDICATOR_LABELS[topEntry[0] as keyof typeof INDICATOR_LABELS];
             const topPct   = Math.round(topEntry[1] * 100);
             return (
-              <div key={mode.id} className="rounded-xl border border-civic-line bg-white p-4 shadow-sm space-y-2">
+              <div key={mode.id} className="rounded-xl border border-civic-line bg-civic-surface p-4 shadow-sm space-y-2">
                 <p className="text-sm font-bold text-civic-ink">{mode.label}</p>
                 <p className="text-xs leading-relaxed text-civic-muted">{mode.description}</p>
                 <div className="flex items-center gap-2 pt-1">
@@ -500,33 +501,33 @@ export default function MethodologyPage() {
         </p>
         
         <div className="grid gap-4 sm:grid-cols-2 mt-5">
-          <div className="rounded-xl border border-civic-line bg-white p-5 shadow-sm space-y-2">
+          <div className="rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm space-y-2">
             <h3 className="text-sm font-bold text-civic-ink flex items-center gap-2">
-              <span className="text-xl">🧑‍⚖️</span> Human-in-the-loop Validation
+              <span className="text-civic-primary shrink-0"><UserCheck size={20} /></span> Human-in-the-loop Validation
             </h3>
             <p className="text-xs leading-relaxed text-civic-muted">
               Setiap rekomendasi kebijakan atau status laporan dari AI harus divalidasi oleh manusia/OPD terkait sebelum tindakan nyata dilakukan.
             </p>
           </div>
-          <div className="rounded-xl border border-civic-line bg-white p-5 shadow-sm space-y-2">
+          <div className="rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm space-y-2">
             <h3 className="text-sm font-bold text-civic-ink flex items-center gap-2">
-              <span className="text-xl">🛡️</span> Personal Data Protection
+              <span className="text-civic-primary shrink-0"><ShieldCheck size={20} /></span> Personal Data Protection
             </h3>
             <p className="text-xs leading-relaxed text-civic-muted">
               Data pribadi pelapor (nama, NIK, alamat presisi) harus disamarkan (anonymized) sebelum diproses oleh sistem analisis publik.
             </p>
           </div>
-          <div className="rounded-xl border border-civic-line bg-white p-5 shadow-sm space-y-2">
+          <div className="rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm space-y-2">
             <h3 className="text-sm font-bold text-civic-ink flex items-center gap-2">
-              <span className="text-xl">🏛️</span> Public Complaint Procedure
+              <span className="text-civic-primary shrink-0"><Building size={20} /></span> Public Complaint Procedure
             </h3>
             <p className="text-xs leading-relaxed text-civic-muted">
               Integrasi nyata wajib mengikuti kanal resmi pengaduan pemerintah (SP4N-LAPOR) dan prosedur operasional standar pemerintah kota.
             </p>
           </div>
-          <div className="rounded-xl border border-civic-line bg-white p-5 shadow-sm space-y-2">
+          <div className="rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm space-y-2">
             <h3 className="text-sm font-bold text-civic-ink flex items-center gap-2">
-              <span className="text-xl">🔗</span> SPBE & Satu Data Alignment
+              <span className="text-civic-primary shrink-0"><LinkIcon size={20} /></span> SPBE & Satu Data Alignment
             </h3>
             <p className="text-xs leading-relaxed text-civic-muted">
               Sistem mendukung interoperabilitas dan tata kelola data pemerintahan digital sesuai prinsip SPBE dan Satu Data Indonesia.
@@ -539,7 +540,7 @@ export default function MethodologyPage() {
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="rounded-lg border border-green-200 bg-green-50 p-4">
               <p className="text-xs font-bold text-green-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                <span>✅</span> AI Boleh (Diizinkan)
+                <CheckCircle2 size={16} /> AI Boleh (Diizinkan)
               </p>
               <ul className="space-y-1.5 text-xs text-green-900">
                 <li>• Mengklasifikasi kategori laporan</li>
@@ -552,7 +553,7 @@ export default function MethodologyPage() {
             </div>
             <div className="rounded-lg border border-red-200 bg-red-50 p-4">
               <p className="text-xs font-bold text-red-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                <span>❌</span> AI TIDAK Boleh (Dilarang Keras)
+                <XCircle size={16} /> AI TIDAK Boleh (Dilarang Keras)
               </p>
               <ul className="space-y-1.5 text-xs text-red-900">
                 <li>• Mengambil keputusan final pemerintahan</li>
@@ -583,9 +584,9 @@ export default function MethodologyPage() {
           {FUTURE_DEV.map((item, i) => (
             <div
               key={item.title}
-              className="relative rounded-xl border border-civic-line bg-white p-5 shadow-sm space-y-2 overflow-hidden"
+              className="relative rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm space-y-2 overflow-hidden"
             >
-              <div aria-hidden className="absolute top-0 right-0 text-5xl opacity-5 leading-none pr-3 pt-2">
+              <div aria-hidden className="absolute top-0 right-0 opacity-5 leading-none pr-3 pt-2 [&>svg]:w-12 [&>svg]:h-12">
                 {item.icon}
               </div>
               <div className="flex items-center gap-2">
@@ -601,18 +602,21 @@ export default function MethodologyPage() {
       </MethodSection>
 
       {/* ── CTA ─────────────────────────────────────────────────────── */}
-      <section className="flex flex-wrap items-center gap-3 rounded-2xl border border-civic-line bg-white p-6 shadow-sm">
+      <section className="flex flex-wrap items-center gap-3 rounded-2xl border border-civic-line bg-civic-surface p-6 shadow-sm">
         <div className="flex-1 min-w-[200px]">
           <p className="text-sm font-bold text-civic-ink">Siap untuk eksplorasi lebih lanjut?</p>
           <p className="text-xs text-civic-muted mt-0.5">Gunakan Dashboard, Simulator, atau Policy Brief untuk menjelajahi sistem.</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Link to="/dashboard"  className={buttonClasses("primary")}>📊 Dashboard Kota</Link>
-          <Link to="/simulator"  className={buttonClasses("secondary")}>⚖️ Policy Simulator</Link>
-          <Link to="/policy-brief" className={buttonClasses("secondary")}>✨ AI Policy Brief</Link>
-          <Link to="/public"     className={buttonClasses("secondary")}>🌐 Transparansi Publik</Link>
+          <Link to="/dashboard"  className={classNames(buttonClasses("primary"), "gap-2")}><BarChart3 size={16} /> Dashboard Kota</Link>
+          <Link to="/simulator"  className={classNames(buttonClasses("secondary"), "gap-2")}><SlidersHorizontal size={16} /> Policy Simulator</Link>
+          <Link to="/policy-brief" className={classNames(buttonClasses("secondary"), "gap-2")}><Sparkles size={16} /> AI Policy Brief</Link>
+          <Link to="/public"     className={classNames(buttonClasses("secondary"), "gap-2")}><Globe2 size={16} /> Transparansi Publik</Link>
         </div>
       </section>
     </div>
   );
 }
+
+
+

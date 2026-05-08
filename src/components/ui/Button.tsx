@@ -10,7 +10,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 const variantClasses: Record<ButtonVariant, string> = {
   primary: "border-civic-primary bg-civic-primary text-white hover:bg-teal-800",
   secondary:
-    "border-civic-line bg-white text-civic-ink hover:border-civic-primary hover:bg-slate-50",
+    "border-civic-line bg-civic-surface text-civic-ink hover:border-civic-primary hover:bg-civic-soft",
 };
 
 export function buttonClasses(variant: ButtonVariant = "primary") {
@@ -33,3 +33,6 @@ export default function Button({
     />
   );
 }
+
+
+

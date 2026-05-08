@@ -8,12 +8,12 @@ export default function ChartPlaceholder({
   description,
 }: ChartPlaceholderProps) {
   return (
-    <div className="rounded-lg border border-civic-line bg-white p-5 shadow-sm">
+    <div className="rounded-lg border border-civic-line bg-civic-surface p-5 shadow-sm">
       <div className="flex flex-col gap-1">
         <p className="text-sm font-semibold text-civic-ink">{title}</p>
         <p className="text-sm leading-6 text-civic-muted">{description}</p>
       </div>
-      <div className="mt-5 h-48 rounded-md border border-dashed border-civic-line bg-[linear-gradient(180deg,#FFFFFF_0%,#F3F6F8_100%)] p-4">
+      <div className="mt-5 h-48 rounded-md border border-dashed border-civic-line bg-[linear-gradient(180deg,#FFFDF8_0%,#EFE7DA_100%)] p-4">
         <div className="flex h-full items-end gap-3">
           {[45, 68, 38, 76, 54, 62].map((height, index) => (
             <div
@@ -28,3 +28,6 @@ export default function ChartPlaceholder({
     </div>
   );
 }
+
+
+

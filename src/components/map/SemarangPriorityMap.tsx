@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Info } from "lucide-react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { divIcon } from "leaflet";
@@ -148,10 +149,13 @@ export default function SemarangPriorityMap({ regions }: { regions: ScoredRegion
 
       {/* Catatan Bawah & Fallback Note */}
       <div className="rounded-lg bg-civic-soft/50 p-3 text-xs leading-relaxed text-civic-muted border border-civic-line/50">
-        <strong>ℹ️ Disclaimer Konseptual:</strong> Peta ini merupakan representasi spasial prototype berbasis titik tengah (centroid) kecamatan, bukan peta GIS resmi. Pada implementasi nyata, sistem dapat dikembangkan menggunakan batas administrasi poligon resmi dan terintegrasi data geospasial pemerintah.
+        <strong className="flex items-center gap-1.5"><Info size={14} /> Disclaimer Konseptual:</strong> Peta ini merupakan representasi spasial prototype berbasis titik tengah (centroid) kecamatan, bukan peta GIS resmi. Pada implementasi nyata, sistem dapat dikembangkan menggunakan batas administrasi poligon resmi dan terintegrasi data geospasial pemerintah.
         <br/>
         <span className="mt-1 block opacity-80">Jika peta gagal dimuat (layar abu-abu), pastikan koneksi internet aktif. Data prioritas tetap dapat diakses via tabel dan skor.</span>
       </div>
     </div>
   );
 }
+
+
+

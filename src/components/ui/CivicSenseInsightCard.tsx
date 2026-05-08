@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Sparkles, Lightbulb, Bot } from "lucide-react";
 import { classNames } from "../../utils/classNames";
 import { AI_DISCLAIMER } from "../../utils";
 import type { AIInsight } from "../../utils";
@@ -72,7 +73,7 @@ function AILoadingShimmer() {
 
 export default function CivicSenseInsightCard({
   getInsight,
-  triggerLabel = "✨ Explain Priority with CivicSense AI",
+  triggerLabel = "Explain Priority with CivicSense AI",
   autoShow = false,
   compact = false,
   className,
@@ -117,15 +118,15 @@ export default function CivicSenseInsightCard({
             "group inline-flex items-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-semibold transition",
             shown
               ? "border-civic-primary/40 bg-civic-primary/5 text-civic-primary"
-              : "border-civic-line bg-white text-civic-ink shadow-sm hover:border-civic-primary/40 hover:bg-civic-soft"
+              : "border-civic-line bg-civic-surface text-civic-ink shadow-sm hover:border-civic-primary/40 hover:bg-civic-soft"
           )}
         >
-          <span className="text-base">✨</span>
+          <Sparkles size={16} />
           {loading
             ? "Menganalisis data wilayah..."
             : shown
             ? "Sembunyikan AI Insight"
-            : triggerLabel.replace("✨ ", "")}
+            : triggerLabel}
           {!loading && (
             <span className={classNames(
               "ml-1 transition-transform",
@@ -164,7 +165,7 @@ export default function CivicSenseInsightCard({
             )}
           >
             <div className="flex items-start gap-2.5">
-              <span className="shrink-0 text-lg">✨</span>
+              <Sparkles className="shrink-0" size={20} />
               <div>
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="text-xs font-bold uppercase tracking-widest text-white/60">
@@ -187,7 +188,7 @@ export default function CivicSenseInsightCard({
           </div>
 
           {/* Body */}
-          <div className="bg-white px-5 py-4 space-y-3">
+          <div className="bg-civic-surface px-5 py-4 space-y-3">
             <p className="text-sm leading-relaxed text-civic-ink">{insight.body}</p>
 
             {/* Bullets (hidden in compact mode) */}
@@ -209,7 +210,7 @@ export default function CivicSenseInsightCard({
                 cfg.cta
               )}
             >
-              <span className="font-bold">💡 Saran Tindakan Awal: </span>
+              <span className="font-bold flex items-center gap-1.5 mb-1"><Lightbulb size={14} className="shrink-0" /> Saran Tindakan Awal: </span>
               {insight.callToAction}
             </div>
 
@@ -217,9 +218,9 @@ export default function CivicSenseInsightCard({
             <div className="border-t border-civic-line pt-2">
               <button
                 onClick={() => setShowDisclaimer((p) => !p)}
-                className="text-xs text-civic-muted hover:text-civic-primary transition-colors"
+                className="text-xs text-civic-muted hover:text-civic-primary transition-colors flex items-center gap-1.5"
               >
-                🤖 {showDisclaimer ? "Sembunyikan" : "Lihat"} keterangan CivicSense AI
+                <Bot size={14} /> {showDisclaimer ? "Sembunyikan" : "Lihat"} keterangan CivicSense AI
               </button>
               {showDisclaimer && (
                 <p className="mt-1.5 text-xs leading-relaxed text-civic-muted/70 italic">
@@ -233,3 +234,6 @@ export default function CivicSenseInsightCard({
     </div>
   );
 }
+
+
+

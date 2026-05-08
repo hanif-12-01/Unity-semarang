@@ -11,3 +11,6 @@ export default function InfoPanel({ title, description }: InfoPanelProps) {
     </aside>
   );
 }
+
+
+
