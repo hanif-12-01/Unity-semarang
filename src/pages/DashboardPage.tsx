@@ -280,7 +280,7 @@ export default function DashboardPage() {
       <section id="priority-map" className="rounded-xl border border-civic-line bg-white p-6 shadow-sm">
         <div className="mb-5">
           <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
-            Spatial Intelligence
+            Spatial Digital Twin
           </p>
           <h2 className="mt-1 text-base font-semibold text-civic-ink">
             Priority Map Semarang
