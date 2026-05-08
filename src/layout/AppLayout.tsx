@@ -11,11 +11,13 @@ import {
   PlayCircle, 
   TriangleAlert, 
   Sparkles, 
-  ChevronDown 
+  ChevronDown,
+  UserCircle
 } from "lucide-react";
 import { NavLink, Outlet, Link, useLocation } from "react-router-dom";
 import { classNames } from "../utils/classNames";
 import { mockRegions } from "../data/mockData";
+import civictwinLogo from "../assets/brand/civictwin-logo.png";
 
 // ─── Default Regions ──────────────────────────────────────────────────────────
 const fallbackRegionId = mockRegions[0]?.id || "semarang-utara";
@@ -49,8 +51,13 @@ const DEMO_FLOW = [
 
 export default function AppLayout() {
   const [showDemo, setShowDemo] = useState(false);
+  const [demoRole, setDemoRole] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
+
+  useEffect(() => {
+    setDemoRole(localStorage.getItem("civictwin_demo_role"));
+  }, []);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -74,13 +81,20 @@ export default function AppLayout() {
       <header className="sticky top-0 z-50 border-b border-civic-line bg-civic-surface/95 backdrop-blur-sm shadow-sm">
         {/* Top Brand Row */}
         <div className="mx-auto flex max-w-[1500px] flex-col gap-3 px-5 py-3 md:flex-row md:items-center md:justify-between lg:px-8">
-          <Link to="/" className="group inline-block">
-            <h1 className="text-xl font-bold text-civic-ink tracking-tight flex items-baseline gap-2 group-hover:text-civic-primary transition">
-              CIVICTWIN <span className="text-civic-primary text-sm">Semarang</span>
-            </h1>
-            <p className="text-xs font-semibold text-civic-muted tracking-wide uppercase mt-0.5">
-              Central Java Civic Intelligence
-            </p>
+          <Link to="/" className="group flex items-center gap-3">
+            <img 
+              src={civictwinLogo} 
+              alt="CIVICTWIN Semarang Logo" 
+              className="h-9 object-contain md:h-10 transition group-hover:opacity-90"
+            />
+            <div>
+              <h1 className="text-xl font-bold text-civic-ink tracking-tight flex items-baseline gap-2 group-hover:text-civic-primary transition">
+                CIVICTWIN <span className="text-civic-primary text-sm">Semarang</span>
+              </h1>
+              <p className="text-xs font-semibold text-civic-muted tracking-wide uppercase mt-0.5">
+                Central Java Civic Intelligence
+              </p>
+            </div>
           </Link>
           <div className="flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-1.5 rounded border border-civic-brick/25 bg-civic-brick/5 px-2.5 py-1 text-[11px] font-semibold text-civic-brick">
@@ -89,6 +103,16 @@ export default function AppLayout() {
             <span className="inline-flex items-center gap-1.5 rounded border border-civic-primary/20 bg-civic-primary/5 px-2.5 py-1 text-[11px] font-semibold text-civic-primary">
               <Sparkles size={14} /> CivicSense Policy Assistant
             </span>
+            {demoRole && (
+              <div className="flex items-center gap-2 ml-2 border-l border-civic-line pl-4">
+                <span className="inline-flex items-center gap-1.5 rounded border border-civic-gold/30 bg-civic-gold/10 px-2.5 py-1 text-[11px] font-semibold text-civic-ink">
+                  <UserCircle size={14} className="text-civic-gold" /> Demo Access: <span className="font-bold">{demoRole}</span>
+                </span>
+                <Link to="/login" className="text-[10px] font-medium text-civic-muted hover:text-civic-primary transition-colors hover:underline">
+                  Ganti Role
+                </Link>
+              </div>
+            )}
           </div>
         </div>
 

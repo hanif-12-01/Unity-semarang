@@ -8,10 +8,12 @@ import PolicySimulatorPage from "./pages/PolicySimulatorPage";
 import PublicTransparencyPage from "./pages/PublicTransparencyPage";
 import RegionDetailPage from "./pages/RegionDetailPage";
 import CitizenReportsPage from "./pages/CitizenReportsPage";
+import LoginPage from "./pages/LoginPage";
 
 export default function App() {
   return (
     <Routes>
+      <Route path="/login" element={<LoginPage />} />
       <Route element={<AppLayout />}>
         <Route index element={<LandingPage />} />
         <Route path="dashboard" element={<DashboardPage />} />

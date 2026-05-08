@@ -225,6 +225,12 @@ export default function PublicTransparencyPage() {
         <div aria-hidden className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-civic-primary opacity-15 blur-3xl" />
         <div aria-hidden className="pointer-events-none absolute -bottom-16 left-10 h-56 w-56 rounded-full bg-civic-secondary opacity-10 blur-2xl" />
 
+        {/* Semarang Landmark Identity */}
+        <div
+          className="absolute inset-y-0 right-0 w-full md:w-2/3 bg-no-repeat bg-right-bottom opacity-10 pointer-events-none mix-blend-screen"
+          style={{ backgroundImage: "url('/semarang-landmark.png')", backgroundSize: "contain" }}
+        />
+
         <div className="relative">
           {/* Public badge */}
           <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold">

@@ -90,6 +90,12 @@ export default function LandingPage() {
         {/* Subtle batik-stripes pattern */}
         <div className="absolute inset-0 bg-batik-stripes opacity-10 pointer-events-none" />
 
+        {/* Semarang Landmark Identity */}
+        <div
+          className="absolute inset-y-0 right-0 w-2/3 bg-no-repeat bg-right-bottom opacity-[0.08] pointer-events-none mix-blend-screen"
+          style={{ backgroundImage: "url('/semarang-landmark.png')", backgroundSize: "contain" }}
+        />
+
         {/* Decorative blobs — coastal teal + terracotta for Semarang identity */}
         <div
           aria-hidden
@@ -125,14 +131,14 @@ export default function LandingPage() {
 
         <div className="mt-8 flex flex-wrap gap-3">
           <Link
-            id="cta-dashboard"
-            to="/dashboard"
+            id="cta-login"
+            to="/login"
             className={classNames(
               buttonClasses("primary"),
               "bg-civic-primary border-civic-primary hover:bg-teal-700 hover:border-teal-700 text-white px-6 py-2.5"
             )}
           >
-            Masuk Dashboard →
+            Masuk Mode Demo →
           </Link>
           <Link
             id="cta-public"
