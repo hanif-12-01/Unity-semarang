@@ -1,129 +1,84 @@
-# CIVICTWIN Semarang — Demo Script
-**Lomba Smart City UNY 2026**  
-Durasi estimasi: **5–7 menit**
+# Panduan Presentasi Demo CIVICTWIN Semarang
+**Durasi Optimal:** 5–7 Menit
+**Tujuan:** Mendemonstrasikan kapabilitas prototipe di hadapan dewan juri.
 
 ---
 
-## Persiapan Sebelum Demo
+## 1. Opening (30 Detik)
+**Tindakan:** Tampilkan layar awal (Landing Page).
+**Narasi Presenter:**
+*"Selamat pagi Dewan Juri. Dalam pengelolaan kota, pimpinan sering kali terhambat oleh data sektoral yang tersebar. Saat ribuan laporan warga masuk dari berbagai kelurahan, sangat sulit untuk menentukan prioritas wilayah secara lintas OPD. Selain itu, setiap kebijakan yang diambil membutuhkan landasan data yang transparan dan dapat dipertanggungjawabkan kepada publik."*
 
-- [ ] Buka terminal, jalankan `npm run dev`
-- [ ] Buka browser di `http://localhost:5173`
-- [ ] Resolusi minimal: 1280 × 720 (ideal: 1920 × 1080)
-- [ ] Zoom browser: 80–90% agar semua konten terlihat
-- [ ] Buka **Demo Flow panel** di sidebar kiri (klik tombol "🎬 Demo Flow")
-- [ ] Siapkan tab: Landing → Dashboard → Genuk → Simulator → Policy Brief → Publik → Metodologi
-
----
-
-## 🎬 Narasi Demo
+## 2. Product Positioning (30 Detik)
+**Tindakan:** Arahkan kursor ke tombol "Masuk Mode Demo".
+**Narasi Presenter:**
+*"Untuk menjawab tantangan tersebut, kami menghadirkan CIVICTWIN Semarang. CIVICTWIN adalah civic intelligence platform berbasis digital twin kecamatan, yang dirancang untuk membantu pemerintah kota membaca prioritas wilayah, memetakan laporan masyarakat, mensimulasikan kebijakan, sekaligus membuka keran transparansi publik."*
 
 ---
 
-### [00:00 — 00:45] Pembukaan & Problem Statement
+## 3. Demo Flow (5–7 Menit)
 
-*(Tampilkan: Landing Page — `/`)*
+### A. Login / Role Selection
+**Tindakan:** Klik tombol "Masuk Mode Demo" untuk membuka `/login`.
+**Penjelasan:** Memperlihatkan bahwa sistem ini dirancang untuk multi-aktor.
+**Narasi Presenter:**
+*"Platform ini dirancang lintas OPD. Di halaman ini, kita dapat melihat bahwa akses aplikasi menyesuaikan peran aktornya—baik itu Walikota/Pimpinan, Analis Bappeda, Operator OPD, hingga petugas Kelurahan. Untuk demo ini, mari kita asumsikan kita login sebagai Executive Viewer (Pimpinan Daerah)."*
 
-> "Selamat pagi/siang, Bapak/Ibu juri. Kami mempersembahkan **CIVICTWIN Semarang** — sebuah prototype Decision Support System berbasis digital twin untuk membantu pemerintah kota dalam pengambilan keputusan berbasis data."
+### B. Command Center Dashboard & C. Priority Map Semarang
+**Tindakan:** Klik kartu "Executive Viewer", lalu masuk ke halaman Dashboard Utama. Sorot peta wilayah dan panel sebelah kanan.
+**Penjelasan:** Memberikan gambaran ringkas (*snapshot*) operasional kota dan pemetaan geospasial prioritas interaktif.
+**Narasi Presenter:**
+*"Kita sekarang berada di Command Center. Alih-alih menyajikan angka mentah, CIVICTWIN memetakan prioritas kecamatan melalui Priority Map berbasis spasial. Pimpinan bisa langsung melihat area mana yang berwarna merah, menandakan perlunya intervensi segera berdasarkan gabungan indeks risiko bencana, laporan warga, dan kerentanan sosial. Di panel kanan, sistem juga memantau sinyal kedaruratan yang aktif."*
 
-> "Masalah yang kami angkat sederhana namun krusial. Pertama: **data kota masih tersebar** di berbagai dinas tanpa satu titik integrasi. Kedua: **prioritas kebijakan sulit dijelaskan secara transparan** kepada publik. Dan ketiga: **koordinasi lintas OPD** membutuhkan platform bersama agar lebih efisien."
+### D. Citizen Reports (Laporan Warga)
+**Tindakan:** Klik menu "Reports" di navigasi atas.
+**Penjelasan:** Memperlihatkan agregasi dan intelijen keluhan warga.
+**Narasi Presenter:**
+*"Bagaimana dengan suara warga? Di menu Reports, aplikasi mengagregasi keluhan masuk. Kami memiliki modul CivicSense AI sebagai asisten—bukan pengambil keputusan. Asisten ini secara otomatis memberikan klasifikasi awal terkait urgensi laporan, sehingga OPD terkait bisa bekerja jauh lebih cepat dalam menyaring dan menindaklanjuti keluhan tanpa harus membaca ribuan teks secara manual."*
 
-> *(scroll ke bawah ke bagian Solusi)* "CIVICTWIN menjawab ketiga tantangan ini melalui lima pilar: digital twin wilayah, priority score engine, policy simulator, CivicSense AI, dan portal transparansi publik."
+### E. Detail Wilayah + Issue Hotspots
+**Tindakan:** Kembali ke Peta (Dashboard), klik salah satu marker merah (misal: Semarang Utara) untuk masuk ke Region Detail.
+**Penjelasan:** Melakukan *drill-down* informasi detail suatu kecamatan dan melihat titik masalah.
+**Narasi Presenter:**
+*"Jika pimpinan butuh detail, kita bisa mengklik suatu wilayah. Di laman detail ini, kita dapat melihat metrik spesifik kecamatan dan sebaran Issue Hotspots. Titik-titik ini memandu petugas lapangan kecamatan untuk langsung menuju area bermasalah, memangkas waktu survei."*
 
----
+### F. Policy Simulator
+**Tindakan:** Klik menu "Simulator" di navigasi atas. Ubah tuas (slider) prioritas (misal: naikkan Anggaran Infrastruktur).
+**Penjelasan:** Menunjukkan kapabilitas pengambilan keputusan strategis (*Decision Support*).
+**Narasi Presenter:**
+*"Salah satu fitur unggulan kami adalah Policy Simulator. Saat Bappeda sedang merancang anggaran, mereka dapat mengubah parameter bobot kebijakan di sini. Saat parameter diubah, sistem akan mensimulasikan ulang skor prioritas wilayah. Ini membantu pemerintah memprediksi dampak kebijakan sebelum regulasi atau anggaran tersebut benar-benar disahkan."*
 
-### [00:45 — 01:30] Dashboard Kota — Ranking Wilayah
+### G. AI-assisted Policy Brief
+**Tindakan:** Klik tombol "Generate Brief" (atau masuk ke menu Policy Brief).
+**Penjelasan:** Pembuatan naskah akademis/ringkasan kebijakan secara instan.
+**Narasi Presenter:**
+*"Setelah melakukan simulasi, asisten cerdas kita dapat menyusun 'AI-assisted Policy Brief'. Ini adalah dokumen ringkasan eksekutif draf otomatis yang menjabarkan hasil simulasi beserta rekomendasi tindak lanjut. Tentu saja, dokumen ini membutuhkan validasi manusia sebelum ditandatangani, namun kehadirannya memangkas waktu kerja birokrasi dari berhari-hari menjadi hitungan detik."*
 
-*(Klik: Dashboard Kota — `/dashboard`)*
+### H. Public Transparency
+**Tindakan:** Klik menu "Public" (Log out lalu masuk ke mode Public Viewer jika diperlukan, atau langsung klik).
+**Penjelasan:** Sudut pandang warga terhadap performa kota.
+**Narasi Presenter:**
+*"Transparansi adalah kunci *smart city*. Melalui laman Public Transparency, masyarakat umum dapat melihat ringkasan kinerja pemerintah, status penanganan laporan, dan prioritas kota. Data ini telah disaring (anonymized) sehingga tidak mengekspos data pribadi maupun data sensitif internal OPD."*
 
-> "Ini adalah **Dashboard Kota** — tampilan pertama yang akan dilihat pejabat pemerintah."
-
-> "Secara sekilas, kita bisa melihat: dari 6 kecamatan dalam prototype ini, terdapat 2 wilayah dengan prioritas tinggi yang membutuhkan intervensi segera. Rata-rata priority score kota adalah 63 dari skala 100."
-
-> *(tunjuk bar chart)* "Bar chart ini menunjukkan perbandingan Priority Score secara visual. Semarang Utara berada di puncak dengan skor 81, diikuti Genuk dengan 76 — keduanya berstatus Prioritas Tinggi dan ditandai merah."
-
-> "Dari sini, pejabat langsung tahu: **mana yang harus diutamakan**, tanpa perlu membaca laporan tebal dari masing-masing dinas."
-
----
-
-### [01:30 — 02:30] Detail Wilayah — Digital Twin Genuk
-
-*(Klik: Detail Wilayah — `/regions/genuk`)*
-
-> "Mari kita lihat detail Genuk — wilayah dengan skor 76. Ini adalah representasi **digital twin** kecamatan Genuk."
-
-> "Di sini kita bisa melihat 6 indikator kunci secara langsung. Risiko banjir/rob-nya **91 dari 100** — sangat kritis. Laporan warga aktif **88**. Kerentanan sosial **75**. Artinya, wilayah ini mengalami tekanan dari berbagai arah secara bersamaan."
-
-> *(scroll ke AI Insight Card)* "Yang menarik adalah fitur **CivicSense AI**. Klik tombol ini..."
-
-> *(klik tombol 'Explain Priority with CivicSense AI')* "...dan sistem secara otomatis menghasilkan narasi mengapa Genuk menjadi prioritas tinggi, tanpa perlu seorang analis menulis laporan manual. Ini adalah bentuk AI sebagai *policy co-pilot*."
-
----
-
-### [02:30 — 03:15] Policy Simulator — Simulasi Fokus Kebijakan
-
-*(Klik: Policy Simulator — `/simulator`)*
-
-> "Fitur selanjutnya yang kami banggakan: **Policy Simulator**."
-
-> "Di sini pemerintah bisa bertanya: *'Bagaimana jika tahun ini kita fokuskan anggaran ke penanganan banjir?'* Pilih mode **Fokus Banjir/Rob**..."
-
-> *(klik Fokus Banjir/Rob)* "...dan lihat — ranking wilayah berubah secara real-time. Genuk naik ke posisi pertama karena risiko banjirnya paling tinggi. Tugu juga ikut naik. Sementara Banyumanik, yang risikonya rendah, turun ke bawah."
-
-> *(tunjuk AI narration panel)* "CivicSense AI otomatis menjelaskan mengapa perubahan ini terjadi dan apa artinya bagi kebijakan. Ini menunjukkan bahwa **prioritas wilayah bersifat relatif terhadap perspektif kebijakan** — bukan nilai absolut."
+### I. Methodology
+**Tindakan:** Klik menu "Methodology" di bagian navigasi.
+**Penjelasan:** Menjelaskan tata kelola (*governance*) AI dan validitas data.
+**Narasi Presenter:**
+*"Terakhir, kami menjunjung tinggi keterbukaan algoritma. Di laman ini, kami memaparkan secara rinci metodologi pembobotan dan batasan/guardrail dari kecerdasan buatan kami. Ini untuk membuktikan ke pemerintah bahwa sistem kami ramah-audit dan bebas dari *black-box* AI yang berbahaya bagi regulasi publik."*
 
 ---
 
-### [03:15 — 04:15] AI Policy Brief Generator
-
-*(Klik tombol Generate Policy Brief dari Simulator — `/policy-brief?region=genuk&mode=flood`)*
-
-> "Setelah pemerintah menentukan wilayah prioritas, langkah berikutnya adalah menyusun rekomendasi kebijakan. Di sinilah **AI Policy Brief Generator** bekerja."
-
-> "Pilih wilayah Genuk, dan sistem — melalui CivicSense AI — secara otomatis menghasilkan dokumen policy brief yang komprehensif: Executive Summary, Priority Analysis, Key Data Signals, Rekomendasi Kebijakan, Stakeholder Mapping, hingga ringkasan untuk komunikasi publik."
-
-> *(scroll ke Section 04)* "Lihat bagian Rekomendasi — ada 5 rekomendasi spesifik dengan lead dinas dan timeline yang jelas: mana yang 0–3 bulan, mana yang 6–12 bulan."
-
-> *(klik tombol Salin Brief)* "Dokumen ini bisa langsung disalin atau dicetak sebagai PDF — siap digunakan dalam rapat koordinasi OPD."
+## 4. Closing (30 Detik)
+**Tindakan:** Kembali ke Landing Page atau Command Center.
+**Narasi Presenter:**
+*"Sebagai penutup, penting ditekankan bahwa CIVICTWIN sama sekali tidak didesain untuk menggantikan pemerintah maupun manusia. Platform ini murni sistem pendukung keputusan (*decision support*) untuk fasilitasi lintas OPD.*
+*Data yang digunakan pada purwarupa ini merupakan campuran data simulasi untuk proof-of-concept. Dalam implementasi nyata kelak, sistem ini akan dihubungkan langsung ke data resmi BPS dan OPD, serta mutlak menerapkan *human-in-the-loop* di mana validasi akhir tetap berada di tangan pejabat berwenang.* 
+*Terima kasih."*
 
 ---
 
-### [04:15 — 05:00] Public Transparency Page & Metodologi
-
-*(Klik: Transparansi Publik — `/public`)*
-
-> "CIVICTWIN tidak hanya untuk pemerintah. Portal **Transparansi Publik** ini ditujukan untuk warga umum."
-
-> "CivicSense AI mengubah data teknis menjadi bahasa yang mudah dipahami masyarakat. Warga bisa tahu: kenapa Semarang Utara atau Genuk mendapat perhatian pemerintah — tanpa harus membaca laporan BPS."
-
-> "Ini adalah bentuk nyata dari **smart governance yang inklusif**: keputusan pemerintah bisa dijelaskan kepada rakyat secara terbuka."
-
-*(Klik: Metodologi — `/methodology`)*
-
-> "Terakhir, halaman **Metodologi** ini kami siapkan khusus untuk menjawab pertanyaan teknis. Di sini tersedia formula lengkap Priority Score, penjelasan 6 indikator, sumber data yang akan digunakan pada implementasi nyata, serta roadmap pengembangan ke depan."
-
----
-
-### [05:00 — 05:30] Penutup
-
-> "Untuk merangkum: CIVICTWIN Semarang adalah **proof of concept yang fungsional** — bukan sekadar visualisasi. Sistem memiliki scoring engine yang dapat diaudit, AI yang menghasilkan narasi berbasis data, dan alur kebijakan dari data → prioritas → simulasi → rekomendasi → transparansi publik."
-
-> "Pada implementasi nyata, kami telah merancang roadmap untuk integrasi data resmi BPS, API pemerintah daerah, model AI sesungguhnya, dan visualisasi geospasial berbasis peta Semarang."
-
-> "Terima kasih. Kami membuka sesi tanya jawab."
-
----
-
-## ❓ Antisipasi Pertanyaan Juri
-
-| Pertanyaan | Jawaban Ringkas |
-|------------|-----------------|
-| "Apakah datanya akurat?" | Prototype memakai kombinasi data publik, data olahan, dan simulasi terbatas. Beberapa indikator belum resmi dan perlu divalidasi dengan BPS, BPBD, serta OPD terkait. Lihat Source Log di halaman Metodologi. |
-| "Bagaimana formula scoring-nya?" | Priority Score = Σ(nilai × bobot). 6 indikator, bobot berjumlah 100%. Akses Layanan Publik diinversi karena logika terbalik. Formula tersedia di halaman Metodologi. |
-| "AI-nya pakai apa?" | Rule-based template engine berbasis data wilayah — tidak menggunakan API eksternal. Pada implementasi nyata dapat diintegrasikan dengan LLM. |
-| "Sudah ada data resminya?" | Sebagian rujukan berasal dari sumber publik/resmi, tetapi indeks prototype masih diolah dan sebagian disimulasikan. Integrasi data resmi penuh adalah prioritas pertama roadmap pengembangan. |
-| "Siapa penggunanya?" | Dua segmen: (1) Pejabat/staf pemerintah untuk dashboard dan policy brief. (2) Warga umum untuk portal transparansi publik. |
-| "Bagaimana keamanan datanya?" | Prototype tidak menggunakan backend/database. Pada produksi, akan ada autentikasi, enkripsi, dan audit trail sesuai SPBE. |
-
----
-
-*CIVICTWIN Semarang Prototype Smart City · Lomba UNY 2026*
+## ⚠️ Catatan Penting untuk Presenter (JANGAN DIKLAIM SAAT DEMO)
+1. **Dilarang Klaim Real-Time:** Sebutkan bahwa ini adalah *prototype data*, bukan *live dashboard* dari server Pemkot saat ini.
+2. **Dilarang Klaim Data Resmi Penuh:** Tegaskan bahwa sebagian indikator (*hotspots, aduan khusus*) adalah hasil simulasi dan olahan (*mockup*).
+3. **Dilarang Klaim AI Mengambil Keputusan:** AI di sini berstatus **Assistant** (mengklasifikasi, meringkas draf). Keputusan final **tetap** berada pada OPD/Pimpinan wilayah.
+4. **Tekankan Tata Kelola AI (*AI Governance*):** Pastikan juri tahu bahwa sistem menggunakan *rule-based guardrail* internal, bukan API LLM pihak ketiga yang berpotensi membocorkan data rahasia daerah.
