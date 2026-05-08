@@ -1,13 +1,22 @@
 import { useState } from "react";
 import { NavLink, Outlet, Link } from "react-router-dom";
 import { classNames } from "../utils/classNames";
+import { mockRegions } from "../data/mockData";
+
+// ─── Default Regions ──────────────────────────────────────────────────────────
+const fallbackRegionId = mockRegions[0]?.id || "semarang-utara";
+const detailRegionId = mockRegions.find(r => r.id === "semarang-utara") ? "semarang-utara" : fallbackRegionId;
+const demoRegionId = mockRegions.find(r => r.id === "genuk") ? "genuk" : fallbackRegionId;
+
+const DEFAULT_DETAIL_REGION_ID = detailRegionId;
+const DEMO_REGION_ID = demoRegionId;
 
 // ─── Nav Items ────────────────────────────────────────────────────────────────
 
 const NAV_ITEMS = [
   { label: "Overview",           to: "/",              icon: "🏠", end: true  },
   { label: "Dashboard Kota",     to: "/dashboard",     icon: "📊", end: false },
-  { label: "Detail Wilayah",     to: "/regions/semarang-utara", icon: "🔍", end: false },
+  { label: "Detail Wilayah",     to: `/regions/${DEFAULT_DETAIL_REGION_ID}`, icon: "🔍", end: false },
   { label: "Policy Simulator",   to: "/simulator",     icon: "⚖️", end: false },
   { label: "Policy Brief",       to: "/policy-brief",  icon: "✨", end: false },
   { label: "Transparansi Publik",to: "/public",        icon: "🌐", end: false },
@@ -18,9 +27,9 @@ const NAV_ITEMS = [
 const DEMO_FLOW = [
   { step: 1, label: "Landing Page",      to: "/",              hint: "Mulai di sini" },
   { step: 2, label: "Dashboard Kota",    to: "/dashboard",     hint: "Lihat ranking wilayah" },
-  { step: 3, label: "Detail Wilayah",    to: "/regions/genuk", hint: "Eksplorasi Genuk" },
+  { step: 3, label: "Detail Wilayah",    to: `/regions/${DEMO_REGION_ID}`, hint: `Eksplorasi ${demoRegionId}` },
   { step: 4, label: "Policy Simulator",  to: "/simulator",     hint: "Simulasi banjir/rob" },
-  { step: 5, label: "AI Policy Brief",   to: "/policy-brief",  hint: "Generate brief Genuk" },
+  { step: 5, label: "AI Policy Brief",   to: "/policy-brief",  hint: `Generate brief ${demoRegionId}` },
   { step: 6, label: "Transparansi Publik", to: "/public",      hint: "Lihat portal warga" },
   { step: 7, label: "Metodologi",        to: "/methodology",   hint: "Jawab pertanyaan juri" },
 ];
