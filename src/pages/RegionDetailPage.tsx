@@ -289,6 +289,64 @@ export default function RegionDetailPage() {
             </div>
           </section>
 
+          {/* ── Emergency Review Signal ────────────────────────────────────────── */}
+          <section id="emergency-review" className="rounded-xl border border-red-200 bg-red-50/20 p-6 shadow-sm">
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-red-600">
+                  Disaster & Emergency
+                </p>
+                <h2 className="mt-1 mb-1 text-base font-semibold text-civic-ink">
+                  Emergency Review Signal
+                </h2>
+                <p className="mb-5 text-sm text-civic-muted">
+                  Simulasi peringatan dini bencana. Tidak terintegrasi API riil.
+                </p>
+              </div>
+              <div className="text-right">
+                <p className="text-xs font-bold text-civic-muted">Score / Status</p>
+                <p className="text-2xl font-bold text-red-600 tabular-nums">
+                  {region.emergencySignals.emergencyReviewScore} <span className="text-sm font-normal text-civic-muted">/100</span>
+                </p>
+                <p className="text-xs font-semibold text-red-700 bg-red-100 rounded px-2 py-0.5 mt-1 inline-block">
+                  {region.emergencySignals.emergencyStatus}
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-5">
+              <div className="rounded-lg bg-white p-3 border border-red-100 shadow-sm">
+                <p className="text-[10px] uppercase font-bold text-civic-muted">Water Level</p>
+                <p className="text-sm font-semibold text-civic-ink mt-0.5">{region.emergencySignals.waterLevelStatus}</p>
+              </div>
+              <div className="rounded-lg bg-white p-3 border border-red-100 shadow-sm">
+                <p className="text-[10px] uppercase font-bold text-civic-muted">Verified Reports</p>
+                <p className="text-sm font-semibold text-civic-ink mt-0.5">{region.emergencySignals.verifiedReports}</p>
+              </div>
+              <div className="rounded-lg bg-white p-3 border border-red-100 shadow-sm">
+                <p className="text-[10px] uppercase font-bold text-civic-muted">Hist. Risk</p>
+                <p className="text-sm font-semibold text-civic-ink mt-0.5">{region.emergencySignals.historicalDisasterRisk}</p>
+              </div>
+              <div className="rounded-lg bg-white p-3 border border-red-100 shadow-sm">
+                <p className="text-[10px] uppercase font-bold text-civic-muted">Pop. Exposure</p>
+                <p className="text-sm font-semibold text-civic-ink mt-0.5">{region.emergencySignals.populationExposure}</p>
+              </div>
+              <div className="rounded-lg bg-white p-3 border border-red-100 shadow-sm">
+                <p className="text-[10px] uppercase font-bold text-civic-muted">Critical Fac.</p>
+                <p className="text-sm font-semibold text-civic-ink mt-0.5">{region.emergencySignals.criticalFacilitiesExposure}</p>
+              </div>
+              <div className="rounded-lg bg-white p-3 border border-red-100 shadow-sm">
+                <p className="text-[10px] uppercase font-bold text-civic-muted">Social Vuln.</p>
+                <p className="text-sm font-semibold text-civic-ink mt-0.5">{region.emergencySignals.socialVulnerability}</p>
+              </div>
+            </div>
+
+            <div className="rounded-lg bg-red-50 border border-red-100 p-4">
+              <p className="text-xs font-bold text-red-800">Rekomendasi Aksi Cepat</p>
+              <p className="mt-1 text-sm text-red-900">{region.emergencySignals.recommendedAction}</p>
+            </div>
+          </section>
+
           {/* ── CivicSense AI Insight ─────────────────────────────────────── */}
           <section id="civicsense-insight">
             <CivicSenseInsightCard

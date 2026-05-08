@@ -3,7 +3,7 @@
 // Logic untuk menghitung, mengkategorikan, dan membandingkan wilayah
 // =============================================================================
 
-import type { Region, RegionIndicator, PriorityCategory } from "../data/mockData/regions";
+import type { Region, RegionIndicator, PriorityCategory, EmergencySignals } from "../data/mockData/regions";
 
 // ---------------------------------------------------------------------------
 // TYPE DEFINITIONS
@@ -478,4 +478,56 @@ export function compareScores(
   const scoreA = calculatePriorityScore(indicators, modeA);
   const scoreB = calculatePriorityScore(indicators, modeB);
   return { scoreA, scoreB, delta: scoreB - scoreA };
+}
+
+// ---------------------------------------------------------------------------
+// EMERGENCY REVIEW SIGNAL
+// ---------------------------------------------------------------------------
+
+/**
+ * `getWaterLevelValue` — Konversi status water level ke nilai 0-100
+ */
+export function getWaterLevelValue(status: EmergencySignals["waterLevelStatus"]): number {
+  switch (status) {
+    case "Awas": return 100;
+    case "Siaga": return 75;
+    case "Waspada": return 50;
+    case "Aman":
+    default: return 0;
+  }
+}
+
+/**
+ * `calculateEmergencyReviewScore` — Hitung Emergency Review Score
+ * Menggunakan bobot:
+ * - waterLevelStatus: 30%
+ * - verifiedReports: 20%
+ * - historicalDisasterRisk: 15%
+ * - populationExposure: 15%
+ * - criticalFacilitiesExposure: 10%
+ * - socialVulnerability: 10%
+ */
+export function calculateEmergencyReviewScore(
+  signals: Pick<EmergencySignals, "waterLevelStatus" | "verifiedReports" | "historicalDisasterRisk" | "populationExposure" | "criticalFacilitiesExposure" | "socialVulnerability">
+): number {
+  const score =
+    getWaterLevelValue(signals.waterLevelStatus) * 0.30 +
+    signals.verifiedReports * 0.20 +
+    signals.historicalDisasterRisk * 0.15 +
+    signals.populationExposure * 0.15 +
+    signals.criticalFacilitiesExposure * 0.10 +
+    signals.socialVulnerability * 0.10;
+
+  return Math.min(100, Math.max(0, Math.round(score)));
+}
+
+/**
+ * `getEmergencyStatus` — Konversi skor ke status darurat
+ */
+export function getEmergencyStatus(score: number): EmergencySignals["emergencyStatus"] {
+  if (score >= 80) return "Darurat";
+  if (score >= 60) return "Prioritas Tanggap";
+  if (score >= 40) return "Perlu Tinjauan";
+  if (score >= 20) return "Waspada";
+  return "Monitor";
 }

@@ -26,6 +26,18 @@ export type RegionIndicator = {
   smeActivity: number;
 };
 
+export type EmergencySignals = {
+  waterLevelStatus: "Aman" | "Waspada" | "Siaga" | "Awas";
+  verifiedReports: number;
+  historicalDisasterRisk: number;
+  populationExposure: number;
+  criticalFacilitiesExposure: number;
+  socialVulnerability: number;
+  emergencyReviewScore: number;
+  emergencyStatus: "Monitor" | "Waspada" | "Perlu Tinjauan" | "Prioritas Tanggap" | "Darurat";
+  recommendedAction: string;
+};
+
 export type Region = {
   id: string;
   name: string;
@@ -36,6 +48,7 @@ export type Region = {
   relatedStakeholders: string[];
   estimatedImpact: string;
   dataSourceNote: string;
+  emergencySignals: EmergencySignals;
 };
 
 export type CitySummary = {
@@ -90,6 +103,17 @@ export const mockRegions: Region[] = [
       "Intervensi tanggul dan drainase berpotensi mengurangi frekuensi genangan secara signifikan dan melindungi warga permukiman pesisir dari dampak rob musiman.",
     dataSourceNote:
       "Prototype CIVICTWIN — indikator disusun dari kombinasi data publik (laporan BPBD 2022–2023), data olahan literatur akademik, dan estimasi simulasi. Lihat halaman Metodologi untuk detail status setiap data.",
+    emergencySignals: {
+      waterLevelStatus: "Awas",
+      verifiedReports: 45,
+      historicalDisasterRisk: 85,
+      populationExposure: 70,
+      criticalFacilitiesExposure: 60,
+      socialVulnerability: 75,
+      emergencyReviewScore: 75,
+      emergencyStatus: "Prioritas Tanggap",
+      recommendedAction: "Evakuasi darurat pesisir dan pengerahan pompa air mobile aktif.",
+    },
   },
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -133,6 +157,17 @@ export const mockRegions: Region[] = [
       "Sistem peringatan dini dan penguatan infrastruktur pesisir berpotensi menekan kerugian ekonomi akibat rob dan meningkatkan keselamatan warga di kawasan terdampak.",
     dataSourceNote:
       "Prototype CIVICTWIN — indikator disusun dari kombinasi data publik (laporan Walhi Jateng, riset UNDIP, BPS 2023), data olahan, dan estimasi simulasi. Lihat halaman Metodologi untuk detail.",
+    emergencySignals: {
+      waterLevelStatus: "Siaga",
+      verifiedReports: 30,
+      historicalDisasterRisk: 90,
+      populationExposure: 80,
+      criticalFacilitiesExposure: 75,
+      socialVulnerability: 82,
+      emergencyReviewScore: 68,
+      emergencyStatus: "Prioritas Tanggap",
+      recommendedAction: "Penyiapan posko pengungsian di titik aman dan pemantauan tanggul Tambak Lorok.",
+    },
   },
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -175,6 +210,17 @@ export const mockRegions: Region[] = [
       "Rehabilitasi ekosistem mangrove berpotensi mereduksi dampak rob secara bertahap dan memulihkan produktivitas tambak warga di kawasan pesisir.",
     dataSourceNote:
       "Prototype CIVICTWIN — indikator disusun dari kombinasi data publik (DLH Semarang 2022), studi rehabilitasi mangrove, dan estimasi simulasi. Lihat halaman Metodologi untuk detail.",
+    emergencySignals: {
+      waterLevelStatus: "Waspada",
+      verifiedReports: 15,
+      historicalDisasterRisk: 75,
+      populationExposure: 40,
+      criticalFacilitiesExposure: 50,
+      socialVulnerability: 70,
+      emergencyReviewScore: 44,
+      emergencyStatus: "Perlu Tinjauan",
+      recommendedAction: "Pengecekan saluran pembuangan limbah industri dan sosialisasi pesisir.",
+    },
   },
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -217,6 +263,17 @@ export const mockRegions: Region[] = [
       "Optimalisasi drainase dan pengelolaan sampah terpadu berpotensi mengurangi genangan lokal dan meningkatkan kualitas lingkungan permukiman secara bertahap.",
     dataSourceNote:
       "Prototype CIVICTWIN — indikator disusun dari kombinasi data publik (BPS 2023, Musrenbang), data olahan, dan estimasi simulasi. Lihat halaman Metodologi untuk detail.",
+    emergencySignals: {
+      waterLevelStatus: "Waspada",
+      verifiedReports: 25,
+      historicalDisasterRisk: 40,
+      populationExposure: 90,
+      criticalFacilitiesExposure: 30,
+      socialVulnerability: 55,
+      emergencyReviewScore: 45,
+      emergencyStatus: "Perlu Tinjauan",
+      recommendedAction: "Pembersihan gorong-gorong penyumbat di jalur utama dan patroli wilayah.",
+    },
   },
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -259,6 +316,17 @@ export const mockRegions: Region[] = [
       "Penguatan ruang terbuka hijau dan jalur hijau berpotensi meningkatkan kenyamanan lingkungan dan menjaga kualitas hidup warga di kawasan dataran tinggi.",
     dataSourceNote:
       "Prototype CIVICTWIN — indikator disusun dari kombinasi data publik (RTRW 2011–2031), laporan komunitas, dan estimasi simulasi. Lihat halaman Metodologi untuk detail.",
+    emergencySignals: {
+      waterLevelStatus: "Aman",
+      verifiedReports: 2,
+      historicalDisasterRisk: 15,
+      populationExposure: 30,
+      criticalFacilitiesExposure: 10,
+      socialVulnerability: 30,
+      emergencyReviewScore: 14,
+      emergencyStatus: "Monitor",
+      recommendedAction: "Pantau situasi cuaca normal. Rutin mengecek drainase perumahan.",
+    },
   },
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -302,6 +370,17 @@ export const mockRegions: Region[] = [
       "Revitalisasi drainase dan manajemen lalu lintas cerdas berpotensi mengurangi kerugian akibat kemacetan dan meningkatkan daya tarik kawasan heritage bagi wisatawan.",
     dataSourceNote:
       "Prototype CIVICTWIN — indikator disusun dari kombinasi data publik (BP Kota Lama 2023, Dishub), data olahan, dan estimasi simulasi. Lihat halaman Metodologi untuk detail.",
+    emergencySignals: {
+      waterLevelStatus: "Waspada",
+      verifiedReports: 20,
+      historicalDisasterRisk: 50,
+      populationExposure: 85,
+      criticalFacilitiesExposure: 90,
+      socialVulnerability: 42,
+      emergencyReviewScore: 49,
+      emergencyStatus: "Perlu Tinjauan",
+      recommendedAction: "Pengaktifan pompa polder Kota Lama untuk antisipasi genangan dari rob masuk kota.",
+    },
   },
 ];
 

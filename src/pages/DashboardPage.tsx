@@ -2,9 +2,10 @@ import { Link } from "react-router-dom";
 import IndicatorBar from "../components/ui/IndicatorBar";
 import PageHeader from "../components/ui/PageHeader";
 import PriorityBadge from "../components/ui/PriorityBadge";
+import SemarangPriorityMap from "../components/map/SemarangPriorityMap";
 import { buttonClasses } from "../components/ui/Button";
 import { citySummary, mockRegions } from "../data/mockData";
-import { getRankedRegions, getCityScoringStats, INDICATOR_LABELS } from "../utils";
+import { getRankedRegions, getCityScoringStats, INDICATOR_LABELS, getPolicyModeConfig } from "../utils";
 import { classNames } from "../utils/classNames";
 import type { PriorityCategory } from "../data/mockData";
 import type { ScoredRegion } from "../utils";
@@ -233,6 +234,27 @@ export default function DashboardPage() {
         </Link>
       </div>
 
+      {/* ── Quick Policy Brief ─────────────────────────────────────────── */}
+      <section className="rounded-xl border border-civic-primary bg-civic-primary/5 p-5 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+           <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
+            Quick Policy Brief
+          </p>
+          <h2 className="mt-1 text-sm font-semibold text-civic-ink">
+            Wilayah Paling Krusial Saat Ini: <span className="text-civic-primary">{ranked[0].name}</span>
+          </h2>
+          <p className="text-xs text-civic-muted mt-1">
+            Skor: {ranked[0].computedScore}/100 ({ranked[0].computedCategory}). Segera buat ringkasan kebijakan AI untuk wilayah ini.
+          </p>
+        </div>
+        <Link
+          to={`/policy-brief?region=${ranked[0].id}&mode=general`}
+          className={classNames(buttonClasses("primary"), "shrink-0 text-xs")}
+        >
+          ✨ Generate Brief {ranked[0].name}
+        </Link>
+      </section>
+
       {/* ── Summary Cards ──────────────────────────────────────────────── */}
       <section id="summary-cards" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {summaryCards.map((c) => (
@@ -254,6 +276,22 @@ export default function DashboardPage() {
         ))}
       </section>
 
+      {/* ── Priority Map Semarang ──────────────────────────────────────── */}
+      <section id="priority-map" className="rounded-xl border border-civic-line bg-white p-6 shadow-sm">
+        <div className="mb-5">
+          <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
+            Spatial Intelligence
+          </p>
+          <h2 className="mt-1 text-base font-semibold text-civic-ink">
+            Priority Map Semarang
+          </h2>
+          <p className="text-xs text-civic-muted mt-1">
+            Representasi spasial prototype berdasarkan 6 kecamatan prioritas. Warna marker menunjukkan kategori Priority Score.
+          </p>
+        </div>
+        <SemarangPriorityMap regions={ranked} />
+      </section>
+
       {/* ── Isu Dominan Kota ───────────────────────────────────────────── */}
       <section
         id="city-issues"
@@ -271,6 +309,65 @@ export default function DashboardPage() {
               {issue}
             </span>
           ))}
+        </div>
+      </section>
+
+      {/* ── Spatial Priority Overview ────────────────────────────────────── */}
+      <section id="spatial-overview" className="rounded-xl border border-civic-line bg-white p-6 shadow-sm">
+        <div className="mb-4">
+          <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
+            Spatial Priority Overview
+          </p>
+          <h2 className="mt-1 text-base font-semibold text-civic-ink">
+            Zonasi Konseptual (Proof of Concept)
+          </h2>
+          <p className="text-xs text-civic-muted">
+            Representasi spasial sederhana tanpa GIS untuk memudahkan pemantauan klaster wilayah. Ini adalah representasi konseptual prototype, bukan peta GIS resmi.
+          </p>
+        </div>
+        <div className="grid gap-4 md:grid-cols-3">
+          {[
+            { id: "utara", name: "Zona Pesisir Utara", regions: ["semarang-utara", "genuk", "tugu"], desc: "Kawasan pelabuhan, tambak, & heritage pesisir", color: "border-blue-200 bg-blue-50/30" },
+            { id: "tengah", name: "Zona Tengah", regions: ["semarang-tengah", "pedurungan"], desc: "Kawasan pusat kota & permukiman padat", color: "border-amber-200 bg-amber-50/30" },
+            { id: "selatan", name: "Zona Selatan", regions: ["banyumanik"], desc: "Kawasan perbukitan & pengembangan baru", color: "border-emerald-200 bg-emerald-50/30" }
+          ].map(zone => {
+            const zoneRegions = ranked.filter(r => zone.regions.includes(r.id));
+            if (zoneRegions.length === 0) return null;
+            const avgScore = Math.round(zoneRegions.reduce((a, b) => a + b.computedScore, 0) / zoneRegions.length);
+            const topRegion = zoneRegions.reduce((prev, curr) => (prev.computedScore > curr.computedScore) ? prev : curr);
+            const topIssues = topRegion.dominantIssues.slice(0, 1);
+            return (
+              <div key={zone.id} className={classNames("rounded-xl border p-4 shadow-sm flex flex-col justify-between", zone.color)}>
+                <div>
+                  <h3 className="font-bold text-civic-ink">{zone.name}</h3>
+                  <p className="text-xs text-civic-muted mb-3">{zone.desc}</p>
+                  <p className="text-sm font-semibold mb-1">
+                    Avg Score: <span className={classNames(avgScore >= 75 ? "text-red-600" : avgScore >= 50 ? "text-amber-600" : "text-emerald-600")}>{avgScore}</span>
+                  </p>
+                  <p className="text-xs text-civic-muted mb-1">Wilayah di zona ini:</p>
+                  <div className="flex flex-wrap gap-1 mb-3">
+                    {zoneRegions.map(r => (
+                      <span key={r.id} className="text-[10px] bg-white border border-civic-line rounded px-1.5 py-0.5 text-civic-ink shadow-sm font-medium">
+                        {r.name}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="bg-white/60 p-2 rounded text-xs mb-3 border border-white">
+                    <p className="font-semibold text-civic-ink mb-0.5">Isu Utama Zona:</p>
+                    <ul className="list-disc pl-4 text-civic-muted">
+                      {topIssues.map(issue => <li key={issue} className="line-clamp-2">{issue}</li>)}
+                    </ul>
+                  </div>
+                </div>
+                <Link
+                  to={`/regions/${topRegion.id}`}
+                  className={classNames(buttonClasses("secondary"), "w-full justify-center text-[10px] py-1.5 bg-white")}
+                >
+                  Detail {topRegion.name} (Top Prioritas) →
+                </Link>
+              </div>
+            );
+          })}
         </div>
       </section>
 
@@ -345,6 +442,105 @@ export default function DashboardPage() {
           {ranked.map((region, i) => (
             <RegionCard key={region.id} region={region} rank={i + 1} />
           ))}
+        </div>
+      </section>
+
+      {/* ── Policy Simulation Snapshot ─────────────────────────────────── */}
+      <section id="policy-simulation-snapshot" className="rounded-xl border border-civic-line bg-white p-6 shadow-sm">
+        <div className="mb-4">
+          <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
+            Policy Simulation Snapshot
+          </p>
+          <h2 className="mt-1 text-base font-semibold text-civic-ink">
+            Preview Simulasi Perubahan Fokus Kebijakan
+          </h2>
+          <p className="text-xs text-civic-muted">
+            Ranking wilayah dapat berubah secara dinamis sesuai dengan kebijakan yang diambil.
+          </p>
+        </div>
+        <div className="grid gap-4 md:grid-cols-3">
+          {(["flood", "publicService", "economy"] as const).map(mode => {
+            const simulatedRanked = getRankedRegions(mockRegions, mode);
+            const topSim = simulatedRanked[0];
+            const modeConfig = getPolicyModeConfig(mode);
+            const icon = mode === "flood" ? "🌊" : mode === "publicService" ? "🏥" : "🏪";
+            return (
+              <div key={mode} className="rounded-xl border border-civic-line p-4 bg-civic-soft/30 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-xl">{icon}</span>
+                    <h3 className="font-bold text-civic-ink text-sm">{modeConfig.label}</h3>
+                  </div>
+                  <p className="text-xs text-civic-muted mb-4 line-clamp-2">{modeConfig.description}</p>
+                  
+                  <div className="bg-white rounded-lg p-3 border border-civic-line shadow-sm mb-4">
+                    <p className="text-[10px] font-bold uppercase text-civic-muted mb-1">Top Prioritas Simulasi</p>
+                    <div className="flex justify-between items-center">
+                      <span className="font-bold text-civic-ink">{topSim.name}</span>
+                      <span className="text-lg font-bold text-red-600">{topSim.computedScore}</span>
+                    </div>
+                    <p className="text-xs text-civic-muted mt-1 line-clamp-1">{topSim.dominantIssues[0]}</p>
+                  </div>
+                </div>
+                <Link
+                  to={`/simulator?mode=${mode}`}
+                  className={classNames(buttonClasses("secondary"), "w-full justify-center text-[10px] py-1.5 bg-white")}
+                >
+                  Buka Simulator {modeConfig.label} →
+                </Link>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* ── Disaster Signal Monitor ────────────────────────────────────────── */}
+      <section
+        id="disaster-signal-monitor"
+        className="rounded-xl border border-red-200 bg-white p-6 shadow-sm mb-8"
+      >
+        <div className="mb-5 flex items-center justify-between">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-wider text-red-600">
+              Disaster Signal Monitor
+            </p>
+            <h2 className="mt-1 text-base font-semibold text-civic-ink">
+              Ranking Emergency Review (Simulasi Proof of Concept)
+            </h2>
+          </div>
+        </div>
+        
+        <div className="space-y-4">
+          {[...ranked]
+            .sort((a, b) => b.emergencySignals.emergencyReviewScore - a.emergencySignals.emergencyReviewScore)
+            .map((r, i) => (
+            <div key={r.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-lg border border-red-100 bg-red-50/30 p-4">
+              <div className="flex items-center gap-4">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-red-100 text-sm font-bold text-red-700">
+                  {i + 1}
+                </span>
+                <div>
+                  <h3 className="font-semibold text-civic-ink">{r.name}</h3>
+                  <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-civic-muted">
+                    <span>
+                      Status: <strong className={classNames("font-bold", r.emergencySignals.emergencyReviewScore >= 60 ? "text-red-600" : "text-amber-600")}>{r.emergencySignals.emergencyStatus}</strong>
+                    </span>
+                    <span>•</span>
+                    <span>Skor: <strong>{r.emergencySignals.emergencyReviewScore}</strong>/100</span>
+                    <span>•</span>
+                    <span>Water Level: <strong>{r.emergencySignals.waterLevelStatus}</strong></span>
+                  </div>
+                </div>
+              </div>
+              <div className="sm:w-1/3 sm:text-right">
+                <p className="text-xs font-semibold text-civic-muted">Rekomendasi Cepat</p>
+                <p className="mt-0.5 text-xs text-civic-ink leading-relaxed">{r.emergencySignals.recommendedAction}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="mt-4 rounded-lg bg-amber-50 p-3 text-xs text-amber-800">
+          <strong>⚠️ Catatan Simulasi:</strong> Emergency Review Signal adalah data simulasi prototype. Pada skenario riil, skor ini terhubung dengan sensor IoT tata air dan pelaporan BPBD untuk memandu inspeksi darurat.
         </div>
       </section>
 

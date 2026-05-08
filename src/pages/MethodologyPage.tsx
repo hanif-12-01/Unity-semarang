@@ -378,7 +378,71 @@ export default function MethodologyPage() {
         </div>
       </MethodSection>
 
-      {/* ── 5. Policy Simulator Explanation ─────────────────────────── */}
+      {/* ── 5. Priority Score vs Emergency Review Score ─────────────────────────── */}
+      <MethodSection id="priority-vs-emergency" eyebrow="Emergency Layer" title="Priority Score vs Emergency Review Score">
+        <p className="text-sm leading-relaxed text-civic-muted">
+          CIVICTWIN mengadopsi pendekatan dua lapis (two-layer approach) untuk perencanaan dan respons bencana.
+        </p>
+        <div className="grid gap-4 sm:grid-cols-2 mt-4">
+          <div className="rounded-xl border border-civic-line bg-white p-5 shadow-sm space-y-3">
+            <h3 className="font-bold text-civic-ink">📊 Priority Score</h3>
+            <p className="text-sm text-civic-muted"><strong>Tujuan:</strong> Perencanaan kebijakan jangka panjang dan alokasi anggaran tahunan.</p>
+            <p className="text-sm text-civic-muted"><strong>Karakteristik:</strong> Menggunakan 6 indikator komposit (Banjir, Kepadatan, Kerentanan Sosial, Layanan Publik, Laporan Warga, UMKM). Bobot dapat disimulasikan sesuai fokus kebijakan.</p>
+          </div>
+          <div className="rounded-xl border border-red-200 bg-red-50/50 p-5 shadow-sm space-y-3">
+            <h3 className="font-bold text-red-700">🚨 Emergency Review Score</h3>
+            <p className="text-sm text-civic-muted"><strong>Tujuan:</strong> Prioritas tinjauan darurat lapangan saat ada indikasi bencana (misal: curah hujan ekstrim, rob naik).</p>
+            <p className="text-sm text-civic-muted"><strong>Karakteristik:</strong> Bersifat taktis dan berfokus pada keselamatan jiwa. Memiliki formula tetap untuk respons cepat.</p>
+          </div>
+        </div>
+
+        <div className="mt-5 rounded-xl border border-red-100 bg-white p-6 shadow-sm overflow-x-auto">
+          <p className="text-xs font-bold uppercase tracking-wider text-red-600 mb-4">
+            Formula Emergency Review Score (Taktis)
+          </p>
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-civic-line text-left">
+                <th className="pb-2 font-semibold text-civic-muted text-xs uppercase">Parameter Emergency</th>
+                <th className="pb-2 font-semibold text-civic-muted text-xs uppercase text-right">Bobot</th>
+                <th className="pb-2 pl-4 font-semibold text-civic-muted text-xs uppercase">Alasan Prioritas</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-civic-line">
+              {[
+                { label: "Water Level Status (Aman/Waspada/Siaga/Awas)", w: 0.30, desc: "Indikator fisik utama dari sensor tata air." },
+                { label: "Verified Reports (Laporan Darurat Warga)", w: 0.20, desc: "Validasi crowdsourcing adanya genangan riil." },
+                { label: "Historical Disaster Risk", w: 0.15, desc: "Kerentanan historis kawasan terhadap rob/banjir." },
+                { label: "Population Exposure (Kepadatan Terdampak)", w: 0.15, desc: "Estimasi jumlah jiwa di area terdampak." },
+                { label: "Critical Facilities Exposure", w: 0.10, desc: "RS, Gardu Induk, Pusat Logistik di zona bahaya." },
+                { label: "Social Vulnerability (Kerentanan Sosial)", w: 0.10, desc: "Keberadaan lansia/difabel yang butuh evakuasi khusus." },
+              ].map((row) => (
+                <tr key={row.label} className="py-2">
+                  <td className="py-2.5 font-medium text-civic-ink">{row.label}</td>
+                  <td className="py-2.5 text-right font-mono font-bold text-red-600">
+                    {Math.round(row.w * 100)}%
+                  </td>
+                  <td className="py-2.5 pl-4 text-xs text-civic-muted">
+                    {row.desc}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="mt-4 flex flex-wrap items-center gap-2 text-xs">
+            <span className="font-semibold text-civic-ink">Threshold Status:</span>
+            <span className="rounded bg-red-100 px-2 py-1 text-red-700 font-medium">≥80 Darurat</span>
+            <span className="rounded bg-orange-100 px-2 py-1 text-orange-700 font-medium">≥60 Prioritas Tanggap</span>
+            <span className="rounded bg-amber-100 px-2 py-1 text-amber-700 font-medium">≥40 Perlu Tinjauan</span>
+            <span className="rounded bg-yellow-100 px-2 py-1 text-yellow-700 font-medium">≥20 Waspada</span>
+          </div>
+          <p className="mt-3 text-xs italic text-civic-muted">
+            * Batasan Data: Seluruh nilai parameter Emergency saat ini adalah murni <strong className="font-bold text-civic-ink">simulasi (Proof of Concept)</strong>. Tidak terhubung dengan sensor fisik (misal AWLR) maupun laporan BPBD riil. 
+          </p>
+        </div>
+      </MethodSection>
+
+      {/* ── 6. Policy Simulator Explanation ─────────────────────────── */}
       <MethodSection id="policy-simulator" eyebrow="Policy Simulator" title="Simulasi Perubahan Bobot Kebijakan">
         <p className="text-sm leading-relaxed text-civic-muted">
           CIVICTWIN memungkinkan pemerintah mengubah bobot indikator sesuai fokus kebijakan aktif.
@@ -413,7 +477,7 @@ export default function MethodologyPage() {
         </div>
       </MethodSection>
 
-      {/* ── 6. Limitations ──────────────────────────────────────────── */}
+      {/* ── 7. Limitations ──────────────────────────────────────────── */}
       <MethodSection id="limitations" eyebrow="Batasan" title="Batasan Prototype">
         <p className="text-sm leading-relaxed text-civic-muted">
           Sebagai proof of concept untuk kompetisi Smart City, CIVICTWIN memiliki batasan-batasan berikut
@@ -429,7 +493,7 @@ export default function MethodologyPage() {
         </div>
       </MethodSection>
 
-      {/* ── 7. Future Development ────────────────────────────────────── */}
+      {/* ── 8. Future Development ────────────────────────────────────── */}
       <MethodSection id="future-development" eyebrow="Roadmap" title="Pengembangan Berikutnya">
         <p className="text-sm leading-relaxed text-civic-muted">
           Jika prototype ini dilanjutkan ke tahap produksi, berikut adalah prioritas pengembangan
