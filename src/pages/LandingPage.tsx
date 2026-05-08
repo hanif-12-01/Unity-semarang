@@ -274,7 +274,7 @@ export default function LandingPage() {
             { step: 1, label: "Dashboard Kota",       to: "/dashboard",                  icon: "📊", hint: "Lihat ranking prioritas 6 wilayah" },
             { step: 2, label: "Detail Wilayah",       to: "/regions/genuk",              icon: "🔍", hint: "Eksplorasi digital twin Genuk" },
             { step: 3, label: "Policy Simulator",     to: "/simulator",                  icon: "⚖️", hint: "Ubah fokus ke Banjir/Rob" },
-            { step: 4, label: "AI Policy Brief",      to: "/policy-brief?region=genuk",  icon: "✨", hint: "Generate brief dengan CivicSense AI" },
+            { step: 4, label: "AI Policy Brief",      to: "/policy-brief?region=genuk",  icon: "✨", hint: "Draft brief dengan CivicSense Policy Assistant" },
             { step: 5, label: "Transparansi Publik",  to: "/public",                     icon: "🌐", hint: "Portal warga berbasis data" },
             { step: 6, label: "Metodologi",           to: "/methodology",                icon: "📋", hint: "Jawab pertanyaan teknis juri" },
           ].map((d) => (

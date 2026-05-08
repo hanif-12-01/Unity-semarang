@@ -493,7 +493,87 @@ export default function MethodologyPage() {
         </div>
       </MethodSection>
 
-      {/* ── 8. Future Development ────────────────────────────────────── */}
+      {/* ── 8. AI Governance & Legal Compliance Guardrail ────────────── */}
+      <MethodSection id="ai-governance" eyebrow="Compliance" title="AI Governance & Legal Compliance Guardrail">
+        <p className="text-sm leading-relaxed text-civic-muted">
+          CIVICTWIN menggunakan CivicSense AI sebagai policy/report assistant. AI bertugas membantu klasifikasi, peringkasan, penentuan prioritas awal, dan pembuatan draf rekomendasi. AI <strong>bukan pengambil keputusan final</strong>, tidak menggantikan validasi manusia/OPD, wajib menggunakan data anonim, dan hasil AI harus diperlakukan sebagai draf analisis awal.
+        </p>
+        
+        <div className="grid gap-4 sm:grid-cols-2 mt-5">
+          <div className="rounded-xl border border-civic-line bg-white p-5 shadow-sm space-y-2">
+            <h3 className="text-sm font-bold text-civic-ink flex items-center gap-2">
+              <span className="text-xl">🧑‍⚖️</span> Human-in-the-loop Validation
+            </h3>
+            <p className="text-xs leading-relaxed text-civic-muted">
+              Setiap rekomendasi kebijakan atau status laporan dari AI harus divalidasi oleh manusia/OPD terkait sebelum tindakan nyata dilakukan.
+            </p>
+          </div>
+          <div className="rounded-xl border border-civic-line bg-white p-5 shadow-sm space-y-2">
+            <h3 className="text-sm font-bold text-civic-ink flex items-center gap-2">
+              <span className="text-xl">🛡️</span> Personal Data Protection
+            </h3>
+            <p className="text-xs leading-relaxed text-civic-muted">
+              Data pribadi pelapor (nama, NIK, alamat presisi) harus disamarkan (anonymized) sebelum diproses oleh sistem analisis publik.
+            </p>
+          </div>
+          <div className="rounded-xl border border-civic-line bg-white p-5 shadow-sm space-y-2">
+            <h3 className="text-sm font-bold text-civic-ink flex items-center gap-2">
+              <span className="text-xl">🏛️</span> Public Complaint Procedure
+            </h3>
+            <p className="text-xs leading-relaxed text-civic-muted">
+              Integrasi nyata wajib mengikuti kanal resmi pengaduan pemerintah (SP4N-LAPOR) dan prosedur operasional standar pemerintah kota.
+            </p>
+          </div>
+          <div className="rounded-xl border border-civic-line bg-white p-5 shadow-sm space-y-2">
+            <h3 className="text-sm font-bold text-civic-ink flex items-center gap-2">
+              <span className="text-xl">🔗</span> SPBE & Satu Data Alignment
+            </h3>
+            <p className="text-xs leading-relaxed text-civic-muted">
+              Sistem mendukung interoperabilitas dan tata kelola data pemerintahan digital sesuai prinsip SPBE dan Satu Data Indonesia.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-6">
+          <h3 className="text-sm font-bold text-civic-ink mb-3">Batasan Otoritas AI (AI Output Limitation)</h3>
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div className="rounded-lg border border-green-200 bg-green-50 p-4">
+              <p className="text-xs font-bold text-green-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                <span>✅</span> AI Boleh (Diizinkan)
+              </p>
+              <ul className="space-y-1.5 text-xs text-green-900">
+                <li>• Mengklasifikasi kategori laporan</li>
+                <li>• Menyarankan OPD terkait</li>
+                <li>• Memberikan ringkasan permasalahan</li>
+                <li>• Memberikan label prioritas awal</li>
+                <li>• Membuat draft policy brief</li>
+                <li>• Membuat ringkasan transparan (citizen summary)</li>
+              </ul>
+            </div>
+            <div className="rounded-lg border border-red-200 bg-red-50 p-4">
+              <p className="text-xs font-bold text-red-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                <span>❌</span> AI TIDAK Boleh (Dilarang Keras)
+              </p>
+              <ul className="space-y-1.5 text-xs text-red-900">
+                <li>• Mengambil keputusan final pemerintahan</li>
+                <li>• Membocorkan/menampilkan data pribadi warga</li>
+                <li>• Menolak laporan tanpa validasi manusia</li>
+                <li>• Mengklaim data sebagai rilis resmi pemerintah</li>
+                <li>• Mengeluarkan perintah dinas resmi (SP/SK)</li>
+                <li>• Menggantikan peran strategis OPD</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 rounded-lg border border-civic-line bg-civic-soft p-4">
+          <p className="text-xs text-civic-muted italic">
+            <strong>Catatan Legal:</strong> Rujukan konseptual ini didasarkan pada prinsip perlindungan data pribadi, pedoman SPBE, kerangka Satu Data Indonesia, dan regulasi pengelolaan pengaduan pelayanan publik nasional. Detail implementasi nyata perlu dikaji lebih lanjut bersama otoritas daerah dan ahli hukum terkait.
+          </p>
+        </div>
+      </MethodSection>
+
+      {/* ── 9. Future Development ────────────────────────────────────── */}
       <MethodSection id="future-development" eyebrow="Roadmap" title="Pengembangan Berikutnya">
         <p className="text-sm leading-relaxed text-civic-muted">
           Jika prototype ini dilanjutkan ke tahap produksi, berikut adalah prioritas pengembangan

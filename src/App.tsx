@@ -7,6 +7,7 @@ import PolicyBriefPage from "./pages/PolicyBriefPage";
 import PolicySimulatorPage from "./pages/PolicySimulatorPage";
 import PublicTransparencyPage from "./pages/PublicTransparencyPage";
 import RegionDetailPage from "./pages/RegionDetailPage";
+import CitizenReportsPage from "./pages/CitizenReportsPage";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
         <Route index element={<LandingPage />} />
         <Route path="dashboard" element={<DashboardPage />} />
         <Route path="regions/:regionId" element={<RegionDetailPage />} />
+        <Route path="reports" element={<CitizenReportsPage />} />
         <Route path="simulator" element={<PolicySimulatorPage />} />
         <Route path="policy-brief" element={<PolicyBriefPage />} />
         <Route path="public" element={<PublicTransparencyPage />} />

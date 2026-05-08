@@ -257,13 +257,13 @@ export default function PublicTransparencyPage() {
         </div>
       </section>
 
-      {/* ── CivicSense AI Citizen Summary ─────────────────────────────── */}
+      {/* ── Draft Citizen Summary ─────────────────────────────── */}
       <section id="civicsense-citizen" className="overflow-hidden rounded-2xl border border-civic-primary/30 shadow-sm">
         <div className="flex items-center justify-between gap-3 bg-gradient-to-r from-civic-ink to-slate-800 px-6 py-4">
           <div className="flex items-center gap-2">
             <span className="text-lg">✨</span>
             <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-white/50">CivicSense AI</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-white/50">CivicSense Policy Assistant</p>
               <p className="text-sm font-semibold text-white">Ringkasan Publik — Kondisi Kota Semarang</p>
             </div>
           </div>

@@ -7,6 +7,13 @@ import { buttonClasses } from "../components/ui/Button";
 import { citySummary, mockRegions } from "../data/mockData";
 import { getRankedRegions, getCityScoringStats, INDICATOR_LABELS, getPolicyModeConfig } from "../utils";
 import { classNames } from "../utils/classNames";
+import {
+  getReportStats,
+  mockCitizenReports,
+  getReportsByCategory,
+  getReportsByUrgency,
+  ReportCategory,
+} from "../data/citizenReports";
 import type { PriorityCategory } from "../data/mockData";
 import type { ScoredRegion } from "../utils";
 
@@ -181,6 +188,24 @@ export default function DashboardPage() {
   const ranked = getRankedRegions(mockRegions, "general");
   const stats  = getCityScoringStats(ranked);
 
+  // -- Citizen Reports Snapshot Calculations --
+  const reportStats = getReportStats();
+  const categoryStats = getReportsByCategory();
+  const dominantReportCategory = Object.keys(categoryStats).reduce((a, b) =>
+    categoryStats[a as ReportCategory] > categoryStats[b as ReportCategory] ? a : b
+  );
+  
+  const regionCounts = mockCitizenReports.reduce((acc, report) => {
+    acc[report.regionName] = (acc[report.regionName] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+  const dominantReportRegion = Object.keys(regionCounts).reduce((a, b) => regionCounts[a] > regionCounts[b] ? a : b);
+
+  const urgentReports = [...mockCitizenReports]
+    .filter(r => r.urgency === "Kritis" || r.urgency === "Tinggi")
+    .slice(0, 3);
+  // -------------------------------------------
+
   const summaryCards = [
     {
       id: "stat-total",
@@ -290,6 +315,79 @@ export default function DashboardPage() {
           </p>
         </div>
         <SemarangPriorityMap regions={ranked} />
+      </section>
+
+      {/* ── Citizen Reports Snapshot ───────────────────────────────────── */}
+      <section id="citizen-reports-snapshot" className="rounded-xl border border-civic-line bg-white p-6 shadow-sm">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-5 gap-4">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-wider text-civic-primary flex items-center gap-1.5">
+              <span>📣</span> Intelligence Data
+            </p>
+            <h2 className="mt-1 text-base font-semibold text-civic-ink">
+              Citizen Reports Snapshot
+            </h2>
+            <p className="text-xs text-civic-muted mt-1 max-w-2xl">
+              Ringkasan laporan masyarakat yang dibantu draf awalnya oleh CivicSense AI untuk membantu pemerintah melihat isu kota yang paling mendesak.
+            </p>
+          </div>
+          <Link
+            to="/reports"
+            className={classNames(buttonClasses("secondary"), "shrink-0 text-xs")}
+          >
+            Buka Dashboard Laporan Masyarakat &rarr;
+          </Link>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-6">
+          <div className="rounded-lg bg-civic-soft p-4 border border-civic-line">
+            <p className="text-xs font-medium text-civic-muted">Total Laporan</p>
+            <p className="mt-1 text-xl font-bold text-civic-ink">{reportStats.total}</p>
+          </div>
+          <div className="rounded-lg bg-rose-50 p-4 border border-rose-100">
+            <p className="text-xs font-medium text-rose-700">Urgensi Tinggi/Kritis</p>
+            <p className="mt-1 text-xl font-bold text-rose-900">{reportStats.critical + (getReportsByUrgency()["Tinggi"] || 0)}</p>
+          </div>
+          <div className="rounded-lg bg-civic-soft p-4 border border-civic-line">
+            <p className="text-xs font-medium text-civic-muted">Kategori Dominan</p>
+            <p className="mt-1 text-sm font-bold text-civic-ink leading-tight">{dominantReportCategory}</p>
+          </div>
+          <div className="rounded-lg bg-civic-soft p-4 border border-civic-line">
+            <p className="text-xs font-medium text-civic-muted">Kecamatan Terbanyak</p>
+            <p className="mt-1 text-sm font-bold text-civic-ink leading-tight">{dominantReportRegion}</p>
+          </div>
+        </div>
+
+        <h3 className="text-xs font-bold text-civic-ink uppercase tracking-wider mb-3">3 Laporan Paling Urgent</h3>
+        <div className="grid gap-3 md:grid-cols-3">
+          {urgentReports.map(report => (
+            <div key={report.id} className="rounded-lg border border-civic-line p-4 flex flex-col hover:shadow-sm transition bg-white">
+              <div className="flex justify-between items-start mb-2 gap-2">
+                <span className={classNames(
+                  "text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border",
+                  report.urgency === "Kritis" ? "bg-rose-100 text-rose-700 border-rose-200" : "bg-orange-100 text-orange-700 border-orange-200"
+                )}>
+                  {report.urgency}
+                </span>
+                <span className="text-[10px] bg-civic-soft px-2 py-0.5 rounded-full font-medium text-civic-muted border border-civic-line">
+                  {report.status}
+                </span>
+              </div>
+              <p className="text-sm font-bold text-civic-ink leading-snug line-clamp-2" title={report.title}>{report.title}</p>
+              <div className="mt-2 space-y-1">
+                <p className="text-xs text-civic-muted">📍 {report.locationName}, {report.regionName}</p>
+                <p className="text-xs text-civic-muted">🏷️ {report.category}</p>
+                <p className="text-xs font-medium text-civic-ink mt-2">🏢 <span className="text-civic-muted">OPD:</span> {report.recommendedAgency}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-6 rounded border border-amber-200 bg-amber-50 p-3 text-center">
+          <p className="text-[10px] font-medium text-amber-700">
+            ⚠️ Data laporan pada prototype ini adalah simulasi. Pada implementasi nyata, laporan harus diverifikasi melalui kanal resmi dan OPD terkait.
+          </p>
+        </div>
       </section>
 
       {/* ── Isu Dominan Kota ───────────────────────────────────────────── */}

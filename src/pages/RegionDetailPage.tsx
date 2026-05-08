@@ -12,6 +12,7 @@ import {
 import { classNames } from "../utils/classNames";
 import type { PriorityCategory } from "../data/mockData";
 import type { RegionIndicator } from "../data/mockData";
+import { getHotspotsByRegion, getReportsByRegion } from "../data/citizenReports";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -124,6 +125,9 @@ export default function RegionDetailPage() {
   const level = categoryLevel(region.computedCategory);
   const style = levelStyle[level];
   const dominant = getDominantIndicators(region.indicators, "general", 3);
+  
+  const hotspots = getHotspotsByRegion(region.id);
+  const recentReports = getReportsByRegion(region.id).slice(0, 3);
 
   return (
     <div className="space-y-6 pb-12">
@@ -351,8 +355,114 @@ export default function RegionDetailPage() {
           <section id="civicsense-insight">
             <CivicSenseInsightCard
               getInsight={() => generateRegionInsight(raw, "general")}
-              triggerLabel="Explain Priority with CivicSense AI"
+              triggerLabel="Draft Priority Explanation with CivicSense AI"
             />
+          </section>
+
+          {/* ── Issue Hotspots ───────────────────────────────────────────── */}
+          <section
+            id="issue-hotspots"
+            className="rounded-xl border border-civic-line bg-white p-6 shadow-sm"
+          >
+            <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
+              Issue Hotspots
+            </p>
+            <h2 className="mt-1 mb-2 text-base font-semibold text-civic-ink">
+              Titik isu prioritas di dalam kecamatan
+            </h2>
+            <p className="text-xs text-civic-muted mb-5">
+              Titik isu prioritas di dalam kecamatan berdasarkan laporan simulasi, data olahan, dan kebutuhan validasi OPD.
+            </p>
+
+            <div className="space-y-4">
+              {hotspots.length > 0 ? hotspots.map(h => (
+                <div key={h.id} className="rounded-lg border border-civic-line p-4 flex flex-col sm:flex-row gap-4 bg-civic-soft/30 hover:bg-civic-soft/60 transition">
+                  <div className="flex-1">
+                    <div className="flex items-start gap-2 mb-1">
+                      <h3 className="font-bold text-civic-ink">{h.name}</h3>
+                      <span className={classNames(
+                        "text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider border",
+                        h.urgency === "Kritis" ? "bg-rose-100 text-rose-700 border-rose-200" :
+                        h.urgency === "Tinggi" ? "bg-orange-100 text-orange-700 border-orange-200" :
+                        h.urgency === "Sedang" ? "bg-amber-100 text-amber-700 border-amber-200" :
+                        "bg-green-100 text-green-700 border-green-200"
+                      )}>{h.urgency}</span>
+                    </div>
+                    <p className="text-xs text-civic-muted mb-2">📍 {h.locationDetail} | 🏷️ {h.issueType}</p>
+                    <p className="text-sm text-civic-ink leading-relaxed">{h.description}</p>
+                  </div>
+                  <div className="sm:w-48 shrink-0 flex flex-col gap-2 border-t sm:border-t-0 sm:border-l border-civic-line pt-3 sm:pt-0 sm:pl-4">
+                    <div>
+                      <p className="text-[10px] uppercase font-bold text-civic-muted">OPD Terkait</p>
+                      <p className="text-xs font-semibold text-civic-ink">{h.relatedAgency}</p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] uppercase font-bold text-civic-muted">Status</p>
+                      <p className="text-xs font-medium text-civic-ink">{h.status}</p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] uppercase font-bold text-civic-muted">Catatan Validasi</p>
+                      <p className="text-xs text-civic-muted italic">{h.validationNote}</p>
+                    </div>
+                  </div>
+                </div>
+              )) : (
+                <p className="text-sm text-civic-muted italic">Tidak ada hotspot tercatat untuk wilayah ini.</p>
+              )}
+            </div>
+            
+            <div className="mt-4 rounded border border-amber-200 bg-amber-50 p-3 text-center">
+              <p className="text-[10px] font-medium text-amber-700">
+                ⚠️ Hotspot ini merupakan simulasi prototype dan perlu validasi OPD sebelum digunakan sebagai dasar tindakan resmi.
+              </p>
+            </div>
+          </section>
+
+          {/* ── Laporan Masyarakat Terkait ───────────────────────────────── */}
+          <section
+            id="related-reports"
+            className="rounded-xl border border-civic-line bg-white p-6 shadow-sm"
+          >
+            <div className="flex justify-between items-end mb-4">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
+                  Citizen Intelligence
+                </p>
+                <h2 className="mt-1 text-base font-semibold text-civic-ink">
+                  Laporan Masyarakat Terkait
+                </h2>
+              </div>
+              <Link to={`/reports?region=${region.id}`} className="text-xs font-semibold text-civic-primary hover:underline">
+                Lihat Semua Laporan Kecamatan Ini &rarr;
+              </Link>
+            </div>
+
+            <div className="grid gap-3">
+              {recentReports.length > 0 ? recentReports.map(r => (
+                <div key={r.id} className="rounded-lg border border-civic-line p-3 flex flex-col sm:flex-row justify-between sm:items-center gap-2 hover:shadow-sm transition">
+                  <div>
+                    <h3 className="text-sm font-bold text-civic-ink line-clamp-1">{r.title}</h3>
+                    <p className="text-xs text-civic-muted mt-0.5">📍 {r.locationDetail}</p>
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span className="text-[10px] font-medium bg-civic-soft border border-civic-line px-1.5 py-0.5 rounded text-civic-muted">
+                      {r.category}
+                    </span>
+                    <span className={classNames(
+                      "text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded border",
+                      r.urgency === "Kritis" ? "bg-rose-100 text-rose-700 border-rose-200" :
+                      r.urgency === "Tinggi" ? "bg-orange-100 text-orange-700 border-orange-200" :
+                      "bg-amber-100 text-amber-700 border-amber-200"
+                    )}>{r.urgency}</span>
+                    <span className="text-[10px] font-medium text-civic-ink bg-civic-soft px-1.5 py-0.5 rounded-full">
+                      {r.status}
+                    </span>
+                  </div>
+                </div>
+              )) : (
+                <p className="text-sm text-civic-muted italic">Belum ada laporan dari masyarakat di wilayah ini.</p>
+              )}
+            </div>
           </section>
 
           {/* Dominant Issues */}

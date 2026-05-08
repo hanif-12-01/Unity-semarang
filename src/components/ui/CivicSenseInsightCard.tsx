@@ -209,7 +209,7 @@ export default function CivicSenseInsightCard({
                 cfg.cta
               )}
             >
-              <span className="font-bold">💡 Rekomendasi AI: </span>
+              <span className="font-bold">💡 Saran Tindakan Awal: </span>
               {insight.callToAction}
             </div>
 

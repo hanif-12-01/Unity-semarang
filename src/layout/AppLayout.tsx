@@ -17,6 +17,7 @@ const NAV_ITEMS = [
   { label: "Overview",           to: "/",              icon: "🏠", end: true  },
   { label: "Dashboard Kota",     to: "/dashboard",     icon: "📊", end: false },
   { label: "Detail Wilayah",     to: `/regions/${DEFAULT_DETAIL_REGION_ID}`, icon: "🔍", end: false },
+  { label: "Laporan Masyarakat", to: "/reports",       icon: "📣", end: false },
   { label: "Policy Simulator",   to: "/simulator",     icon: "⚖️", end: false },
   { label: "Policy Brief",       to: "/policy-brief",  icon: "✨", end: false },
   { label: "Transparansi Publik",to: "/public",        icon: "🌐", end: false },
