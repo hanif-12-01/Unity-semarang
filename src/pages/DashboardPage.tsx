@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
-import { MapPinned, BarChart3, TriangleAlert, MessageSquareWarning, Tag, Building, Sparkles, Waves, Hospital, Store, Info, SlidersHorizontal } from "lucide-react";
+import { MapPinned, BarChart3, TriangleAlert, MessageSquareWarning, Tag, Building, FileCog, Waves, Hospital, Store, Info, SlidersHorizontal } from "lucide-react";
 import IndicatorBar from "../components/ui/IndicatorBar";
 import PageHeader from "../components/ui/PageHeader";
 import PriorityBadge from "../components/ui/PriorityBadge";
 import SemarangPriorityMap from "../components/map/SemarangPriorityMap";
 import { buttonClasses } from "../components/ui/Button";
 import { citySummary, mockRegions } from "../data/mockData";
-import { getRankedRegions, getCityScoringStats, INDICATOR_LABELS, getPolicyModeConfig } from "../utils";
+import { getRankedRegions, getCityScoringStats, INDICATOR_LABELS, getPolicyModeConfig, isIndicatorInvertedForMode } from "../utils";
 import { classNames } from "../utils/classNames";
 import {
   getReportStats,
@@ -151,7 +151,7 @@ function RegionCard({ region, rank }: { region: ScoredRegion; rank: number }) {
               key={d.key}
               label={d.label}
               value={d.value}
-              inverted={d.key === "publicServiceAccess"}
+              inverted={isIndicatorInvertedForMode(d.key, "general")}
               colorClass="auto"
             />
           ))}
@@ -192,15 +192,19 @@ export default function DashboardPage() {
   // -- Citizen Reports Snapshot Calculations --
   const reportStats = getReportStats();
   const categoryStats = getReportsByCategory();
-  const dominantReportCategory = Object.keys(categoryStats).reduce((a, b) =>
-    categoryStats[a as ReportCategory] > categoryStats[b as ReportCategory] ? a : b
-  );
+  const categoryKeys = Object.keys(categoryStats) as ReportCategory[];
+  const dominantReportCategory = categoryKeys.length > 0
+    ? categoryKeys.reduce((a, b) => categoryStats[a] > categoryStats[b] ? a : b)
+    : "Tidak ada data";
   
   const regionCounts = mockCitizenReports.reduce((acc, report) => {
     acc[report.regionName] = (acc[report.regionName] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
-  const dominantReportRegion = Object.keys(regionCounts).reduce((a, b) => regionCounts[a] > regionCounts[b] ? a : b);
+  const regionKeys = Object.keys(regionCounts);
+  const dominantReportRegion = regionKeys.length > 0
+    ? regionKeys.reduce((a, b) => regionCounts[a] > regionCounts[b] ? a : b)
+    : "Tidak ada data";
 
   const urgentReports = [...mockCitizenReports]
     .filter(r => r.urgency === "Kritis" || r.urgency === "Tinggi")
@@ -270,14 +274,14 @@ export default function DashboardPage() {
             Wilayah Paling Krusial Saat Ini: <span className="text-civic-primary">{ranked[0].name}</span>
           </h2>
           <p className="text-xs text-civic-muted mt-1">
-            Skor: {ranked[0].computedScore}/100 ({ranked[0].computedCategory}). Segera buat ringkasan kebijakan AI untuk wilayah ini.
+            Skor: {ranked[0].computedScore}/100 ({ranked[0].computedCategory}). Susun draf ringkasan kebijakan berbasis rule-based CivicSense untuk wilayah ini.
           </p>
         </div>
         <Link
           to={`/policy-brief?region=${ranked[0].id}&mode=general`}
           className={classNames(buttonClasses("primary"), "shrink-0 text-xs flex items-center gap-1.5")}
         >
-          <Sparkles size={16} /> Generate Brief {ranked[0].name}
+          <FileCog size={16} /> Susun Brief {ranked[0].name}
         </Link>
       </section>
 
@@ -514,7 +518,7 @@ export default function DashboardPage() {
             ))}
           </div>
           <p className="mt-1.5 text-xs text-civic-muted/70">
-            * Akses Layanan Publik dibalik logikanya — nilai rendah = prioritas tinggi
+            * Akses Layanan Publik dan Aktivitas UMKM dibalik logikanya — nilai rendah = prioritas intervensi lebih tinggi.
           </p>
         </div>
       </section>

@@ -10,6 +10,7 @@ import {
   getDominantIndicators,
   INDICATOR_LABELS,
   POLICY_MODES,
+  isIndicatorInvertedForMode,
 } from "./scoring";
 import type { PolicyMode, ScoredRegion } from "./scoring";
 
@@ -49,12 +50,6 @@ export type CitizenSummary = {
 // ---------------------------------------------------------------------------
 // HELPERS
 // ---------------------------------------------------------------------------
-
-const INVERTED = new Set<keyof RegionIndicator>(["publicServiceAccess"]);
-
-function effectiveValue(key: keyof RegionIndicator, val: number): number {
-  return INVERTED.has(key) ? 100 - val : val;
-}
 
 function topIndicators(
   indicators: RegionIndicator,
@@ -117,7 +112,7 @@ export function generateRegionInsight(
   const bullets = top3.map(
     (d) =>
       `${INDICATOR_LABELS[d.key]}: ${d.value}/100 — ${d.severity}` +
-      (INVERTED.has(d.key)
+      (isIndicatorInvertedForMode(d.key, mode)
         ? " (nilai rendah berarti kebutuhan intervensi tinggi)"
         : "")
   );

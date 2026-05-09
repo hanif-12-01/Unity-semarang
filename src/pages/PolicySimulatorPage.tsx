@@ -1,6 +1,6 @@
 import React, { useState, useMemo, ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { Scale, Waves, Hospital, Users, Store, MessageSquareWarning, Sparkles, Lightbulb, FileText, BarChart3, Info } from "lucide-react";
+import { Scale, Waves, Hospital, Users, Store, MessageSquareWarning, Bot, Lightbulb, FileText, BarChart3, Info } from "lucide-react";
 import { buttonClasses } from "../components/ui/Button";
 import IndicatorBar from "../components/ui/IndicatorBar";
 import PageHeader from "../components/ui/PageHeader";
@@ -13,6 +13,7 @@ import {
   getWeightsForMode,
   generateSimulatorNarration,
   AI_DISCLAIMER,
+  isIndicatorInvertedForMode,
 } from "../utils";
 import { classNames } from "../utils/classNames";
 import type { PolicyMode, ScoredRegion } from "../utils";
@@ -82,9 +83,6 @@ const MODE_RECOMMENDATIONS: Record<PolicyMode, string[]> = {
     "Gunakan pola laporan warga untuk mengidentifikasi hotspot masalah baru",
   ],
 };
-
-// Inverted keys (for display note)
-const INVERTED_KEYS = new Set<keyof RegionIndicator>(["publicServiceAccess"]);
 
 // ─── Helper: rank change badge ─────────────────────────────────────────────────
 
@@ -394,13 +392,13 @@ export default function PolicySimulatorPage() {
                   key={key}
                   label={INDICATOR_LABELS[key]}
                   weight={w}
-                  inverted={INVERTED_KEYS.has(key) || (key === "smeActivity" && activeMode === "economy")}
+                  inverted={isIndicatorInvertedForMode(key as keyof RegionIndicator, activeMode)}
                   isHighlighted={w === Math.max(...Object.values(weights))}
                 />
               ))}
-            {(activeMode === "publicService" || activeMode === "economy") && (
+            {Object.keys(weights).some((key) => isIndicatorInvertedForMode(key as keyof RegionIndicator, activeMode)) && (
               <p className="pt-1 text-xs text-civic-muted/70 italic">
-                * Indikator dibalik: nilai rendah = kebutuhan intervensi tinggi
+                * Indikator bertanda ini dibalik: nilai rendah = kebutuhan intervensi lebih tinggi
               </p>
             )}
           </div>
@@ -415,7 +413,7 @@ export default function PolicySimulatorPage() {
             {/* Header */}
             <div className="flex items-center justify-between gap-3 bg-gradient-to-r from-civic-ink to-slate-800 px-5 py-4">
               <div className="flex items-center gap-2 text-civic-primary">
-                <Sparkles size={20} />
+                <Bot size={20} />
                 <div className="text-left">
                   <p className="text-xs font-bold uppercase tracking-widest text-white/50">CivicSense AI</p>
                   <p className="text-sm font-semibold text-white">
@@ -527,7 +525,7 @@ export default function PolicySimulatorPage() {
                   <IndicatorBar
                     label={INDICATOR_LABELS[topWeightKey]}
                     value={region.indicators[topWeightKey]}
-                    inverted={INVERTED_KEYS.has(topWeightKey) || (topWeightKey === "smeActivity" && activeMode === "economy")}
+                    inverted={isIndicatorInvertedForMode(topWeightKey, activeMode)}
                     colorClass="auto"
                   />
                 </div>
@@ -597,7 +595,7 @@ export default function PolicySimulatorPage() {
               id="sim-goto-policybrief"
               className={classNames(buttonClasses("primary"), "w-full justify-center text-sm gap-2")}
             >
-              <FileText size={16} /> Generate Policy Brief
+              <FileText size={16} /> Susun Policy Brief
             </Link>
             <Link
               to="/dashboard"
