@@ -117,69 +117,71 @@ export default function AppLayout() {
         </div>
 
         {/* Navigation Row */}
-        <div className="border-t border-civic-line/40 bg-civic-surface">
-          <div className="mx-auto flex max-w-[1500px] items-center justify-between px-5 lg:px-8">
-            <nav
-              className="flex gap-1 overflow-x-auto py-2 pr-4 scrollbar-hide -mb-px"
-              aria-label="Navigasi utama"
-            >
-              {NAV_ITEMS.map((item) => (
-                <NavLink
-                  key={item.to}
-                  to={item.to}
-                  end={item.end}
-                  className={({ isActive }) =>
-                    classNames(
-                      "flex items-center gap-2 whitespace-nowrap rounded-md px-3 py-2 text-sm transition-colors",
-                      isActive
-                        ? "bg-civic-primary/10 text-civic-primary font-semibold"
-                        : "text-civic-muted hover:bg-civic-soft hover:text-civic-ink font-medium"
-                    )
-                  }
-                >
-                  <span className="shrink-0">{item.icon}</span>
-                  {item.label}
-                </NavLink>
-              ))}
-            </nav>
-
-            {/* Demo Flow Dropdown */}
-            <div className="relative shrink-0 ml-2" ref={dropdownRef}>
-              <button
-                onClick={() => setShowDemo(!showDemo)}
-                className="flex items-center gap-1.5 rounded-md border border-civic-line bg-civic-panel px-3 py-2 text-sm font-medium text-civic-ink shadow-sm transition hover:bg-civic-soft hover:border-civic-primary/30"
+        {location.pathname !== "/" && (
+          <div className="border-t border-civic-line/40 bg-civic-surface">
+            <div className="mx-auto flex max-w-[1500px] items-center justify-between px-5 lg:px-8">
+              <nav
+                className="flex gap-1 overflow-x-auto py-2 pr-4 scrollbar-hide -mb-px"
+                aria-label="Navigasi utama"
               >
-                <PlayCircle size={16} className="text-civic-primary" />
-                <span className="hidden sm:inline">Presentation Flow</span>
-                <span className="sm:hidden">Demo</span>
-                <ChevronDown size={14} className={classNames("text-civic-muted transition-transform", showDemo ? "rotate-180" : "")} />
-              </button>
-              
-              {showDemo && (
-                <div className="absolute right-0 top-full mt-2 w-64 rounded-xl border border-civic-line bg-civic-surface p-3 shadow-lg">
-                  <p className="mb-3 px-2 text-[10px] font-bold uppercase tracking-wider text-civic-gold">Urutan Demo Juri</p>
-                  <div className="space-y-1">
-                    {DEMO_FLOW.map((d) => (
-                      <Link
-                        key={d.step}
-                        to={d.to}
-                        className="flex items-start gap-2.5 rounded-lg p-2 transition hover:bg-civic-soft"
-                      >
-                        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-civic-primary/10 text-[10px] font-bold text-civic-primary mt-0.5">
-                          {d.step}
-                        </span>
-                        <div>
-                          <p className="text-xs font-semibold text-civic-ink">{d.label}</p>
-                          <p className="text-[10px] text-civic-muted mt-0.5">{d.hint}</p>
-                        </div>
-                      </Link>
-                    ))}
+                {NAV_ITEMS.map((item) => (
+                  <NavLink
+                    key={item.to}
+                    to={item.to}
+                    end={item.end}
+                    className={({ isActive }) =>
+                      classNames(
+                        "flex items-center gap-2 whitespace-nowrap rounded-md px-3 py-2 text-sm transition-colors",
+                        isActive
+                          ? "bg-civic-primary/10 text-civic-primary font-semibold"
+                          : "text-civic-muted hover:bg-civic-soft hover:text-civic-ink font-medium"
+                      )
+                    }
+                  >
+                    <span className="shrink-0">{item.icon}</span>
+                    {item.label}
+                  </NavLink>
+                ))}
+              </nav>
+
+              {/* Demo Flow Dropdown */}
+              <div className="relative shrink-0 ml-2" ref={dropdownRef}>
+                <button
+                  onClick={() => setShowDemo(!showDemo)}
+                  className="flex items-center gap-1.5 rounded-md border border-civic-line bg-civic-panel px-3 py-2 text-sm font-medium text-civic-ink shadow-sm transition hover:bg-civic-soft hover:border-civic-primary/30"
+                >
+                  <PlayCircle size={16} className="text-civic-primary" />
+                  <span className="hidden sm:inline">Presentation Flow</span>
+                  <span className="sm:hidden">Demo</span>
+                  <ChevronDown size={14} className={classNames("text-civic-muted transition-transform", showDemo ? "rotate-180" : "")} />
+                </button>
+                
+                {showDemo && (
+                  <div className="absolute right-0 top-full mt-2 w-64 rounded-xl border border-civic-line bg-civic-surface p-3 shadow-lg">
+                    <p className="mb-3 px-2 text-[10px] font-bold uppercase tracking-wider text-civic-gold">Urutan Demo Juri</p>
+                    <div className="space-y-1">
+                      {DEMO_FLOW.map((d) => (
+                        <Link
+                          key={d.step}
+                          to={d.to}
+                          className="flex items-start gap-2.5 rounded-lg p-2 transition hover:bg-civic-soft"
+                        >
+                          <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-civic-primary/10 text-[10px] font-bold text-civic-primary mt-0.5">
+                            {d.step}
+                          </span>
+                          <div>
+                            <p className="text-xs font-semibold text-civic-ink">{d.label}</p>
+                            <p className="text-[10px] text-civic-muted mt-0.5">{d.hint}</p>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </header>
 
       {/* ── Main Content ── */}

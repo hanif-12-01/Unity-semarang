@@ -1,6 +1,8 @@
 # CIVICTWIN Semarang
 
-CIVICTWIN Semarang adalah civic intelligence platform berbasis digital twin kecamatan untuk membantu pemerintah kota membaca prioritas wilayah, laporan masyarakat, simulasi kebijakan, dan transparansi publik.
+CIVICTWIN Semarang adalah civic intelligence platform tingkat kecamatan untuk membantu pemerintah kota membaca prioritas wilayah, laporan masyarakat, simulasi kebijakan, dan transparansi publik.
+
+Pada fase proof of concept, CIVICTWIN diposisikan sebagai Civic Intelligence Layer dan stepping stone menuju Spatial Digital Twin. Prototype ini belum menggunakan GIS boundary resmi, sensor IoT real-time, atau integrasi data OPD langsung.
 
 ## Problem Statement
 
@@ -139,10 +141,11 @@ Berikut adalah urutan navigasi yang direkomendasikan untuk presentasi/demo:
 ## Roadmap
 
 Untuk pengembangan platform nyata di masa depan:
-- Integrasi *pipeline* data resmi BPS / OPD / BPBD / Dishub.
+- Integrasi *pipeline* data resmi BPS / OPD / BPBD / Dishub dan sensor IoT.
 - Integrasi kanal laporan resmi (seperti Lapor!).
+- Validasi lapangan untuk laporan dan hotspot.
 - Autentikasi dan otorisasi *role-based* sungguhan.
 - Pencatatan aktivitas (*Audit trail*) untuk akuntabilitas.
 - Integrasi layanan *polygon GIS boundary* resmi untuk kecamatan dan kelurahan.
 - Integrasi *AI policy assistant* sesungguhnya namun dilengkapi *guardrail* hukum yang kuat.
-- Pembuatan panel *Dashboard* waktu nyata (*real-time*).
+- Mewujudkan *real-time spatial digital twin* yang beroperasi secara penuh.

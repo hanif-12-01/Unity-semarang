@@ -64,14 +64,14 @@ export const INDICATOR_LABELS: Record<keyof RegionIndicator, string> = {
 // ---------------------------------------------------------------------------
 
 /**
- * `publicServiceAccess`: semakin tinggi akses layanan → semakin baik → perlu dibalik
- * `smeActivity`: UMKM aktif = kondisi baik, tapi dalam scoring ini tetap positif
- *   karena UMKM rendah = kerentanan ekonomi tinggi (TIDAK dibalik)
+ * `publicServiceAccess`: semakin tinggi akses layanan → semakin baik → perlu dibalik (prioritas rendah)
+ * `smeActivity`: UMKM aktif = ekonomi lokal lebih baik = prioritas intervensi ekonomi lebih rendah
+ *   sehingga perlu dibalik secara konsisten. UMKM rendah = kerentanan ekonomi lebih tinggi = prioritas intervensi lebih tinggi.
  *
- * Untuk scoring, hanya `publicServiceAccess` yang diinversi:
+ * Untuk scoring, indikator berikut diinversi:
  *   effectiveValue = 100 - rawValue
  */
-const INVERTED_INDICATORS = new Set<keyof RegionIndicator>(["publicServiceAccess"]);
+const INVERTED_INDICATORS = new Set<keyof RegionIndicator>(["publicServiceAccess", "smeActivity"]);
 
 // ---------------------------------------------------------------------------
 // SCORING WEIGHTS — 6 MODE KEBIJAKAN
@@ -132,9 +132,8 @@ const WEIGHTS_SOCIAL: ScoringWeights = {
 
 /**
  * MODE 5 — Fokus Ekonomi UMKM
- * Bobot besar pada UMKM — rendahnya UMKM menjadi prioritas intervensi
- * Catatan: smeActivity TIDAK diinversi; nilai rendah = perlu intervensi ekonomi
- * Dalam mode ini kita menambahkan inversi manual (lihat getEffectiveValue)
+ * Bobot besar pada UMKM — rendahnya UMKM menjadi prioritas intervensi.
+ * Catatan: smeActivity sudah otomatis diinversi (nilai tinggi -> prioritas intervensi rendah).
  */
 const WEIGHTS_ECONOMY: ScoringWeights = {
   floodRisk: 0.05,
@@ -142,7 +141,7 @@ const WEIGHTS_ECONOMY: ScoringWeights = {
   socialVulnerability: 0.15,
   publicServiceAccess: 0.15,
   citizenReports: 0.10,
-  smeActivity: 0.45, // diinversi khusus di mode ini
+  smeActivity: 0.45,
 };
 
 /**
@@ -213,16 +212,13 @@ export const POLICY_MODES: PolicyModeConfig[] = [
 
 /**
  * Menentukan apakah sebuah indikator perlu diinversi dalam mode kebijakan tertentu.
- * - `publicServiceAccess` selalu diinversi (akses tinggi = kondisi baik = prioritas rendah)
- * - `smeActivity` diinversi HANYA di mode "economy" (UMKM rendah = perlu intervensi)
+ * Indikator di dalam INVERTED_INDICATORS (seperti publicServiceAccess dan smeActivity) akan selalu diinversi.
  */
 export function isIndicatorInvertedForMode(
   key: keyof RegionIndicator,
   mode: PolicyMode
 ): boolean {
-  if (INVERTED_INDICATORS.has(key)) return true;
-  if (key === "smeActivity" && mode === "economy") return true;
-  return false;
+  return INVERTED_INDICATORS.has(key);
 }
 
 /**

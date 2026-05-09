@@ -12,7 +12,7 @@
 ## 2. Product Positioning (30 Detik)
 **Tindakan:** Arahkan kursor ke tombol "Masuk Mode Demo".
 **Narasi Presenter:**
-*"Untuk menjawab tantangan tersebut, kami menghadirkan CIVICTWIN Semarang. CIVICTWIN adalah civic intelligence platform berbasis digital twin kecamatan, yang dirancang untuk membantu pemerintah kota membaca prioritas wilayah, memetakan laporan masyarakat, mensimulasikan kebijakan, sekaligus membuka keran transparansi publik."*
+*"Untuk menjawab tantangan tersebut, kami menghadirkan CIVICTWIN Semarang. Pada fase proof of concept ini, CIVICTWIN diposisikan sebagai civic intelligence layer dan stepping stone menuju spatial digital twin. Sistem dirancang untuk membantu pemerintah kota membaca prioritas wilayah, memetakan laporan masyarakat, mensimulasikan kebijakan, sekaligus membuka keran transparansi publik."*
 
 ---
 

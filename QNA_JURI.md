@@ -9,10 +9,10 @@ Gunakan dokumen ini sebagai pegangan saat sesi tanya jawab.
 ## 1. Ide dan Urgensi
 
 **Q1. Mengapa memilih kota Semarang sebagai lokus inovasi ini?**
-*Jawaban:* Semarang memiliki kompleksitas urban yang unik—mulai dari tata letak geografis (pesisir dan perbukitan) yang rawan rob dan banjir, kepadatan penduduk yang dinamis, hingga warisan budaya (Kota Lama). Kompleksitas ini menjadikannya *sandbox* ideal untuk platform tata kelola cerdas seperti CIVICTWIN yang membutuhkan banyak irisan indikator spasial dan sosial.
+*Jawaban:* Semarang memiliki kompleksitas urban yang unik—mulai dari tata letak geografis (pesisir dan perbukitan) yang rawan rob dan banjir, kepadatan penduduk yang dinamis, hingga warisan budaya (Kota Lama). Kompleksitas ini menjadikannya *sandbox* ideal untuk platform tata kelola cerdas seperti CIVICTWIN yang diposisikan sebagai *Civic Intelligence Layer* dan *stepping stone* menuju *Spatial Digital Twin*.
 
 **Q2. Apa masalah utama yang sebenarnya ingin diselesaikan oleh CIVICTWIN?**
-*Jawaban:* Masalah utama yang kami selesaikan adalah **silo data**. Saat ini, data kebencanaan, laporan warga, dan statistik kependudukan berada di OPD yang berbeda. Pimpinan daerah kesulitan melihat gambaran utuh (*helicopter view*) dari sebuah wilayah. CIVICTWIN menjembatani hal ini dengan mengonsolidasikan indikator tersebut ke dalam satu dasbor *digital twin* yang memberikan skor prioritas secara komprehensif.
+*Jawaban:* Masalah utama yang kami selesaikan adalah **silo data**. Saat ini, data kebencanaan, laporan warga, dan statistik kependudukan berada di OPD yang berbeda. Pimpinan daerah kesulitan melihat gambaran utuh (*helicopter view*) dari sebuah wilayah. CIVICTWIN menjembatani hal ini dengan mengonsolidasikan indikator tersebut ke dalam satu dasbor cerdas yang memberikan skor prioritas secara komprehensif.
 
 **Q3. Apa bedanya aplikasi ini dengan dasbor analitik biasa?**
 *Jawaban:* Dasbor biasa umumnya pasif; mereka hanya menampilkan metrik historis. CIVICTWIN adalah **Civic Intelligence Platform** yang proaktif. Kami tidak hanya menampilkan grafik, tetapi menyediakan *Policy Simulator* di mana pimpinan bisa melakukan uji parameter kebijakan dan seketika melihat perubahan skenario (skor wilayah) sebelum sebuah keputusan atau anggaran benar-benar dieksekusi.
@@ -95,8 +95,11 @@ Gunakan dokumen ini sebagai pegangan saat sesi tanya jawab.
 **Q21. Apakah bobot tersebut bersifat kaku (mutlak)?**
 *Jawaban:* Tidak. Melalui fitur *Policy Simulator*, pimpinan atau analis bebas mengubah distribusi bobot (*slider*) sesuai fokus musrenbang atau RPJMD tahunan. Jika tahun ini fokus pada infrastruktur darurat, bobot kebencanaan bisa ditarik maksimal oleh pengguna.
 
-**Q22. Apa bedanya Priority Score dengan Emergency/Urgency Score?**
-*Jawaban:* **Priority Score** adalah angka stabil 0-100 yang merepresentasikan tingkat kebutuhan perhatian per kecamatan berdasarkan gabungan indikator struktural bulanan/tahunan. Sementara itu, **Urgency Score** melekat pada laporan warga secara individual dan bisa berubah dalam hitungan menit—membedakan laporan selokan mampet biasa dengan tanggul jebol yang mengancam nyawa.
+**Q22. Apa bedanya Priority Score, Emergency Review Score, dan Report Urgency?**
+*Jawaban:* 
+- **Priority Score (0-100)** melekat pada kecamatan/wilayah, berfungsi untuk perencanaan kebijakan dan merepresentasikan seberapa mendesak suatu kecamatan untuk mendapatkan intervensi reguler.
+- **Emergency Review Score (0-100)** melekat pada kecamatan/wilayah, menggabungkan indikator krisis lapangan (seperti status muka air, risiko historis, laporan terverifikasi, paparan penduduk, fasilitas kritis, dan kerentanan sosial).
+- **Report Urgency** melekat pada laporan warga individual, dengan kategori Rendah/Sedang/Tinggi/Kritis.
 
 ---
 

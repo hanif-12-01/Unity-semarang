@@ -168,6 +168,27 @@ export default function MethodologyPage() {
         </div>
       </div>
 
+      {/* ── CIVICTWIN as Civic Intelligence Layer ────────────────────── */}
+      <MethodSection id="civic-intelligence-layer" eyebrow="Positioning" title="CIVICTWIN as Civic Intelligence Layer">
+        <p className="text-sm leading-relaxed text-civic-muted">
+          Pada fase proof of concept ini, CIVICTWIN diposisikan secara realistis sebagai <strong className="text-civic-ink font-semibold">Civic Intelligence Layer</strong> dan pijakan awal (stepping stone) menuju ekosistem kota cerdas yang terpadu.
+        </p>
+        <ul className="mt-3 space-y-2 text-sm text-civic-muted">
+          <li className="flex items-start gap-2">
+            <span className="text-civic-primary mt-0.5">•</span>
+            <span>CIVICTWIN saat ini bertindak sebagai lapisan analisis cerdas di atas data yang disimulasikan, dan belum diklaim sebagai spatial digital twin yang beroperasi penuh.</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-civic-primary mt-0.5">•</span>
+            <span>Prototype ini belum menggunakan GIS boundary resmi dari pemerintah, belum terhubung dengan sensor IoT real-time, dan belum menarik data secara langsung dari instansi/OPD terkait.</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-civic-primary mt-0.5">•</span>
+            <span>Sistem ini dirancang dengan arsitektur yang siap diintegrasikan kelak, menjadikannya fondasi kokoh menuju spatial digital twin pada tahap implementasi lanjutan.</span>
+          </li>
+        </ul>
+      </MethodSection>
+
       {/* ── 2. Data Sources ──────────────────────────────────────────── */}
       <MethodSection id="data-sources" eyebrow="Sumber Data" title="Sumber Data pada Implementasi Nyata">
         <p className="text-sm leading-relaxed text-civic-muted">
@@ -308,8 +329,8 @@ export default function MethodologyPage() {
           <div className="grid gap-3 sm:grid-cols-3">
             {[
               { range: "75 – 100", cat: "Prioritas Tinggi", color: "border-red-200 bg-red-50", badge: "text-red-700", bar: "bg-red-500", dot: "bg-red-500", desc: "Memerlukan intervensi segera lintas OPD." },
-              { range: "50 – 74",  cat: "Prioritas Sedang", color: "border-amber-200 bg-amber-50", badge: "text-amber-700", bar: "bg-amber-500", dot: "bg-amber-500", desc: "Perlu rencana intervensi terstruktur." },
-              { range: "0 – 49",   cat: "Prioritas Rendah", color: "border-emerald-200 bg-emerald-50", badge: "text-emerald-700", bar: "bg-emerald-500", dot: "bg-emerald-500", desc: "Pemantauan rutin dan program preventif." },
+              { range: "50 – 74", cat: "Prioritas Sedang", color: "border-amber-200 bg-amber-50", badge: "text-amber-700", bar: "bg-amber-500", dot: "bg-amber-500", desc: "Perlu rencana intervensi terstruktur." },
+              { range: "0 – 49", cat: "Prioritas Rendah", color: "border-emerald-200 bg-emerald-50", badge: "text-emerald-700", bar: "bg-emerald-500", dot: "bg-emerald-500", desc: "Pemantauan rutin dan program preventif." },
             ].map((c) => (
               <div key={c.cat} className={classNames("rounded-xl border p-4 space-y-2", c.color)}>
                 <div className="flex items-center gap-2">
@@ -339,12 +360,12 @@ export default function MethodologyPage() {
             </thead>
             <tbody className="divide-y divide-civic-line">
               {[
-                { label: "Risiko Banjir/Rob",    w: 0.25, inv: false },
-                { label: "Kerentanan Sosial",     w: 0.20, inv: false },
-                { label: "Kepadatan Penduduk",    w: 0.15, inv: false },
-                { label: "Akses Layanan Publik",  w: 0.15, inv: true  },
-                { label: "Laporan Warga",         w: 0.15, inv: false },
-                { label: "Aktivitas UMKM",        w: 0.10, inv: false },
+                { label: "Risiko Banjir/Rob", w: 0.25, inv: false },
+                { label: "Kerentanan Sosial", w: 0.20, inv: false },
+                { label: "Kepadatan Penduduk", w: 0.15, inv: false },
+                { label: "Akses Layanan Publik", w: 0.15, inv: true },
+                { label: "Laporan Warga", w: 0.15, inv: false },
+                { label: "Aktivitas UMKM", w: 0.10, inv: false },
               ].map((row) => (
                 <tr key={row.label} className="py-2">
                   <td className="py-2.5 font-medium text-civic-ink">{row.label}</td>
@@ -379,21 +400,29 @@ export default function MethodologyPage() {
         </div>
       </MethodSection>
 
-      {/* ── 5. Priority Score vs Emergency Review Score ─────────────────────────── */}
-      <MethodSection id="priority-vs-emergency" eyebrow="Emergency Layer" title="Priority Score vs Emergency Review Score">
+      {/* ── Metric Clarification: Priority, Emergency, and Report Urgency ── */}
+      <MethodSection id="metric-clarification" eyebrow="Metric Clarification" title="Priority, Emergency, and Report Urgency">
         <p className="text-sm leading-relaxed text-civic-muted">
-          CIVICTWIN mengadopsi pendekatan dua lapis (two-layer approach) untuk perencanaan dan respons bencana.
+          CIVICTWIN mengadopsi pendekatan berlapis (multi-layer approach) untuk perencanaan kebijakan dan respons kejadian di lapangan. Terdapat tiga metrik utama yang saling berkaitan namun memiliki fungsi yang berbeda:
         </p>
-        <div className="grid gap-4 sm:grid-cols-2 mt-4">
+        <div className="grid gap-4 sm:grid-cols-3 mt-4">
           <div className="rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm space-y-3">
             <h3 className="font-bold text-civic-ink flex items-center gap-1.5"><BarChart3 size={18} /> Priority Score</h3>
-            <p className="text-sm text-civic-muted"><strong>Tujuan:</strong> Perencanaan kebijakan jangka panjang dan alokasi anggaran tahunan.</p>
-            <p className="text-sm text-civic-muted"><strong>Karakteristik:</strong> Menggunakan 6 indikator komposit (Banjir, Kepadatan, Kerentanan Sosial, Layanan Publik, Laporan Warga, UMKM). Bobot dapat disimulasikan sesuai fokus kebijakan.</p>
+            <p className="text-sm text-civic-muted"><strong>Skala:</strong> 0 – 100</p>
+            <p className="text-sm text-civic-muted"><strong>Melekat pada:</strong> Kecamatan / Wilayah</p>
+            <p className="text-sm text-civic-muted leading-relaxed"><strong>Fungsi:</strong> Digunakan untuk perencanaan kebijakan dan alokasi prioritas intervensi jangka menengah secara lintas OPD.</p>
           </div>
           <div className="rounded-xl border border-red-200 bg-red-50/50 p-5 shadow-sm space-y-3">
             <h3 className="font-bold text-red-700 flex items-center gap-1.5"><TriangleAlert size={18} /> Emergency Review Score</h3>
-            <p className="text-sm text-civic-muted"><strong>Tujuan:</strong> Prioritas tinjauan darurat lapangan saat ada indikasi bencana (misal: curah hujan ekstrim, rob naik).</p>
-            <p className="text-sm text-civic-muted"><strong>Karakteristik:</strong> Bersifat taktis dan berfokus pada keselamatan jiwa. Memiliki formula tetap untuk respons cepat.</p>
+            <p className="text-sm text-civic-muted"><strong>Skala:</strong> 0 – 100</p>
+            <p className="text-sm text-civic-muted"><strong>Melekat pada:</strong> Kecamatan / Wilayah</p>
+            <p className="text-sm text-civic-muted leading-relaxed"><strong>Fungsi:</strong> Digunakan untuk prioritas tinjauan cepat saat ada indikasi atau sinyal bencana (darurat lapangan).</p>
+          </div>
+          <div className="rounded-xl border border-orange-200 bg-orange-50/50 p-5 shadow-sm space-y-3">
+            <h3 className="font-bold text-orange-700 flex items-center gap-1.5"><MessageSquareWarning size={18} /> Report Urgency</h3>
+            <p className="text-sm text-civic-muted"><strong>Kategori:</strong> Rendah / Sedang / Tinggi / Kritis</p>
+            <p className="text-sm text-civic-muted"><strong>Melekat pada:</strong> Laporan Warga Individual</p>
+            <p className="text-sm text-civic-muted leading-relaxed"><strong>Fungsi:</strong> Digunakan untuk triage (pemilahan) urgensi laporan masyarakat sebelum divalidasi dan ditindaklanjuti secara teknis oleh OPD.</p>
           </div>
         </div>
 
@@ -438,7 +467,7 @@ export default function MethodologyPage() {
             <span className="rounded bg-yellow-100 px-2 py-1 text-yellow-700 font-medium">≥20 Waspada</span>
           </div>
           <p className="mt-3 text-xs italic text-civic-muted">
-            * Batasan Data: Seluruh nilai parameter Emergency saat ini adalah murni <strong className="font-bold text-civic-ink">simulasi (Proof of Concept)</strong>. Tidak terhubung dengan sensor fisik (misal AWLR) maupun laporan BPBD riil. 
+            * Batasan Data: Seluruh nilai parameter Emergency saat ini adalah murni <strong className="font-bold text-civic-ink">simulasi (Proof of Concept)</strong>. Tidak terhubung dengan sensor fisik (misal AWLR) maupun laporan BPBD riil.
           </p>
         </div>
       </MethodSection>
@@ -455,7 +484,7 @@ export default function MethodologyPage() {
           {POLICY_MODES.map((mode) => {
             const topEntry = Object.entries(mode.weights).sort((a, b) => b[1] - a[1])[0];
             const topLabel = INDICATOR_LABELS[topEntry[0] as keyof typeof INDICATOR_LABELS];
-            const topPct   = Math.round(topEntry[1] * 100);
+            const topPct = Math.round(topEntry[1] * 100);
             return (
               <div key={mode.id} className="rounded-xl border border-civic-line bg-civic-surface p-4 shadow-sm space-y-2">
                 <p className="text-sm font-bold text-civic-ink">{mode.label}</p>
@@ -499,7 +528,7 @@ export default function MethodologyPage() {
         <p className="text-sm leading-relaxed text-civic-muted">
           CIVICTWIN menggunakan CivicSense AI sebagai policy/report assistant. AI bertugas membantu klasifikasi, peringkasan, penentuan prioritas awal, dan pembuatan draf rekomendasi. AI <strong>bukan pengambil keputusan final</strong>, tidak menggantikan validasi manusia/OPD, wajib menggunakan data anonim, dan hasil AI harus diperlakukan sebagai draf analisis awal.
         </p>
-        
+
         <div className="grid gap-4 sm:grid-cols-2 mt-5">
           <div className="rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm space-y-2">
             <h3 className="text-sm font-bold text-civic-ink flex items-center gap-2">
@@ -608,10 +637,10 @@ export default function MethodologyPage() {
           <p className="text-xs text-civic-muted mt-0.5">Gunakan Dashboard, Simulator, atau Policy Brief untuk menjelajahi sistem.</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Link to="/dashboard"  className={classNames(buttonClasses("primary"), "gap-2")}><BarChart3 size={16} /> Dashboard Kota</Link>
-          <Link to="/simulator"  className={classNames(buttonClasses("secondary"), "gap-2")}><SlidersHorizontal size={16} /> Policy Simulator</Link>
+          <Link to="/dashboard" className={classNames(buttonClasses("primary"), "gap-2")}><BarChart3 size={16} /> Dashboard Kota</Link>
+          <Link to="/simulator" className={classNames(buttonClasses("secondary"), "gap-2")}><SlidersHorizontal size={16} /> Policy Simulator</Link>
           <Link to="/policy-brief" className={classNames(buttonClasses("secondary"), "gap-2")}><Sparkles size={16} /> AI Policy Brief</Link>
-          <Link to="/public"     className={classNames(buttonClasses("secondary"), "gap-2")}><Globe2 size={16} /> Transparansi Publik</Link>
+          <Link to="/public" className={classNames(buttonClasses("secondary"), "gap-2")}><Globe2 size={16} /> Transparansi Publik</Link>
         </div>
       </section>
     </div>

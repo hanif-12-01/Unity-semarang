@@ -6,7 +6,9 @@
 ---
 
 ## 1. Executive Summary
-CIVICTWIN Semarang adalah sebuah purwarupa (prototipe) platform intelijen tata kelola pemerintahan (*civic intelligence platform*) berbasis *digital twin* tingkat kecamatan. Sistem ini didesain sebagai instrumen pendukung keputusan (*decision support system*) lintas instansi, yang mampu mengonsolidasikan indikator statistik demografis, risiko kebencanaan, kerentanan sosial, serta agregasi keluhan masyarakat menjadi sebuah matriks prioritas spasial yang interaktif dan transparan.
+CIVICTWIN Semarang adalah sebuah purwarupa (prototipe) platform intelijen tata kelola pemerintahan (*civic intelligence platform*) tingkat kecamatan. Sistem ini didesain sebagai instrumen pendukung keputusan (*decision support system*) lintas instansi, yang mampu mengonsolidasikan indikator statistik demografis, risiko kebencanaan, kerentanan sosial, serta agregasi keluhan masyarakat menjadi sebuah matriks prioritas spasial yang interaktif dan transparan.
+
+Pada fase proof of concept, CIVICTWIN diposisikan sebagai Civic Intelligence Layer dan stepping stone menuju Spatial Digital Twin. Prototype ini belum menggunakan GIS boundary resmi, sensor IoT real-time, atau integrasi data OPD langsung.
 
 ## 2. Background Problem
 Pembangunan wilayah administratif dan respons terhadap krisis sering terhambat oleh arsitektur silo data antar-Organisasi Perangkat Daerah (OPD). Ketika laporan masyarakat membeludak melalui kanal pengaduan tanpa adanya klasifikasi urgensi spasial, pimpinan daerah akan kesulitan menentukan skala prioritas intervensi. Lebih jauh, simulasi penyesuaian regulasi (seperti reposisi anggaran musrenbang) memerlukan kalkulasi yang memakan waktu dan rumit untuk dikomunikasikan secara transparan kepada masyarakat umum tanpa melanggar kerahasiaan data negara.
@@ -41,7 +43,7 @@ Data yang disajikan pada arsitektur purwarupa ini merupakan penggabungan hibrida
 *(Catatan: Segala representasi koordinat geografis di peta masih mengacu pada titik sentroid simulasi).*
 
 ## 7. Priority Score Method
-*Priority Score* adalah angka komposit (0–100) yang merepresentasikan seberapa mendesak suatu kecamatan untuk mendapatkan intervensi reguler dari pemerintah.
+*Priority Score* (skala 0–100) melekat pada kecamatan/wilayah, berfungsi untuk perencanaan kebijakan dan merepresentasikan seberapa mendesak suatu kecamatan untuk mendapatkan intervensi reguler dari pemerintah.
 Rumusan perhitungannya menggunakan skema *weighted average* terhadap indikator inti:
 - **Kepadatan Penduduk** (Struktural)
 - **Risiko Banjir/Rob** (Lingkungan)
@@ -50,10 +52,18 @@ Rumusan perhitungannya menggunakan skema *weighted average* terhadap indikator i
 - **Volume Laporan Masyarakat** (Reaksioner)
 Bobot ini dapat digeser secara dinamis menggunakan *Policy Simulator* berdasarkan Rencana Pembangunan Jangka Menengah Daerah (RPJMD) yang sedang berlangsung.
 
-## 8. Emergency Review Score Method
-Berbeda dengan prioritas reguler, *Emergency Review Score* (1–5) diterapkan pada laporan aduan (*Citizen Reports*) untuk mengategorisasikan urgensi lapangan.
-- Skor tinggi (4-5) menandakan krisis yang mengancam keselamatan nyawa atau infrastruktur esensial secara langsung (seperti tanggul jebol atau pohon tumbang memblokir jalan utama).
-- Skor rendah (1-2) merepresentasikan pengaduan rutin (misal: pelayanan sipil lambat).
+## 8. Emergency Review Score & Report Urgency
+Terdapat dua level metrik kedaruratan:
+- **Report Urgency**: Melekat pada laporan warga individual, dengan kategori Rendah/Sedang/Tinggi/Kritis.
+- **Emergency Review Score**: Melekat pada kecamatan/wilayah (skala 0–100). Menggabungkan berbagai indikator krisis lapangan.
+
+Emergency Review Score menggabungkan:
+- Status tinggi muka air / sinyal bencana
+- Laporan warga terverifikasi
+- Risiko historis
+- Paparan penduduk
+- Fasilitas kritis
+- Kerentanan sosial
 
 ## 9. Citizen Report Intelligence
 Modul ini bertugas menerima laporan teks tidak terstruktur dari warga dan melakukan *parsing* kategori. Pada praktiknya, ia melakukan:
@@ -95,11 +105,12 @@ Sebagai *Proof of Concept* (POC), terdapat keterbatasan:
 
 ## 15. Future Development Roadmap
 Apabila prototipe ini disetujui untuk diteruskan ke tahap produksi (*production grade*):
-1. Pengaturan integrasi layanan mikro (*Microservices API*) dengan portal Satu Data dan SP4N-LAPOR!.
+1. Integrasi sensor IoT dan integrasi data OPD langsung (seperti Satu Data dan SP4N-LAPOR!).
 2. Implementasi Sistem Autentikasi Nasional terpusat (SSO/OAuth2) dan *Role-Based Access Control* (RBAC) pada sisi *Backend*.
-3. Sistem Audit Jejak Aktivitas (*Audit Trail*) untuk mengamankan rekam validasi setiap ASN.
-4. Integrasi *Polygon Map* dari BIG atau portal spasial daerah bersangkutan.
+3. Sistem Audit Jejak Aktivitas (*Audit Trail*) untuk mengamankan rekam validasi lapangan setiap ASN.
+4. Integrasi *GIS boundary* resmi dari BIG atau portal spasial daerah bersangkutan.
 5. Pemasangan Pagar Pembatas AI (*AI Legal Guardrails*) berskala peladen (*server-side*).
+6. Mewujudkan *real-time spatial digital twin* yang beroperasi secara penuh.
 
 ## 16. Demo Instructions
 Untuk mengeksekusi simulasi CIVICTWIN dalam skenario presentasi:
