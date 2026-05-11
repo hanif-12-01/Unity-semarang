@@ -89,15 +89,15 @@ const MODE_RECOMMENDATIONS: Record<PolicyMode, string[]> = {
 function RankChangeBadge({ delta }: { delta: number }) {
   if (delta === 0)
     return <span className="text-xs font-semibold text-civic-muted">—</span>;
-  if (delta < 0)
+  if (delta > 0)
     return (
       <span className="inline-flex items-center gap-0.5 text-xs font-bold text-priority-high">
-        ▲ {Math.abs(delta)}
+        ▲ {delta}
       </span>
     );
   return (
     <span className="inline-flex items-center gap-0.5 text-xs font-bold text-priority-low">
-      ▼ {delta}
+      ▼ {Math.abs(delta)}
     </span>
   );
 }
@@ -401,6 +401,9 @@ export default function PolicySimulatorPage() {
                 * Indikator bertanda ini dibalik: nilai rendah = kebutuhan intervensi lebih tinggi
               </p>
             )}
+            <p className="pt-2 text-[10px] text-civic-muted/60 italic border-t border-civic-line mt-2">
+              Ranking ini menunjukkan prioritas intervensi pemerintah, bukan peringkat wilayah terbaik.
+            </p>
           </div>
         </div>
       </section>
@@ -417,7 +420,7 @@ export default function PolicySimulatorPage() {
                 <div className="text-left">
                   <p className="text-xs font-bold uppercase tracking-widest text-white/50">CivicSense AI</p>
                   <p className="text-sm font-semibold text-white">
-                    Narasi Simulasi — {narration.modeLabel}
+                    Narasi Simulasi: {narration.modeLabel}
                   </p>
                 </div>
               </div>
@@ -450,8 +453,11 @@ export default function PolicySimulatorPage() {
                 Hasil Simulasi
               </p>
               <h2 className="mt-0.5 text-base font-semibold text-civic-ink">
-                Ranking wilayah — {modeConfig.label}
+                Ranking Prioritas Intervensi: {modeConfig.label}
               </h2>
+              <p className="mt-0.5 text-xs text-civic-muted">
+                Ranking ini menunjukkan prioritas intervensi pemerintah, bukan peringkat wilayah terbaik.
+              </p>
             </div>
             <span className={classNames("rounded-full px-3 py-1 text-xs font-semibold flex items-center gap-1.5 [&>svg]:w-4 [&>svg]:h-4", acc.pill)}>
               {MODE_ICONS[activeMode]} {modeConfig.label}
@@ -483,19 +489,25 @@ export default function PolicySimulatorPage() {
             </table>
 
             {/* Table footer note */}
-            <div className="border-t border-civic-line bg-civic-soft px-4 py-3">
+            <div className="border-t border-civic-line bg-civic-soft px-4 py-3 space-y-2">
               <p className="text-xs text-civic-muted">
-                ▲ = naik peringkat dibanding General Priority &nbsp;·&nbsp;
-                ▼ = turun peringkat &nbsp;·&nbsp;
+                <span className="text-priority-high font-bold">▲</span> = naik prioritas intervensi dibanding General Priority &nbsp;·&nbsp;
+                <span className="text-priority-low font-bold">▼</span> = turun prioritas intervensi &nbsp;·&nbsp;
                 Rank Umum = posisi di mode General Priority
               </p>
+              {activeMode === "economy" && (
+                <p className="text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 rounded px-3 py-2 leading-relaxed">
+                  <span className="font-semibold">Mode Ekonomi UMKM:</span> Wilayah dengan aktivitas UMKM lebih rendah akan naik prioritas karena membutuhkan stimulus, pendampingan, atau penguatan ekonomi lokal.
+                  Nilai UMKM tinggi berarti ekonomi lokal lebih aktif sehingga prioritas intervensi lebih rendah.
+                </p>
+              )}
             </div>
           </div>
 
           {/* Per-region indicator mini bars for active mode */}
           <div className="mt-5 space-y-3">
             <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
-              Detail Indikator — Urutan Simulasi
+              Detail Indikator: Urutan Simulasi
             </p>
             <div className="grid gap-3 sm:grid-cols-2">
               {simulatedRanked.map((region, i) => (
@@ -528,6 +540,11 @@ export default function PolicySimulatorPage() {
                     inverted={isIndicatorInvertedForMode(topWeightKey, activeMode)}
                     colorClass="auto"
                   />
+                  {topWeightKey === "smeActivity" && (
+                    <p className="text-[10px] text-civic-muted/70 italic">
+                      Nilai tinggi = ekonomi aktif; nilai rendah = prioritas intervensi ekonomi tinggi.
+                    </p>
+                  )}
                 </div>
               ))}
             </div>
@@ -540,7 +557,7 @@ export default function PolicySimulatorPage() {
           {/* Wilayah yang naik prioritas */}
           <div className="rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm space-y-3">
             <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
-              Wilayah yang Naik Prioritas
+              Wilayah yang Naik Prioritas Intervensi
             </p>
             {movedUp.length === 0 ? (
               <p className="text-xs text-civic-muted">
@@ -571,7 +588,7 @@ export default function PolicySimulatorPage() {
           {/* Mode Recommendations */}
           <div className="rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm space-y-3">
             <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
-              Rekomendasi — {modeConfig.label}
+              Rekomendasi: {modeConfig.label}
             </p>
             <ol className="space-y-2.5">
               {MODE_RECOMMENDATIONS[activeMode].map((rec: string, i: number) => (
@@ -609,7 +626,7 @@ export default function PolicySimulatorPage() {
           <div className="rounded-xl border border-civic-line bg-civic-soft p-4 text-xs leading-relaxed text-civic-muted space-y-1">
             <p className="font-semibold text-civic-ink flex items-center gap-1.5"><Info size={16} /> Catatan Simulasi</p>
             <p>
-              Perubahan ranking mencerminkan penerapan bobot berbeda pada indikator yang sama. Tidak ada data baru yang ditambahkan — hanya perspektif analisis yang berubah sesuai fokus kebijakan yang dipilih.
+              Perubahan ranking mencerminkan penerapan bobot berbeda pada indikator yang sama. Tidak ada data baru yang ditambahkan, hanya perspektif analisis yang berubah sesuai fokus kebijakan yang dipilih.
             </p>
             <p className="mt-1">
               Data prototype menggunakan <strong className="text-civic-ink">kombinasi data publik, data olahan, dan simulasi terbatas</strong> untuk proof of concept.

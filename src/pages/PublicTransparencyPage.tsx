@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
-import { Globe2, TriangleAlert, ClipboardList, CheckCircle2, Waves, Hospital, Users, MessageSquareWarning, Store, UsersRound, Sparkles, BookOpenCheck, BarChart3 } from "lucide-react";
+import { Globe2, TriangleAlert, ClipboardList, CheckCircle2, Waves, Hospital, Users, MessageSquareWarning, Store, UsersRound, BookOpenCheck, BarChart3 } from "lucide-react";
 import { buttonClasses } from "../components/ui/Button";
 import { mockRegions, citySummary } from "../data/mockData";
 import { getRankedRegions, generateCitizenSummary, AI_DISCLAIMER } from "../utils";
 import { classNames } from "../utils/classNames";
 import type { PriorityCategory } from "../data/mockData";
+import { getResolutionStats, mockCompletionReports, COMPLETION_REPORT_DISCLAIMER } from "../data/completionReports";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -71,7 +72,7 @@ const INDICATOR_EXPLAINERS = [
   {
     icon: <Users size={24} className="text-civic-primary" />,
     title: "Kondisi Sosial Warga",
-    desc: "Proporsi warga yang berada dalam kondisi rentan — perlu perlindungan sosial, bantuan, atau pemberdayaan.",
+    desc: "Proporsi warga yang berada dalam kondisi rentan (perlu perlindungan sosial, bantuan, atau pemberdayaan).",
   },
   {
     icon: <MessageSquareWarning size={24} className="text-civic-primary" />,
@@ -241,7 +242,7 @@ export default function PublicTransparencyPage() {
             Transparansi Prioritas Wilayah
           </h1>
           <p className="mt-3 max-w-2xl text-base text-white/70 leading-relaxed">
-            Ringkasan publik mengenai wilayah prioritas dan alasan rekomendasi kebijakan di Kota Semarang — disajikan secara terbuka agar masyarakat dapat memahami dan memantau.
+            Ringkasan publik mengenai wilayah prioritas dan alasan rekomendasi kebijakan di Kota Semarang, disajikan secara terbuka agar masyarakat dapat memahami dan memantau.
           </p>
 
           {/* Stat row */}
@@ -268,10 +269,10 @@ export default function PublicTransparencyPage() {
       <section id="civicsense-citizen" className="overflow-hidden rounded-2xl border border-civic-primary/30 shadow-sm">
         <div className="flex items-center justify-between gap-3 bg-gradient-to-r from-civic-ink to-slate-800 px-6 py-4">
           <div className="flex items-center gap-2 text-civic-primary">
-            <Sparkles size={20} />
+            <ClipboardList size={20} />
             <div className="text-left">
               <p className="text-xs font-bold uppercase tracking-widest text-white/50">CivicSense Policy Assistant</p>
-              <p className="text-sm font-semibold text-white">Ringkasan Publik — Kondisi Kota Semarang</p>
+              <p className="text-sm font-semibold text-white">Ringkasan Publik: Kondisi Kota Semarang</p>
             </div>
           </div>
           <span className="rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-xs font-semibold text-white/80">
@@ -429,6 +430,72 @@ export default function PublicTransparencyPage() {
           ))}
         </ul>
       </section>
+
+      {/* ── Transparansi Tindak Lanjut ──────────────────────────── */}
+      {(() => {
+        const rs = getResolutionStats();
+        const publicReports = mockCompletionReports.filter(r => r.isPublicVisible);
+        return (
+          <section
+            id="resolution-transparency"
+            className="rounded-2xl border border-civic-line bg-civic-surface p-8 shadow-sm space-y-6"
+          >
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
+                Transparansi Tindak Lanjut
+              </p>
+              <h2 className="mt-1 text-xl font-bold text-civic-ink">
+                Ringkasan Penyelesaian Laporan Warga
+              </h2>
+              <p className="mt-2 text-sm text-civic-muted max-w-2xl">
+                Informasi agregat penyelesaian tindak lanjut dari OPD terkait. Data merupakan simulasi prototype.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="rounded-xl border border-green-200 bg-green-50 p-4 text-center">
+                <p className="text-3xl font-bold text-green-700">{rs.validated}</p>
+                <p className="text-xs font-semibold text-green-600 mt-1">Selesai Tervalidasi</p>
+              </div>
+              <div className="rounded-xl border border-blue-200 bg-blue-50 p-4 text-center">
+                <p className="text-3xl font-bold text-blue-700">{rs.pendingValidation}</p>
+                <p className="text-xs font-semibold text-blue-600 mt-1">Menunggu Validasi</p>
+              </div>
+              <div className="rounded-xl border border-civic-line bg-civic-soft/50 p-4 text-center">
+                <p className="text-3xl font-bold text-civic-ink">{rs.averageResolutionDays} <span className="text-sm">hari</span></p>
+                <p className="text-xs font-semibold text-civic-muted mt-1">Rata-rata Penyelesaian</p>
+              </div>
+              <div className="rounded-xl border border-civic-primary/20 bg-civic-primary/5 p-4 text-center">
+                <p className="text-3xl font-bold text-civic-primary">{rs.resolutionRate}%</p>
+                <p className="text-xs font-semibold text-civic-muted mt-1">Resolution Rate</p>
+              </div>
+            </div>
+
+            {publicReports.length > 0 && (
+              <div>
+                <h3 className="text-sm font-bold text-civic-ink mb-3">Ringkasan Publik Penyelesaian</h3>
+                <div className="space-y-3">
+                  {publicReports.map(cr => (
+                    <div key={cr.id} className="rounded-lg border border-civic-line bg-civic-soft/30 p-4 flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+                      <div>
+                        <p className="text-sm font-semibold text-civic-ink">{cr.publicSummary}</p>
+                        <p className="text-xs text-civic-muted mt-1">OPD: {cr.agency} • {cr.validationStatus}</p>
+                      </div>
+                      <span className="text-[10px] text-civic-muted whitespace-nowrap">
+                        {new Date(cr.completedAt).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="rounded-lg border border-civic-line bg-civic-soft/30 p-3 text-xs text-civic-muted">
+              {COMPLETION_REPORT_DISCLAIMER}
+            </div>
+          </section>
+        );
+      })()}
 
       {/* ── CTA ────────────────────────────────────────────────────── */}
       <section

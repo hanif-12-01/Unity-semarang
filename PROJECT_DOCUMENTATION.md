@@ -1,123 +1,186 @@
 # DOKUMENTASI TEKNIS: CIVICTWIN SEMARANG
 
 **Sifat Dokumen:** Publik / Laporan Teknis Kompetisi
-**Versi:** 1.0 (Prototipe Proof of Concept)
+**Versi:** 1.1 (Prototype Proof of Concept)
 
 ---
 
 ## 1. Executive Summary
-CIVICTWIN Semarang adalah sebuah purwarupa (prototipe) platform intelijen tata kelola pemerintahan (*civic intelligence platform*) tingkat kecamatan. Sistem ini didesain sebagai instrumen pendukung keputusan (*decision support system*) lintas instansi, yang mampu mengonsolidasikan indikator statistik demografis, risiko kebencanaan, kerentanan sosial, serta agregasi keluhan masyarakat menjadi sebuah matriks prioritas spasial yang interaktif dan transparan.
 
-Pada fase proof of concept, CIVICTWIN diposisikan sebagai Civic Intelligence Layer dan stepping stone menuju Spatial Digital Twin. Prototype ini belum menggunakan GIS boundary resmi, sensor IoT real-time, atau integrasi data OPD langsung.
+CIVICTWIN Semarang adalah prototype civic intelligence platform tingkat kecamatan. Sistem ini mengonsolidasikan indikator wilayah, risiko kebencanaan, kerentanan sosial, masukan warga, serta status tindak lanjut OPD menjadi dashboard pendukung keputusan yang interaktif, transparan, dan ramah audit.
+
+Pada fase proof of concept, CIVICTWIN diposisikan sebagai Civic Intelligence Layer dan stepping stone menuju Spatial Digital Twin. Prototype belum menggunakan GIS boundary resmi, sensor IoT real-time, database produksi, atau integrasi OPD langsung.
 
 ## 2. Background Problem
-Pembangunan wilayah administratif dan respons terhadap krisis sering terhambat oleh arsitektur silo data antar-Organisasi Perangkat Daerah (OPD). Ketika laporan masyarakat membeludak melalui kanal pengaduan tanpa adanya klasifikasi urgensi spasial, pimpinan daerah akan kesulitan menentukan skala prioritas intervensi. Lebih jauh, simulasi penyesuaian regulasi (seperti reposisi anggaran musrenbang) memerlukan kalkulasi yang memakan waktu dan rumit untuk dikomunikasikan secara transparan kepada masyarakat umum tanpa melanggar kerahasiaan data negara.
+
+Pemerintah kota sering menghadapi silo data antar-OPD. Laporan warga juga tidak selalu berbentuk keluhan; sebagian berupa kritik atas layanan, saran perbaikan, atau apresiasi terhadap kinerja OPD. Tanpa sistem klasifikasi dan akuntabilitas tindak lanjut, pimpinan kesulitan melihat prioritas wilayah, OPD kesulitan memilah respons, dan publik sulit memahami progres penanganan.
+
+CIVICTWIN menjawab masalah ini dengan menyediakan satu lapisan intelijen yang menggabungkan skor wilayah, analisis feedback warga, simulasi kebijakan, policy brief, dan ringkasan publik.
 
 ## 3. Target Users & Role Access
-Platform ini dirancang dengan konsep *Role-Based Access Control* (RBAC). Pada fase purwarupa ini, otorisasi dioperasikan melalui mekanisme *session* simulasi, yang meliputi:
-1. **Executive Viewer (Pimpinan Daerah):** Akses tingkat atas untuk meninjau *Command Center*, membaca *Policy Brief*, dan melihat kalkulasi ringkasan kota secara menyeluruh.
-2. **Policy Analyst / Bappeda:** Akses bagi analis perencana untuk mengeksekusi parameter *Policy Simulator* guna memprediksi dampak perubahan fokus regulasi.
-3. **OPD Operator:** Akses khusus kedinasan untuk merespons, memvalidasi, dan mengklasifikasi keluhan warga pada dasbor *Citizen Reports*.
-4. **Kecamatan / Kelurahan:** Akses validasi lapangan granular terhadap *Issue Hotspots* pada level wilayah administratif terendah.
-5. **Public Viewer:** Akses terbuka bagi masyarakat sipil untuk meninjau status pelaporan dan kinerja wilayah pada *Public Transparency Page* tanpa mengekspos data pribadi (PII).
+
+Pada prototype, role access disimulasikan melalui sisi klien.
+
+1. **Executive Viewer:** Meninjau Command Center, ranking wilayah, akuntabilitas tindak lanjut, dan policy brief.
+2. **Policy Analyst / Bappeda:** Menjalankan Policy Simulator untuk menguji fokus kebijakan.
+3. **OPD Operator:** Melihat masukan warga, klasifikasi CivicSense, rekomendasi OPD, dan laporan penyelesaian.
+4. **Kecamatan / Kelurahan:** Melakukan validasi lapangan untuk hotspot, feedback wilayah, dan tindak lanjut OPD.
+5. **Public Viewer:** Mengakses ringkasan transparansi publik tanpa data pribadi warga.
 
 ## 4. System Overview
-Secara konseptual, sistem ini bertindak sebagai "Lapisan Intelijen" (*Intelligence Layer*) di atas ekosistem data yang sudah ada (seperti Satu Data Semarang dan SP4N-LAPOR!). CIVICTWIN tidak menggantikan sistem pelaporan pelapor asli, melainkan menghisap (*ingest*) datanya, memproses melalui *rule-based engine*, dan menampilkannya sebagai pemetaan visual (GIS-based) interaktif bagi para penentu kebijakan.
+
+CIVICTWIN bertindak sebagai Intelligence Layer di atas ekosistem data kota. Dalam implementasi nyata, sistem ini dapat menerima data dari Satu Data Semarang, SP4N-LAPOR!, BPS, BPBD, Dishub, dan OPD teknis lain. Pada prototype, semua data masih berupa kombinasi data publik, data olahan, dan simulasi mock.
 
 ## 5. Main Features
-- **Role-Based Demo Access:** Modul perpindahan antar-peran fungsional pemerintah.
-- **Command Center Dashboard:** Panel agregasi utama untuk memantau performa wilayah, sinyal kebencanaan, dan ringkasan eksekutif.
-- **Priority Map Semarang:** Antarmuka pemetaan geografis berbasis piktogram warna (*heat/priority mapping*).
-- **Issue Hotspots:** Pemetan detail geolokasi titik masalah spesifik pada setiap kecamatan.
-- **Disaster Signal Monitor:** Indikator pemantauan kedaruratan berbasis matriks *Emergency Review Score*.
-- **Policy Simulator:** Modul kalkulator pengubah bobot (*slider*) prioritas (Misal: Infrastruktur vs. Ekonomi) yang secara instan merombak nilai seluruh kecamatan.
-- **AI-assisted Policy Brief:** Modul asisten pengonversi draf *policy brief* secara otomatis berdasarkan data kuantitatif pasca-simulasi.
-- **Public Transparency Page:** Katalog pencapaian pemerintah dengan sistem anonimasi pelapor.
+
+- **Role-Based Demo Access:** Simulasi peran pengguna untuk skenario demo.
+- **Command Center Dashboard:** Ringkasan indikator kota, peta prioritas, ranking wilayah, narasi CivicSense, dan resolution accountability.
+- **Priority Map Semarang:** Pemetaan prioritas wilayah berbasis marker prototype.
+- **Citizen Feedback Intelligence:** Pengelompokan 32 masukan warga menjadi Keluhan, Kritik, Saran, dan Apresiasi.
+- **CivicSense AI Triage:** Klasifikasi awal, alasan klasifikasi, urgensi, rekomendasi OPD, status, dan catatan validasi.
+- **Issue Hotspots:** Titik masalah spasial untuk drill-down tingkat kecamatan.
+- **Resolution Accountability:** Enam laporan penyelesaian OPD dengan status validasi, bukti sebelum-sesudah, kendala lapangan, dan ringkasan publik.
+- **Policy Simulator:** Simulasi perubahan bobot kebijakan dan dampaknya terhadap ranking prioritas intervensi.
+- **AI-assisted Policy Brief:** Draf ringkasan kebijakan otomatis berdasarkan mode analisis dan data wilayah.
+- **Public Transparency Page:** Ringkasan prioritas wilayah dan tindak lanjut OPD yang telah disaring untuk publik.
+- **Methodology & Governance:** Penjelasan data, rumus scoring, inversi indikator, batasan prototype, dan guardrail AI.
 
 ## 6. Data Architecture
-Data yang disajikan pada arsitektur purwarupa ini merupakan penggabungan hibrida:
-- **Data Statik Turunan Resmi:** Meliputi daftar kecamatan, luas wilayah, kepadatan penduduk (disarikan dari BPS/Satu Data).
-- **Data Olahan Historis:** Rekaman historis kerentanan rob/banjir pesisir.
-- **Data Simulasi Murni (Mock):** Data laporan masyarakat individual, sebaran titik koordinat presisi *hotspots*, serta interaksi API *real-time*.
 
-*(Catatan: Segala representasi koordinat geografis di peta masih mengacu pada titik sentroid simulasi).*
+Data prototype terdiri dari:
+
+- **Data wilayah:** Nama kecamatan, koordinat centroid prototype, indikator wilayah, dominant issues, dan rekomendasi kebijakan.
+- **Citizen feedback:** 32 data simulasi masukan warga, terdiri dari 18 Keluhan, 6 Kritik, 4 Saran, dan 4 Apresiasi.
+- **Completion reports:** 6 laporan penyelesaian OPD, terdiri dari status Selesai Tervalidasi, Diajukan untuk Validasi, Perlu Revisi Tindak Lanjut, dan Draft OPD.
+- **Hotspots:** Titik masalah spasial simulasi untuk mendukung demo interaktif.
+- **Rule-based intelligence:** Fungsi CivicSense untuk insight, narasi simulator, citizen summary, dan policy brief.
+
+Tidak ada data pribadi warga asli di dalam repository.
 
 ## 7. Priority Score Method
-*Priority Score* (skala 0–100) melekat pada kecamatan/wilayah, berfungsi untuk perencanaan kebijakan dan merepresentasikan seberapa mendesak suatu kecamatan untuk mendapatkan intervensi reguler dari pemerintah.
-Rumusan perhitungannya menggunakan skema *weighted average* terhadap indikator inti:
-- **Kepadatan Penduduk** (Struktural)
-- **Risiko Banjir/Rob** (Lingkungan)
-- **Akses Layanan Dasar** (Infrastruktur)
-- **Kerentanan Sosial** (Sosiologis)
-- **Volume Laporan Masyarakat** (Reaksioner)
-Bobot ini dapat digeser secara dinamis menggunakan *Policy Simulator* berdasarkan Rencana Pembangunan Jangka Menengah Daerah (RPJMD) yang sedang berlangsung.
+
+Priority Score berada pada level kecamatan dan menggunakan weighted average dari enam indikator:
+
+- Kepadatan Penduduk
+- Risiko Banjir/Rob
+- Akses Layanan Publik
+- Kerentanan Sosial
+- Volume Laporan Warga
+- Aktivitas UMKM
+
+Catatan penting: Akses Layanan Publik dan Aktivitas UMKM menggunakan logika inversi pada mode tertentu. Nilai rendah pada dua indikator tersebut dapat berarti kebutuhan intervensi lebih tinggi. Karena itu, ranking simulator harus dibaca sebagai ranking prioritas intervensi, bukan ranking wilayah terbaik.
 
 ## 8. Emergency Review Score & Report Urgency
-Terdapat dua level metrik kedaruratan:
-- **Report Urgency**: Melekat pada laporan warga individual, dengan kategori Rendah/Sedang/Tinggi/Kritis.
-- **Emergency Review Score**: Melekat pada kecamatan/wilayah (skala 0–100). Menggabungkan berbagai indikator krisis lapangan.
 
-Emergency Review Score menggabungkan:
-- Status tinggi muka air / sinyal bencana
-- Laporan warga terverifikasi
-- Risiko historis
-- Paparan penduduk
-- Fasilitas kritis
-- Kerentanan sosial
+Terdapat dua level kedaruratan:
 
-## 9. Citizen Report Intelligence
-Modul ini bertugas menerima laporan teks tidak terstruktur dari warga dan melakukan *parsing* kategori. Pada praktiknya, ia melakukan:
-- Pengelompokan taksonomi masalah (Infrastruktur, Sosial, Kesehatan, Lingkungan).
-- Penetapan status pengerjaan (Baru, Peninjauan, Proses Tindakan, Selesai).
-- Pendelegasian (*Routing*) usulan kepada dinas teknis (OPD) yang paling relevan.
+- **Report Urgency:** Melekat pada feedback/laporan warga individual dengan kategori Rendah, Sedang, Tinggi, atau Kritis.
+- **Emergency Review Score:** Melekat pada kecamatan, menggabungkan sinyal risiko, laporan terverifikasi, paparan penduduk, fasilitas kritis, dan kerentanan sosial.
 
-## 10. CivicSense Policy Assistant
-CivicSense adalah asisten algoritmik *rule-based* internal yang memfasilitasi pembuatan ringkasan.
-**Fungsi:** 
-Membaca keluaran *Priority Score* dan *Emergency Score*, memilah kalimat baku terprogram (*templating logic*), lalu menyusunnya menjadi draf *Policy Brief*, *Citizen Summary*, maupun rekomendasi tindak lanjut bagi OPD.
+Keduanya adalah alat bantu prioritisasi awal, bukan dasar keputusan final.
 
-## 11. AI Governance & Legal Guardrail
-**Pilar Tata Kelola AI CIVICTWIN:**
-- **Human-in-the-Loop:** Kecerdasan buatan CivicSense memposisikan diri sebatas *Decision Support* (Peringkas dan Klasifikator Awal), **Bukan** *Decision Maker*. Keputusan final penentuan anggaran dan penindakan hukum harus diverifikasi dan disetujui secara manual oleh pimpinan institusi.
-- **No Black-Box API:** Demi mematuhi prinsip kedaulatan data dan UU Pelindungan Data Pribadi (PDP), sistem asisten ini 100% bergantung pada logika heuristik internal dan *rule-based scripting*. Sistem **tidak** melakukan panggilan API eksternal (seperti OpenAI ChatGPT) untuk mencegah kebocoran PII warga.
+## 9. Citizen Feedback Intelligence
 
-## 12. Public Transparency Mechanism
-Transparansi bukan berarti ketelanjangan data. Laman Publik dirancang untuk memisahkan data sensitif:
-- Masyarakat hanya melihat angka agregat performa kecamatan.
-- Daftar keluhan (*issue list*) yang ditampilkan hanyalah deskripsi masalah umum. Nama pengirim, Nomor Induk Kependudukan (NIK), serta kontak individu dianonimkan (tidak ditarik oleh komponen React ke peramban).
+Modul ini mengubah konsep laporan warga menjadi spektrum feedback publik:
 
-## 13. Technical Architecture
-Tumpukan teknologi yang membangun platform ini:
-- **Framework Utama:** React (versi >=18)
-- **Bahasa Pemrograman:** TypeScript untuk integritas tipe statis (*type safety*)
-- **Build Tool:** Vite.js
-- **Styling:** Tailwind CSS (dengan *custom token palette*)
-- **Routing:** React Router DOM (v6)
-- **Geospasial:** Leaflet JS + React Leaflet
-- **Ikonografi:** Lucide React
+- **Keluhan:** Masalah yang membutuhkan respons teknis atau operasional.
+- **Kritik:** Evaluasi negatif terhadap layanan, koordinasi, atau transparansi.
+- **Saran:** Aspirasi perbaikan atau ide kebijakan.
+- **Apresiasi:** Respons positif warga terhadap tindak lanjut atau layanan.
 
-## 14. Limitations
-Sebagai *Proof of Concept* (POC), terdapat keterbatasan:
-1. Data tidak disuplai melalui API *Real-Time* (statik).
-2. Mekanisme masuk/keluar (*Role Authentication*) hanya merupakan simulasi sisi-klien (*localStorage*).
-3. Peta belum menginkorporasikan poligon garis batas administratif resmi tingkat kelurahan (.shp/.geojson).
-4. Tidak ada penyimpanan modifikasi basis data berkelanjutan (*persistence*), semua perubahan di-reset saat aplikasi disegarkan (*refresh*).
+CivicSense menampilkan alasan klasifikasi, parameter klasifikasi, interpretasi publik, OPD tujuan, dan rekomendasi awal. Keluhan dan kritik dipakai sebagai sinyal prioritas penanganan, sedangkan saran dan apresiasi menjadi konteks persepsi publik.
 
-## 15. Future Development Roadmap
-Apabila prototipe ini disetujui untuk diteruskan ke tahap produksi (*production grade*):
-1. Integrasi sensor IoT dan integrasi data OPD langsung (seperti Satu Data dan SP4N-LAPOR!).
-2. Implementasi Sistem Autentikasi Nasional terpusat (SSO/OAuth2) dan *Role-Based Access Control* (RBAC) pada sisi *Backend*.
-3. Sistem Audit Jejak Aktivitas (*Audit Trail*) untuk mengamankan rekam validasi lapangan setiap ASN.
-4. Integrasi *GIS boundary* resmi dari BIG atau portal spasial daerah bersangkutan.
-5. Pemasangan Pagar Pembatas AI (*AI Legal Guardrails*) berskala peladen (*server-side*).
-6. Mewujudkan *real-time spatial digital twin* yang beroperasi secara penuh.
+## 10. Resolution Accountability
 
-## 16. Demo Instructions
-Untuk mengeksekusi simulasi CIVICTWIN dalam skenario presentasi:
-1. Pastikan dependensi telah terinstal: `npm install`
-2. Jalankan aplikasi di lingkungan pengembangan: `npm run dev`
-3. Mulai dengan navigasi ke halaman `Landing Page` (`/`).
-4. Klik tombol **"Masuk Mode Demo"** dan pilih profil otoritas (Contoh: *Executive Viewer*).
-5. Pada *Dashboard*, arahkan perhatian juri ke perubahan Peta Interaktif.
-6. Ajak pemirsa mencoba **"Policy Simulator"** untuk melihat kapabilitas adaptif algoritma.
-7. Tinjau *Policy Brief* dan diakhiri dengan simulasi warga di *Public Transparency Page*.
+Modul baru `completionReports.ts` mensimulasikan akuntabilitas tindak lanjut OPD. Data yang ditampilkan meliputi:
+
+- ID laporan warga terkait.
+- OPD penanggung jawab.
+- Tindakan yang dilakukan.
+- Waktu mulai dan selesai.
+- Label bukti sebelum-sesudah.
+- Kendala lapangan.
+- Status penyelesaian.
+- Status validasi.
+- Ringkasan publik.
+
+Dashboard, Region Detail, dan Public Transparency menggunakan data ini untuk menampilkan metrik penyelesaian, rata-rata hari penyelesaian, dan resolution rate. Semua bukti dan status masih simulasi POC.
+
+## 11. CivicSense Policy Assistant
+
+CivicSense adalah assistant rule-based internal, bukan LLM eksternal. Fungsi utamanya:
+
+- Menghasilkan insight wilayah.
+- Menjelaskan ranking simulator.
+- Menyusun draf policy brief.
+- Membuat ringkasan publik.
+- Membantu klasifikasi awal feedback warga.
+
+CivicSense tidak mengambil keputusan otomatis. Seluruh output harus divalidasi manusia dan OPD terkait.
+
+## 12. AI Governance & Legal Guardrail
+
+Pilar tata kelola:
+
+- **Human-in-the-loop:** Keputusan final tetap berada pada pejabat atau petugas berwenang.
+- **No black-box external API:** Tidak ada panggilan API AI eksternal untuk menghindari risiko kebocoran data.
+- **Audit-friendly:** Rumus scoring, status data, dan batasan prototype ditampilkan di halaman Methodology.
+- **Privacy by design:** Data pribadi pelapor tidak digunakan pada prototype dan tidak ditampilkan pada halaman publik.
+
+## 13. Public Transparency Mechanism
+
+Halaman publik menampilkan ringkasan yang aman:
+
+- Ranking prioritas wilayah.
+- Alasan prioritas dalam bahasa warga.
+- Penjelasan indikator.
+- Ringkasan isu kota.
+- Statistik penyelesaian OPD yang bersifat agregat.
+- Ringkasan publik dari laporan yang ditandai aman untuk dilihat publik.
+
+Data sensitif, identitas pelapor, dan detail internal OPD tidak ditampilkan.
+
+## 14. Technical Architecture
+
+- **Framework:** React 18
+- **Language:** TypeScript
+- **Build tool:** Vite
+- **Styling:** Tailwind CSS
+- **Routing:** React Router
+- **Map:** Leaflet + React Leaflet
+- **Icons:** Lucide React
+- **Data layer:** Local TypeScript mock data
+- **AI layer:** Rule-based CivicSense utilities
+
+## 15. Limitations
+
+1. Data tidak real-time dan tidak berasal dari API resmi operasional.
+2. Role authentication masih simulasi `localStorage`.
+3. Peta belum menggunakan polygon GIS resmi.
+4. Tidak ada persistence database.
+5. Laporan warga, hotspot, dan laporan penyelesaian OPD adalah data simulasi.
+6. Policy brief adalah draf awal dan bukan dokumen resmi pemerintah.
+
+## 16. Future Development Roadmap
+
+1. Integrasi API Satu Data Semarang, BPS, BPBD, Dishub, dan SP4N-LAPOR!.
+2. Backend authentication dan RBAC produksi.
+3. Audit trail untuk validasi OPD dan perubahan status laporan.
+4. Upload bukti penyelesaian dengan metadata, verifikasi lokasi, dan masking data sensitif.
+5. Integrasi GIS boundary resmi.
+6. Dashboard operasional untuk SLA tindak lanjut OPD.
+7. CivicSense server-side dengan guardrail hukum yang lebih lengkap.
+8. Pengembangan menuju real-time spatial digital twin.
+
+## 17. Demo Instructions
+
+1. Jalankan `npm install`.
+2. Jalankan `npm run dev`.
+3. Buka landing page `/`.
+4. Masuk ke mode demo melalui `/login`.
+5. Tunjukkan Command Center, peta prioritas, dan panel akuntabilitas tindak lanjut.
+6. Buka Reports untuk menunjukkan klasifikasi Keluhan, Kritik, Saran, dan Apresiasi.
+7. Drill-down ke Region Detail untuk melihat feedback wilayah dan laporan penyelesaian OPD.
+8. Jalankan Policy Simulator dan jelaskan ranking prioritas intervensi.
+9. Tunjukkan Policy Brief dan disclaimer validasi.
+10. Tutup dengan Public Transparency dan Methodology.

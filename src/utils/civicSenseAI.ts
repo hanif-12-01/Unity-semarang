@@ -98,7 +98,7 @@ export function generateRegionInsight(
 
   // Build body
   const indicatorDesc = top3
-    .map((d) => `${d.label.toLowerCase()} (${d.value}/100 — ${severityWord(d.severity)})`)
+    .map((d) => `${d.label.toLowerCase()} (${d.value}/100, ${severityWord(d.severity)})`)
     .join(", ");
 
   const body =
@@ -111,7 +111,7 @@ export function generateRegionInsight(
   // Build bullets
   const bullets = top3.map(
     (d) =>
-      `${INDICATOR_LABELS[d.key]}: ${d.value}/100 — ${d.severity}` +
+      `${INDICATOR_LABELS[d.key]}: ${d.value}/100, ${d.severity}` +
       (isIndicatorInvertedForMode(d.key, mode)
         ? " (nilai rendah berarti kebutuhan intervensi tinggi)"
         : "")
@@ -197,15 +197,15 @@ export function generateSimulatorNarration(
     general:
       "Semua indikator mendapat bobot berimbang. Ranking mencerminkan kondisi multi-dimensi tiap wilayah secara menyeluruh.",
     flood:
-      "Bobot risiko banjir/rob dinaikkan ke 45%. Wilayah dengan ancaman genangan tinggi — terutama di zona pesisir utara — otomatis naik prioritas.",
+      "Bobot risiko banjir/rob dinaikkan ke 45%. Wilayah dengan ancaman genangan tinggi (terutama di zona pesisir utara) otomatis naik prioritas.",
     publicService:
       "Akses layanan publik diberi bobot dominan 45%. Kecamatan dengan fasilitas paling terbatas menjadi prioritas utama intervensi.",
     socialVulnerability:
-      "Kerentanan sosial mendapat bobot terbesar. Wilayah dengan warga paling rentan — perlu perlindungan sosial, kesehatan, atau pemberdayaan — naik ke atas.",
+      "Kerentanan sosial mendapat bobot terbesar. Wilayah dengan warga paling rentan (perlu perlindungan sosial, kesehatan, atau pemberdayaan) naik ke atas.",
     economy:
       "Aktivitas UMKM menjadi indikator utama. Wilayah dengan ekonomi warga paling lemah diprioritaskan untuk stimulus dan pemberdayaan usaha mikro.",
     citizenReports:
-      "Laporan warga diberi bobot 50%. Kecamatan paling aktif melaporkan masalah — yang berarti kebutuhan responsnya paling tinggi — naik peringkat.",
+      "Laporan warga diberi bobot 50%. Kecamatan paling aktif melaporkan masalah (yang berarti kebutuhan responsnya paling tinggi) naik peringkat.",
   };
 
   const policyImplications: Record<PolicyMode, string> = {
@@ -298,4 +298,4 @@ export function generateCitizenSummary(region: Region): CitizenSummary {
 export const AI_DISCLAIMER =
   "Output CivicSense AI merupakan draft analisis awal dan perlu divalidasi oleh OPD/petugas terkait sebelum digunakan sebagai dasar keputusan resmi. " +
   "CivicSense AI pada prototype ini menggunakan rule-based template engine dari data proof of concept. " +
-  "Data yang digunakan merupakan kombinasi data publik, data olahan, dan simulasi terbatas — bukan seluruhnya data resmi pemerintah.";
+  "Data yang digunakan merupakan kombinasi data publik, data olahan, dan simulasi terbatas, bukan seluruhnya data resmi pemerintah.";

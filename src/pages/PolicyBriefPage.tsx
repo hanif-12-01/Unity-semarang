@@ -4,7 +4,7 @@
 // =============================================================================
 
 import { useEffect, useState, useMemo } from "react";
-import { MapPinned, Users, Target, BarChart3, Megaphone, Sparkles, ClipboardList, Printer, SlidersHorizontal, Globe2, Building, Calendar, TriangleAlert, BrainCircuit, CheckCircle2 } from "lucide-react";
+import { MapPinned, Users, Target, BarChart3, Megaphone, ClipboardList, Printer, SlidersHorizontal, Globe2, Building, Calendar, TriangleAlert, BrainCircuit, CheckCircle2 } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import { buttonClasses } from "../components/ui/Button";
 import IndicatorBar from "../components/ui/IndicatorBar";
@@ -90,7 +90,7 @@ function Section({
         <h2 className="flex-1 text-sm font-bold text-civic-ink">{title}</h2>
         {aiTagged && (
           <span className="inline-flex items-center gap-1 rounded-full border border-civic-primary/30 bg-civic-primary/5 px-2.5 py-0.5 text-xs font-semibold text-civic-primary">
-            <Sparkles size={12} /> CivicSense AI
+            <BrainCircuit size={12} /> CivicSense AI
           </span>
         )}
       </div>
@@ -135,7 +135,7 @@ export default function PolicyBriefPage() {
   // ── Copy to clipboard ─────────────────────────────────────────────────────
   async function handleCopy() {
     const text = [
-      `AI POLICY BRIEF — ${raw.name}`,
+      `AI POLICY BRIEF: ${raw.name}`,
       `Dokumen: ${docId}  |  Dibuat: ${dateStr}  |  Drafted by CivicSense Policy Assistant`,
       `Mode Analisis: ${modeConfig.label}`,
       `Priority Score: ${scored.computedScore}/100 (${scored.computedCategory})`,
@@ -147,11 +147,16 @@ export default function PolicyBriefPage() {
       insight.body,
       "",
       "SINYAL DATA UTAMA",
-      ...top4.map((d) => `- ${INDICATOR_LABELS[d.key]}: ${d.value}/100 (${d.severity})`),
+      ...top4.map((d) => {
+        const inv = isIndicatorInvertedForMode(d.key, activeMode);
+        const note = inv ? " (catatan: nilai rendah berarti kebutuhan intervensi tinggi)" : "";
+        return `- ${INDICATOR_LABELS[d.key]}: ${d.value}/100 (${d.severity})${note}`;
+      }),
+      "Catatan metodologi: Akses Layanan Publik dan Aktivitas UMKM menggunakan logika inversi. Nilai rendah pada indikator tersebut menunjukkan kebutuhan intervensi lebih tinggi.",
       "",
       "REKOMENDASI KEBIJAKAN",
       ...brief.policyRecommendations.map(
-        (r) => `${r.priority}. ${r.action} [${r.timeline}] — ${r.lead}`
+        (r) => `${r.priority}. ${r.action} [${r.timeline}] - ${r.lead}`
       ),
       "",
       "RINGKASAN WARGA",
@@ -178,11 +183,11 @@ export default function PolicyBriefPage() {
         >
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-civic-primary flex items-center gap-1.5">
-              <Sparkles size={14} /> CivicSense AI
+              <ClipboardList size={14} /> CivicSense AI
             </p>
             <h1 className="text-2xl font-bold text-civic-ink">AI Policy Brief Generator</h1>
             <p className="text-sm text-civic-muted">
-              Dokumen draft ringkasan kebijakan berbasis data wilayah — disusun sebagai draf awal oleh CivicSense Policy Assistant.
+              Dokumen draft ringkasan kebijakan berbasis data wilayah yang disusun sebagai draf awal oleh CivicSense Policy Assistant.
             </p>
             <span className="mt-2 inline-flex rounded-md border border-civic-primary/20 bg-civic-primary/5 px-2.5 py-1 text-xs font-semibold text-civic-primary">
               Mode analisis: {modeConfig.label}
@@ -254,7 +259,7 @@ export default function PolicyBriefPage() {
             <div className="space-y-3">
               {/* AI badge */}
               <div className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-bold backdrop-blur-sm">
-                <Sparkles size={14} /> Drafted by CivicSense Policy Assistant
+                <BrainCircuit size={14} /> Drafted by CivicSense Policy Assistant
               </div>
               <p className="text-xs text-white/50 font-mono">{docId} · {dateStr}</p>
               <h2 className="text-4xl font-bold tracking-tight md:text-5xl">
@@ -307,7 +312,7 @@ export default function PolicyBriefPage() {
         <Section id="sec-priority" num="02" title="Priority Analysis" aiTagged>
           {/* AI insight banner */}
           <div className="rounded-lg border border-civic-primary/25 bg-gradient-to-r from-civic-ink/5 to-transparent p-4">
-            <p className="text-xs font-bold text-civic-primary mb-1 flex items-center gap-1.5"><Sparkles size={14} /> CivicSense AI — {insight.headline}</p>
+            <p className="text-xs font-bold text-civic-primary mb-1 flex items-center gap-1.5"><BrainCircuit size={14} /> CivicSense AI: {insight.headline}</p>
             <p className="text-sm leading-relaxed text-civic-ink">{insight.body}</p>
           </div>
 
@@ -475,7 +480,7 @@ export default function PolicyBriefPage() {
             <TriangleAlert size={20} className="text-amber-600 shrink-0" />
             <div className="space-y-1">
               <p className="text-xs font-bold uppercase tracking-wider text-amber-800">
-                AI Disclaimer — CivicSense AI · Prototype
+                AI Disclaimer: CivicSense AI · Prototype
               </p>
               <p className="text-xs leading-relaxed text-amber-700">
                 Output CivicSense AI merupakan draft analisis awal dan perlu divalidasi oleh OPD/petugas terkait sebelum digunakan sebagai dasar keputusan resmi.

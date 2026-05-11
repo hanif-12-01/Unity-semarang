@@ -1,47 +1,73 @@
-# Final Submission Checklist — CIVICTWIN Semarang
+# Final Submission Checklist - CIVICTWIN Semarang
 
-Gunakan daftar centang (*checklist*) ini sebagai panduan pamungkas sebelum menekan tombol pengumpulan (*submit*) pada portal kompetisi dan sebelum naik ke panggung presentasi.
+Gunakan checklist ini sebelum submit ke portal kompetisi dan sebelum presentasi.
 
 ---
 
 ## 1. Administrasi & Kelengkapan Dokumen
-- [ ] Kartu Tanda Mahasiswa (KTM) semua anggota tim telah diunggah / dipersiapkan.
-- [ ] Kartu Rencana Studi (KRS) aktif semua anggota tim telah disertakan.
-- [ ] Surat Rekomendasi Kampus/Dosen Pembimbing (jika disyaratkan) sudah ditandatangani.
-- [ ] Lembar Orisinalitas (Bermeterai) sudah diisi dan ditandatangani ketua tim.
-- [ ] Formulir / Data anggota tim sudah sesuai (nama, NIM, kontak aktif).
-- [ ] Format seluruh fail (PDF, PPT, ZIP kode sumber) sudah sesuai dengan ketentuan di dalam *Guidebook* lomba.
 
-## 2. Pengecekan Fungsional Prototipe
-- [ ] Perintah `npm install` berjalan tanpa *error* di perangkat demonstrasi.
-- [ ] Perintah kompilasi `npm run build` sukses 100% (bebas *error* TypeScript).
-- [ ] Perintah `npm run preview` berjalan lancar.
-- [ ] Semua *route* navigasi bisa diklik dan tidak menghasilkan layar kosong (*blank screen*).
-- [ ] *Login Role Demo* (`/login`) berfungsi: `localStorage` tersimpan dan merelokasi ke halaman yang tepat.
-- [ ] Peta Prioritas Semarang (Leaflet) memuat lapisan visual (*tiles*) dan *markers* dengan sempurna.
-- [ ] Dasbor Laporan Warga (*Reports Page*) terbuka dan fungsi saringan bekerja.
-- [ ] *Policy Simulator* berjalan lancar: mengubah *slider* langsung memengaruhi angka prioritas.
-- [ ] Pembuatan naskah (*Policy Brief*) bisa dimuat dan tidak mengalami eror.
-- [ ] Laman Transparansi Publik (*Public Page*) terbuka sesuai rancangan (anonim).
-- [ ] Laman *Methodology* terbuka dan memuat matriks indeks secara penuh.
+- [ ] KTM semua anggota tim telah diunggah / dipersiapkan.
+- [ ] KRS aktif semua anggota tim telah disertakan.
+- [ ] Surat rekomendasi kampus/dosen pembimbing, jika disyaratkan, sudah ditandatangani.
+- [ ] Lembar orisinalitas bermeterai sudah diisi dan ditandatangani ketua tim.
+- [ ] Data anggota tim sudah sesuai: nama, NIM, dan kontak aktif.
+- [ ] Format seluruh file mengikuti guidebook lomba: PDF, PPT, ZIP/source code, atau format lain yang diminta.
+
+## 2. Pengecekan Fungsional Prototype
+
+- [ ] `npm install` berjalan tanpa error di perangkat demo.
+- [ ] `npm run build` sukses tanpa error TypeScript.
+- [ ] `npm run preview` berjalan lancar.
+- [ ] Semua route navigasi bisa diklik dan tidak menghasilkan blank screen.
+- [ ] Login Role Demo (`/login`) berfungsi dan menyimpan role di `localStorage`.
+- [ ] Dashboard memuat ranking wilayah, peta prioritas, insight CivicSense, dan Resolution Accountability.
+- [ ] Peta Leaflet menampilkan tiles dan marker.
+- [ ] Reports Page memuat Citizen Feedback Intelligence.
+- [ ] Filter Reports berjalan untuk pencarian, jenis feedback, kategori, status, dan kecamatan.
+- [ ] Dataset feedback menampilkan Keluhan, Kritik, Saran, dan Apresiasi.
+- [ ] Region Detail memuat indikator wilayah, issue hotspots, komposisi feedback, dan laporan penyelesaian OPD.
+- [ ] Policy Simulator mengubah ranking prioritas intervensi sesuai mode kebijakan.
+- [ ] Policy Brief dapat dimuat, dicopy, dan diprint tanpa error.
+- [ ] Public Transparency memuat ringkasan prioritas dan status tindak lanjut publik.
+- [ ] Methodology memuat status data, rumus, bobot, inversi indikator, dan guardrail AI.
 
 ## 3. Kelengkapan Dokumentasi Repositori
-- [ ] `README.md` menggunakan versi terbaru dan memuat *Tech Stack*, Fitur, dan Batasan.
-- [ ] `DEMO_SCRIPT.md` sudah tersedia sebagai panduan narasi presentasi tim.
-- [ ] `QNA_JURI.md` sudah disiapkan untuk mengantisipasi pertanyaan dewan juri.
-- [ ] `PROJECT_DOCUMENTATION.md` sudah diunggah sebagai dokumen pelengkap metodologi teknis.
-- [ ] Tautan sumber data referensi (BPS/Pemkot) tercantum jelas di dalam halaman *Methodology*.
-- [ ] Tautan *deploy* aplikasi (misal: Vercel, Netlify, atau GitHub Pages) telah dites dan dilampirkan (opsional/jika ada).
 
-## 4. Keamanan Klaim Inovasi (Risiko Presentasi)
-- [ ] **TIDAK** mengklaim bahwa data di aplikasi terhubung dengan API *real-time* Pemkot Semarang.
-- [ ] **TIDAK** mengklaim bahwa *hotspot* atau keluhan yang ada adalah data asli dan mutakhir.
-- [ ] **TIDAK** mengklaim bahwa AI (CivicSense) bertindak sebagai pembuat keputusan otonom (*decision maker*).
-- [ ] Telah memberi *disclaimer* (pernyataan penyangkalan) bahwa semua data yang berpotensi sensitif saat ini hanyalah bagian dari simulasi *Proof-of-Concept*.
+- [ ] `README.md` sudah memuat fitur terbaru: Citizen Feedback Intelligence dan Resolution Accountability.
+- [ ] `PROJECT_DOCUMENTATION.md` sudah menjelaskan arsitektur, data, scoring, AI governance, dan batasan prototype.
+- [ ] `DEMO_SCRIPT.md` sudah mengikuti alur aplikasi terbaru.
+- [ ] `QNA_JURI.md` sudah mencakup pertanyaan tentang feedback warga, tindak lanjut OPD, AI, data, dan GIS.
+- [ ] `SUBMISSION_CHECKLIST.md` sudah diperbarui.
+- [ ] `src/assets/README.md` menjelaskan aset visual yang digunakan.
+- [ ] Tautan sumber data referensi di halaman Methodology sudah ditinjau.
+- [ ] Tautan deploy, jika ada, sudah dites dan dilampirkan.
 
-## 5. Kesiapan Presentasi & Demo Lomba
-- [ ] Draf narasi presentasi (Pitch) telah dilatih berulang kali untuk pas di durasi **5–7 menit**.
-- [ ] Alur demo aplikasi (klik dari Login ke Public Page) sudah mulus dan tidak tersendat.
-- [ ] Anggota tim telah membagi porsi jawaban untuk simulasi *Q&A* juri.
-- [ ] **Rencana Cadangan A:** Menyimpan kumpulan tangkapan layar (*screenshot*) jernih dari seluruh antarmuka aplikasi.
-- [ ] **Rencana Cadangan B:** Menyimpan video *screen-recording* jalannya prototipe secara mulus seandainya *live-demo* terkendala oleh masalah sinyal proyektor atau koneksi internet di lokasi lomba.
+## 4. Keamanan Klaim Inovasi
+
+- [ ] Tidak mengklaim data aplikasi terhubung real-time ke Pemkot Semarang.
+- [ ] Tidak mengklaim hotspot, laporan warga, atau laporan penyelesaian OPD sebagai data asli.
+- [ ] Tidak mengklaim CivicSense sebagai decision maker otomatis.
+- [ ] Menjelaskan bahwa CivicSense adalah rule-based assistant tanpa API LLM eksternal.
+- [ ] Menjelaskan bahwa ranking simulator adalah prioritas intervensi, bukan peringkat wilayah terbaik.
+- [ ] Menjelaskan bahwa data publik sudah dianonimkan dan tidak memakai data pribadi warga asli.
+- [ ] Menjelaskan bahwa output policy brief masih draf awal dan butuh validasi manusia.
+
+## 5. Kesiapan Presentasi & Demo
+
+- [ ] Narasi pitch sudah dilatih untuk durasi 5-7 menit.
+- [ ] Alur demo sudah dilatih dari Login, Dashboard, Reports, Region Detail, Simulator, Policy Brief, Public, sampai Methodology.
+- [ ] Presenter siap menjelaskan empat jenis feedback: Keluhan, Kritik, Saran, Apresiasi.
+- [ ] Presenter siap menjelaskan Resolution Accountability dan status validasi tindak lanjut.
+- [ ] Presenter siap menjelaskan indikator inversi pada Akses Layanan Publik dan Aktivitas UMKM.
+- [ ] Anggota tim sudah membagi porsi jawaban Q&A.
+- [ ] Backup screenshot semua halaman sudah tersedia.
+- [ ] Backup screen recording demo sudah tersedia.
+- [ ] Aplikasi sudah dicoba pada laptop dan browser yang akan dipakai presentasi.
+
+## 6. Pengecekan GitHub
+
+- [ ] `git status` sudah diperiksa sebelum commit.
+- [ ] Build terakhir sudah berhasil.
+- [ ] Perubahan dokumentasi dan kode sudah masuk commit.
+- [ ] Branch sudah dipush ke remote GitHub yang benar.
+- [ ] Repository GitHub dapat dibuka oleh reviewer/juri sesuai pengaturan akses yang dibutuhkan.

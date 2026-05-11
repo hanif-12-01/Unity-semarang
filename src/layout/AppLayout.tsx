@@ -1,16 +1,16 @@
 import { useState, useEffect, useRef } from "react";
-import { 
-  Home, 
-  LayoutDashboard, 
-  MapPinned, 
-  MessageSquareWarning, 
-  SlidersHorizontal, 
-  FileText, 
-  Globe2, 
-  BookOpenCheck, 
-  PlayCircle, 
-  TriangleAlert, 
-  Sparkles, 
+import {
+  Home,
+  LayoutDashboard,
+  MapPinned,
+  MessageSquareWarning,
+  SlidersHorizontal,
+  FileText,
+  Globe2,
+  BookOpenCheck,
+  PlayCircle,
+  TriangleAlert,
+  Sparkles,
   ChevronDown,
   UserCircle
 } from "lucide-react";
@@ -82,11 +82,13 @@ export default function AppLayout() {
         {/* Top Brand Row */}
         <div className="mx-auto flex max-w-[1500px] flex-col gap-3 px-5 py-3 md:flex-row md:items-center md:justify-between lg:px-8">
           <Link to="/" className="group flex items-center gap-3">
-            <img 
-              src={civictwinLogo} 
-              alt="CIVICTWIN Semarang Logo" 
-              className="h-9 object-contain md:h-10 transition group-hover:opacity-90"
-            />
+            <div className="flex h-10 w-16 items-center justify-center rounded-md bg-civic-surface overflow-hidden">
+              <img
+                src={civictwinLogo}
+                alt="CIVICTWIN Semarang Logo"
+                className="h-9 w-auto object-contain mix-blend-multiply transition group-hover:opacity-90"
+              />
+            </div>
             <div>
               <h1 className="text-xl font-bold text-civic-ink tracking-tight flex items-baseline gap-2 group-hover:text-civic-primary transition">
                 CIVICTWIN <span className="text-civic-primary text-sm">Semarang</span>
@@ -155,7 +157,7 @@ export default function AppLayout() {
                   <span className="sm:hidden">Demo</span>
                   <ChevronDown size={14} className={classNames("text-civic-muted transition-transform", showDemo ? "rotate-180" : "")} />
                 </button>
-                
+
                 {showDemo && (
                   <div className="absolute right-0 top-full mt-2 w-64 rounded-xl border border-civic-line bg-civic-surface p-3 shadow-lg">
                     <p className="mb-3 px-2 text-[10px] font-bold uppercase tracking-wider text-civic-gold">Urutan Demo Juri</p>

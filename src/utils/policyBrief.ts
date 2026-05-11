@@ -161,7 +161,7 @@ function interpretIndicator(
     case "socialVulnerability":
       return `Kerentanan sosial ${value}/100 mengindikasikan proporsi warga yang membutuhkan perlindungan sosial ${urg}.`;
     case "publicServiceAccess":
-      return `Akses layanan publik ${value}/100 — semakin rendah skor ini, semakin besar kesenjangan layanan yang perlu diatasi. Nilai ${value} menunjukkan urgensi ${urg}.`;
+      return `Akses layanan publik ${value}/100, semakin rendah skor ini, semakin besar kesenjangan layanan yang perlu diatasi. Nilai ${value} menunjukkan urgensi ${urg}.`;
     case "citizenReports":
       return `Volume laporan warga ${value}/100 mencerminkan tingkat kepedulian dan keaktifan masyarakat dalam melaporkan masalah ke pemerintah.`;
     case "smeActivity": {
@@ -172,7 +172,7 @@ function interpretIndicator(
         : urg === "tinggi"
         ? "baik namun perlu dijaga"
         : "membutuhkan stimulus agar ekonomi warga menguat";
-      return `Aktivitas UMKM ${value}/100 menggambarkan daya tahan ekonomi lokal — nilai ini ${interpretation}.`;
+      return `Aktivitas UMKM ${value}/100 menggambarkan daya tahan ekonomi lokal, nilai ini ${interpretation}.`;
     }
     default:
       return `Nilai ${value}/100 pada indikator ini perlu mendapat perhatian dalam perencanaan wilayah.`;

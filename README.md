@@ -1,151 +1,169 @@
 # CIVICTWIN Semarang
 
-CIVICTWIN Semarang adalah civic intelligence platform tingkat kecamatan untuk membantu pemerintah kota membaca prioritas wilayah, laporan masyarakat, simulasi kebijakan, dan transparansi publik.
+CIVICTWIN Semarang adalah civic intelligence platform tingkat kecamatan untuk membantu pemerintah kota membaca prioritas wilayah, mengolah masukan warga, memantau tindak lanjut OPD, mensimulasikan kebijakan, dan membuka ringkasan transparansi publik.
 
-Pada fase proof of concept, CIVICTWIN diposisikan sebagai Civic Intelligence Layer dan stepping stone menuju Spatial Digital Twin. Prototype ini belum menggunakan GIS boundary resmi, sensor IoT real-time, atau integrasi data OPD langsung.
+Pada fase proof of concept, CIVICTWIN diposisikan sebagai Civic Intelligence Layer dan stepping stone menuju Spatial Digital Twin. Prototype ini belum menggunakan GIS boundary resmi, sensor IoT real-time, backend produksi, atau integrasi data OPD langsung.
 
 ## Problem Statement
 
-Pembangunan dan pengambilan kebijakan di tingkat kota sering kali dihadapkan pada berbagai tantangan operasional dan analitik:
-- Data kota tersebar di berbagai instansi dan format yang menyulitkan agregasi cepat.
-- Laporan masyarakat membeludak dan sulit diprioritaskan secara lintas Organisasi Perangkat Daerah (OPD).
-- Pengambilan keputusan terkait alokasi sumber daya wilayah membutuhkan dasar data yang kuat dan transparan.
-- Pemerintah membutuhkan sistem pendukung keputusan (*decision-support*) yang legal, ramah audit (*audit-friendly*), dan mudah dikomunikasikan baik ke pimpinan maupun publik.
+Pembangunan dan pengambilan kebijakan kota sering terhambat oleh:
+
+- Data kota yang tersebar di berbagai instansi dan format.
+- Masukan warga yang tidak hanya berupa keluhan, tetapi juga kritik, saran, dan apresiasi yang perlu diklasifikasi.
+- Kebutuhan pimpinan untuk melihat prioritas wilayah secara cepat, transparan, dan ramah audit.
+- Kebutuhan OPD untuk menunjukkan tindak lanjut yang dapat divalidasi tanpa mengekspos data pribadi warga.
 
 ## Fitur Utama
 
-1. **Role-Based Demo Access**: Simulasi akses platform berdasarkan peran pengguna (Executive, Analyst, OPD, Kecamatan, Public).
-2. **Command Center Dashboard**: Tampilan terpusat berbasis grid untuk memantau metrik kota.
-3. **Priority Map Semarang**: Representasi spasial interaktif berbasis peta wilayah kota.
-4. **Citizen Report Intelligence**: Agregasi dan analisis sentimen serta urgensi laporan masyarakat.
-5. **Issue Hotspots per Kecamatan**: Pemetaan titik panas isu lokal pada level granular.
-6. **Disaster Signal Monitor**: Sistem pemantauan peringatan dini untuk kebencanaan.
-7. **Policy Simulator**: Simulasi dampak perubahan prioritas kebijakan terhadap skor indeks wilayah.
-8. **AI-assisted Policy Brief**: Penyusunan otomatis ringkasan rekomendasi kebijakan untuk pimpinan.
-9. **Public Transparency Page**: Laman khusus publik yang menyajikan metrik kota secara aman tanpa mengekspos data sensitif.
-10. **Methodology & AI Governance Guardrail**: Dokumentasi metodologi perhitungan skor dan pagar pengaman (*guardrails*) untuk integritas AI.
+1. **Role-Based Demo Access**: Simulasi akses berdasarkan peran Executive, Analyst, OPD, Kecamatan, dan Public.
+2. **Command Center Dashboard**: Ringkasan kota, ranking wilayah, peta prioritas, dan panel akuntabilitas tindak lanjut.
+3. **Priority Map Semarang**: Representasi spasial interaktif berbasis marker wilayah prototype.
+4. **Citizen Feedback Intelligence**: Analisis 32 masukan warga yang dibagi menjadi Keluhan, Kritik, Saran, dan Apresiasi.
+5. **CivicSense AI Triage Assistant**: Klasifikasi awal jenis masukan, urgensi, OPD tujuan, alasan klasifikasi, dan catatan validasi.
+6. **Issue Hotspots per Kecamatan**: Pemetaan titik panas isu lokal untuk drill-down wilayah.
+7. **Resolution Accountability**: Simulasi laporan penyelesaian OPD, status validasi, bukti sebelum-sesudah, dan ringkasan publik.
+8. **Policy Simulator**: Simulasi fokus kebijakan dan perubahan ranking prioritas intervensi wilayah.
+9. **AI-assisted Policy Brief**: Generator draf policy brief berbasis data wilayah dan mode analisis.
+10. **Public Transparency Page**: Ringkasan publik wilayah prioritas, penjelasan indikator, dan status tindak lanjut yang telah dianonimkan.
+11. **Methodology & AI Governance Guardrail**: Dokumentasi scoring, inversi indikator, status data, batasan AI, dan disclaimer prototype.
+
+## Pembaruan Saat Ini
+
+- Modul laporan diperluas menjadi **Citizen Feedback Intelligence**.
+- Dataset mock berisi 32 masukan warga: 18 Keluhan, 6 Kritik, 4 Saran, dan 4 Apresiasi.
+- Setiap masukan memiliki `feedbackType`, pernyataan warga, parameter klasifikasi, interpretasi publik, rekomendasi OPD, dan catatan validasi.
+- Ditambahkan `completionReports.ts` berisi 6 laporan penyelesaian OPD untuk simulasi akuntabilitas tindak lanjut.
+- Dashboard, Detail Wilayah, dan Public Transparency kini menampilkan metrik penyelesaian: tervalidasi, menunggu validasi, perlu revisi, draft, rata-rata hari penyelesaian, dan resolution rate.
+- Policy Simulator diperjelas sebagai ranking prioritas intervensi, bukan peringkat wilayah terbaik.
+- Policy Brief dan metodologi menampilkan catatan inversi untuk indikator Akses Layanan Publik dan Aktivitas UMKM.
 
 ## Tech Stack
 
-Proyek ini dibangun menggunakan teknologi modern antarmuka web:
-- React
+- React 18
 - TypeScript
 - Vite
-- Tailwind CSS (Palette Central Java / Semarang: Ivory, Muted Teal, Sogan Charcoal, Terracotta)
+- Tailwind CSS
 - React Router
 - Leaflet + React Leaflet
-- Lucide React (Ikonografi tanpa emoji)
+- Lucide React
 - Rule-based CivicSense Policy Assistant
 - Local mock/prototype data
 
-## Batasan Implementasi (Prototype)
+## Batasan Implementasi
 
-Mengingat proyek ini berfokus pada *proof of concept* UI/UX dan interaksi intelijen data:
 - Tidak menggunakan backend auth sungguhan.
 - Role access masih berupa simulasi demo berbasis `localStorage`.
 - Tidak menggunakan database eksternal.
-- Tidak menggunakan API AI eksternal (mengandalkan pemrosesan internal berbasis *rule*).
-- Tidak menggunakan data pribadi warga asli.
+- Tidak menggunakan API AI eksternal.
+- Data laporan warga, penyelesaian OPD, hotspot, dan koordinat detail adalah data simulasi POC.
+- Peta menggunakan marker centroid prototype, bukan boundary GIS resmi.
+- Sistem dan data di dalamnya tidak boleh dipakai sebagai dasar kebijakan nyata tanpa validasi resmi OPD/petugas lapangan.
 
 ## Cara Menjalankan Aplikasi
 
-Pastikan Anda memiliki [Node.js](https://nodejs.org/) terinstal.
+Pastikan Node.js sudah terinstal.
 
-1. Instalasi dependensi:
+1. Instal dependensi:
+
    ```bash
    npm install
    ```
-2. Menjalankan server pengembangan:
+
+2. Jalankan server pengembangan:
+
    ```bash
    npm run dev
    ```
-3. Membangun (*build*) untuk produksi:
+
+3. Build produksi:
+
    ```bash
    npm run build
    ```
-4. Meninjau hasil *build*:
+
+4. Preview hasil build:
+
    ```bash
    npm run preview
    ```
 
 ## Struktur Folder Relevan
 
-Struktur repositori berfokus pada modularisasi antarmuka dan *mocking* intelijen. Beberapa berkas esensial meliputi:
-
 ```text
 src/
-├── assets/
-│   └── brand/
-│       └── civictwin-logo.png
-├── components/
-│   └── map/
-│       └── SemarangPriorityMap.tsx
-├── data/
-│   ├── mockData/
-│   └── citizenReports.ts
-├── layout/
-│   └── AppLayout.tsx
-├── pages/
-│   ├── CitizenReportsPage.tsx
-│   ├── DashboardPage.tsx
-│   ├── LandingPage.tsx
-│   ├── LoginPage.tsx
-│   ├── MethodologyPage.tsx
-│   ├── PolicyBriefPage.tsx
-│   ├── PolicySimulatorPage.tsx
-│   ├── PublicTransparencyPage.tsx
-│   └── RegionDetailPage.tsx
-└── utils/
-    └── civicSenseAI.ts
+|-- assets/
+|   |-- brand/
+|   |   |-- civictwin-logo.png
+|-- components/
+|   |-- map/
+|   |   |-- SemarangPriorityMap.tsx
+|   |-- ui/
+|-- data/
+|   |-- completionReports.ts
+|   |-- citizenReports.ts
+|   |-- mockData/
+|-- layout/
+|   |-- AppLayout.tsx
+|-- pages/
+|   |-- CitizenReportsPage.tsx
+|   |-- DashboardPage.tsx
+|   |-- LandingPage.tsx
+|   |-- LoginPage.tsx
+|   |-- MethodologyPage.tsx
+|   |-- PolicyBriefPage.tsx
+|   |-- PolicySimulatorPage.tsx
+|   |-- PublicTransparencyPage.tsx
+|   |-- RegionDetailPage.tsx
+|-- utils/
+|   |-- civicSenseAI.ts
+|   |-- policyBrief.ts
+|   |-- scoring.ts
 ```
 
 ## Demo Flow
 
-Berikut adalah urutan navigasi yang direkomendasikan untuk presentasi/demo:
-
-1. **Login / Role Selection**: Mensimulasikan pilihan peran aktor.
-2. **Command Center Dashboard**: Memperlihatkan antarmuka intelijen utama.
-3. **Priority Map Semarang**: Eksplorasi tata letak geospasial prioritas.
-4. **Citizen Reports**: Manajemen intelijen laporan masyarakat.
-5. **Detail Wilayah + Issue Hotspots**: Peninjauan *drilled-down* pada spesifik kecamatan.
-6. **Policy Simulator**: Penyesuaian parameter simulasi skor.
-7. **AI-assisted Policy Brief**: Pembuatan naskah kebijakan instan.
-8. **Public Transparency**: Sudut pandang transparansi untuk warga.
-9. **Methodology & Governance Guardrail**: Penjabaran integritas data dan kecerdasan buatan.
+1. **Login / Role Selection**: Pilih peran demo.
+2. **Command Center Dashboard**: Lihat ranking wilayah, peta prioritas, sinyal kota, dan akuntabilitas tindak lanjut.
+3. **Citizen Feedback Intelligence**: Tunjukkan klasifikasi Keluhan, Kritik, Saran, Apresiasi, serta filter dan triage CivicSense.
+4. **Region Detail**: Drill-down ke kecamatan, komposisi feedback, issue hotspots, dan laporan penyelesaian OPD.
+5. **Policy Simulator**: Ubah fokus kebijakan dan jelaskan perubahan ranking prioritas intervensi.
+6. **AI-assisted Policy Brief**: Tampilkan draf policy brief dan catatan validasi manusia.
+7. **Public Transparency**: Tunjukkan ringkasan prioritas dan tindak lanjut yang aman untuk publik.
+8. **Methodology & Governance**: Jelaskan rumus, bobot, inversi indikator, status data, dan AI guardrail.
 
 ## CivicSense AI
 
-**CivicSense** adalah *policy/report assistant* internal yang diimplementasikan melalui sistem *rule-based template*, bukan LLM eksternal.
+CivicSense adalah assistant internal berbasis rule-based template, bukan LLM eksternal.
 
-**Fungsi utama:**
-- Klasifikasi awal laporan
-- Ringkasan laporan
-- Rekomendasi pendelegasian OPD
-- Policy brief draft
-- Citizen summary
-- Simulator narration
+Fungsi utama:
 
-**Tegasan Penggunaan:**
-- CivicSense **bukan** pengambil keputusan akhir (*decision maker*).
-- Output dari asisten wajib melalui validasi OPD terkait.
-- Tidak menggunakan API AI eksternal sama sekali.
+- Klasifikasi awal masukan warga.
+- Ringkasan dan alasan klasifikasi.
+- Rekomendasi OPD dan tindak lanjut.
+- Narasi simulasi kebijakan.
+- Draf policy brief.
+- Ringkasan publik dalam bahasa warga.
+
+Tegasan penggunaan:
+
+- CivicSense bukan pengambil keputusan akhir.
+- Output wajib divalidasi OPD/petugas terkait.
+- Tidak menggunakan API AI eksternal.
 
 ## Catatan Data
 
-- Seluruh angka dan metrik yang digunakan di sini merupakan campuran dari **data publik, olahan kasual, dan simulasi terbatas**.
-- Entitas laporan masyarakat adalah simulasi *mock-up*.
-- Koordinat/lokasi hotspot lokasi murni simulasi POC.
-- Peta menggunakan penanda (*marker*) *centroid prototype*, bukan *boundaries* GIS resmi.
-- Sistem beserta data di dalamnya **tidak boleh** dipakai sebagai dasar kebijakan nyata tanpa adanya validasi data lapangan yang riil.
+- Seluruh angka dan metrik merupakan kombinasi data publik, data olahan, dan simulasi terbatas.
+- Masukan warga dan laporan penyelesaian OPD adalah mock data untuk proof of concept.
+- Tidak ada data pribadi warga asli.
+- Pada implementasi nyata, sistem perlu bridging ke sumber resmi seperti BPS, Satu Data Semarang, SP4N-LAPOR!, dan data OPD.
 
 ## Roadmap
 
-Untuk pengembangan platform nyata di masa depan:
-- Integrasi *pipeline* data resmi BPS / OPD / BPBD / Dishub dan sensor IoT.
-- Integrasi kanal laporan resmi (seperti Lapor!).
-- Validasi lapangan untuk laporan dan hotspot.
-- Autentikasi dan otorisasi *role-based* sungguhan.
-- Pencatatan aktivitas (*Audit trail*) untuk akuntabilitas.
-- Integrasi layanan *polygon GIS boundary* resmi untuk kecamatan dan kelurahan.
-- Integrasi *AI policy assistant* sesungguhnya namun dilengkapi *guardrail* hukum yang kuat.
-- Mewujudkan *real-time spatial digital twin* yang beroperasi secara penuh.
+- Integrasi pipeline data resmi BPS / OPD / BPBD / Dishub dan sensor IoT.
+- Integrasi kanal laporan resmi seperti SP4N-LAPOR!.
+- Validasi lapangan untuk laporan, hotspot, dan bukti penyelesaian.
+- Backend auth dan RBAC produksi.
+- Audit trail untuk aktivitas OPD dan validasi lapangan.
+- Integrasi polygon GIS boundary resmi.
+- Penguatan CivicSense dengan guardrail hukum dan tata kelola AI server-side.
+- Pengembangan menuju real-time spatial digital twin.

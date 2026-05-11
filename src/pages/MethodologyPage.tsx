@@ -99,7 +99,7 @@ const LIMITATIONS = [
   { icon: <PlugZap />, text: "Belum terhubung ke API atau database pemerintah manapun." },
   { icon: <MapPinned />, text: "Belum melalui validasi lapangan bersama OPD Kota Semarang." },
   { icon: <Bot />, text: "CivicSense AI menggunakan rule-based template, bukan model AI/ML sungguhan." },
-  { icon: <TestTube />, text: "Tahap proof of concept — belum diuji pada skala operasional." },
+  { icon: <TestTube />, text: "Tahap proof of concept, belum diuji pada skala operasional." },
   { icon: <Map />, text: "Belum terintegrasi visualisasi geospasial / peta interaktif." },
 ];
 
@@ -161,7 +161,7 @@ export default function MethodologyPage() {
               Prototype CIVICTWIN menggunakan{" "}
               <strong>kombinasi data publik, data olahan dari sumber literatur, dan data simulasi terbatas</strong>{" "}
               untuk keperluan proof of concept. Beberapa indikator menggunakan estimasi berbasis laporan
-              resmi yang disederhanakan — lihat tabel <strong>Source Log & Status Data</strong> di bawah
+              resmi yang disederhanakan, lihat tabel <strong>Source Log & Status Data</strong> di bawah
               untuk mengetahui status setiap data secara transparan.
             </p>
           </div>
@@ -221,13 +221,13 @@ export default function MethodologyPage() {
         </p>
         <div className="flex flex-wrap gap-2 mb-2">
           <span className={classNames("rounded-md border px-2.5 py-1 text-xs font-semibold", STATUS_BADGE["Olahan"])}>
-            Olahan — data publik yang diolah/disederhanakan
+            Olahan: data publik yang diolah/disederhanakan
           </span>
           <span className={classNames("rounded-md border px-2.5 py-1 text-xs font-semibold", STATUS_BADGE["Simulasi"])}>
-            Simulasi — estimasi untuk keperluan prototype
+            Simulasi: estimasi untuk keperluan prototype
           </span>
           <span className={classNames("rounded-md border px-2.5 py-1 text-xs font-semibold", STATUS_BADGE["Resmi"])}>
-            Resmi — rujukan langsung dari instansi pemerintah
+            Resmi: rujukan langsung dari instansi pemerintah
           </span>
         </div>
         <div className="rounded-xl border border-civic-line bg-civic-surface shadow-sm overflow-x-auto">
@@ -312,7 +312,7 @@ export default function MethodologyPage() {
             </p>
             <p className="text-white/50 text-xs mt-2">di mana nilai_indikator ∈ [0, 100] dan Σ bobot = 1.0</p>
             <div className="mt-3 pt-3 border-t border-white/10">
-              <p className="text-amber-300 text-xs font-semibold">Catatan Inversi — Akses Layanan Publik:</p>
+              <p className="text-amber-300 text-xs font-semibold">Catatan Inversi: Akses Layanan Publik:</p>
               <p className="text-white/80 text-xs mt-1">
                 nilai_efektif = 100 − nilai_akses_layanan
               </p>
@@ -347,7 +347,7 @@ export default function MethodologyPage() {
         {/* General mode weights table */}
         <div className="rounded-xl border border-civic-line bg-civic-surface p-6 shadow-sm overflow-x-auto">
           <p className="text-xs font-bold uppercase tracking-wider text-civic-muted mb-4">
-            Distribusi Bobot — Mode General Priority
+            Distribusi Bobot: Mode General Priority
           </p>
           <table className="w-full text-sm">
             <thead>

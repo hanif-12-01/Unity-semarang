@@ -10,7 +10,7 @@ const problems = [
   {
     icon: <Database />,
     title: "Data Kota Masih Tersebar",
-    body: "Informasi wilayah tersimpan di banyak sumber berbeda — laporan dinas, survei lapangan, pengaduan warga — tanpa satu titik integrasi yang mudah diakses.",
+    body: "Informasi wilayah tersimpan di banyak sumber berbeda (laporan dinas, survei lapangan, pengaduan warga) tanpa satu titik integrasi yang mudah diakses.",
   },
   {
     icon: <Search />,
@@ -28,7 +28,7 @@ const solutions = [
   {
     icon: <MapPinned />,
     label: "Digital Twin Wilayah",
-    desc: "Representasi digital setiap kecamatan dengan 6 indikator kunci — dari risiko banjir hingga aktivitas UMKM — dalam satu tampilan terpadu.",
+    desc: "Representasi digital setiap kecamatan dengan 6 indikator kunci (dari risiko banjir hingga aktivitas UMKM) dalam satu tampilan terpadu.",
   },
   {
     icon: <BarChart3 />,
@@ -38,12 +38,12 @@ const solutions = [
   {
     icon: <SlidersHorizontal />,
     label: "Policy Simulator",
-    desc: "Ubah fokus kebijakan — banjir, layanan publik, kerentanan sosial, UMKM — dan lihat bagaimana peringkat wilayah berubah secara real-time.",
+    desc: "Ubah fokus kebijakan (banjir, layanan publik, kerentanan sosial, UMKM) dan lihat bagaimana peringkat wilayah berubah secara real-time.",
   },
   {
     icon: <Sparkles />,
     label: "CivicSense AI Assistant",
-    desc: "Asisten analisis kebijakan berbasis data wilayah — menghasilkan narasi, penjelasan prioritas, dan policy brief otomatis tanpa API eksternal.",
+    desc: "Asisten analisis kebijakan berbasis data wilayah, menghasilkan narasi, penjelasan prioritas, dan policy brief otomatis tanpa API eksternal.",
   },
   {
     icon: <Globe2 />,
@@ -126,7 +126,7 @@ export default function LandingPage() {
         <p className="mt-5 max-w-lg text-sm leading-relaxed text-white/60">
           CIVICTWIN membantu pemerintah kota membaca kondisi wilayah, menghitung
           priority score, mensimulasikan fokus kebijakan, dan menghasilkan
-          policy brief berbasis data — dalam satu platform terintegrasi.
+          policy brief berbasis data dalam satu platform terintegrasi.
         </p>
 
         <div className="mt-8 flex flex-wrap gap-3">
@@ -214,7 +214,7 @@ export default function LandingPage() {
             Empat pilar CIVICTWIN
           </h2>
           <p className="max-w-xl text-sm leading-relaxed text-civic-muted">
-            Dari representasi digital wilayah hingga simulasi kebijakan —
+            Dari representasi digital wilayah hingga simulasi kebijakan.
             setiap fitur dirancang untuk mendukung pengambilan keputusan
             yang cepat dan dapat dipertanggungjawabkan.
           </p>

@@ -13,7 +13,8 @@ import {
 import { classNames } from "../utils/classNames";
 import type { PriorityCategory } from "../data/mockData";
 import type { RegionIndicator } from "../data/mockData";
-import { getHotspotsByRegion, getReportsByRegion } from "../data/citizenReports";
+import { getHotspotsByRegion, getReportsByRegion, getFeedbackToneSummaryByRegion, getFeedbackBadge } from "../data/citizenReports";
+import { getCompletionReportsByRegion, getResolutionStatsByRegion, getValidationBadge, COMPLETION_REPORT_DISCLAIMER } from "../data/completionReports";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -50,7 +51,9 @@ const levelStyle = {
   },
 };
 
-const INVERTED_KEYS = new Set<keyof RegionIndicator>(["publicServiceAccess"]);
+// Both publicServiceAccess and smeActivity use inverted logic:
+// high raw value = good condition → low intervention need
+const INVERTED_KEYS = new Set<keyof RegionIndicator>(["publicServiceAccess", "smeActivity"]);
 
 const INDICATOR_ORDER: (keyof RegionIndicator)[] = [
   "floodRisk",
@@ -71,8 +74,8 @@ const INDICATOR_ICONS: Record<keyof RegionIndicator, React.ReactNode> = {
 };
 
 const INDICATOR_NOTE: Partial<Record<keyof RegionIndicator, string>> = {
-  publicServiceAccess: "Nilai rendah = akses buruk = prioritas tinggi",
-  smeActivity: "Nilai tinggi = ekonomi aktif",
+  publicServiceAccess: "Nilai tinggi = akses baik; nilai rendah = prioritas intervensi tinggi",
+  smeActivity: "Nilai tinggi = ekonomi aktif; nilai rendah = prioritas intervensi ekonomi tinggi",
   floodRisk: "Nilai tinggi = risiko besar",
 };
 
@@ -128,7 +131,10 @@ export default function RegionDetailPage() {
   const dominant = getDominantIndicators(region.indicators, "general", 3);
   
   const hotspots = getHotspotsByRegion(region.id);
-  const recentReports = getReportsByRegion(region.id).slice(0, 3);
+  const recentReports = getReportsByRegion(region.id).slice(0, 5);
+  const toneSummary = getFeedbackToneSummaryByRegion(region.id);
+  const completionReports = getCompletionReportsByRegion(region.id);
+  const resolutionStats = getResolutionStatsByRegion(region.id);
 
   return (
     <div className="space-y-6 pb-12">
@@ -160,10 +166,10 @@ export default function RegionDetailPage() {
             <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold backdrop-blur-sm">
               <span className={classNames("h-1.5 w-1.5 rounded-full", style.dot)} />
               {region.computedCategory === "Tinggi"
-                ? "Prioritas Tinggi — Butuh intervensi segera"
+                ? "Prioritas Tinggi, Butuh intervensi segera"
                 : region.computedCategory === "Sedang"
-                ? "Prioritas Sedang — Perlu perhatian"
-                : "Prioritas Rendah — Kondisi relatif baik"}
+                ? "Prioritas Sedang, Perlu perhatian"
+                : "Prioritas Rendah, Kondisi relatif baik"}
             </span>
 
             <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
@@ -236,21 +242,26 @@ export default function RegionDetailPage() {
               {INDICATOR_ORDER.map((key) => {
                 const val = region.indicators[key];
                 const inverted = INVERTED_KEYS.has(key);
+                const effectiveVal = inverted ? 100 - val : val;
                 const sev = severityOf(val, inverted);
-                const fill = inverted ? 100 - val : val;
                 const barColor =
-                  fill >= 75
+                  effectiveVal >= 75
                     ? "bg-priority-high"
-                    : fill >= 50
+                    : effectiveVal >= 50
                     ? "bg-priority-medium"
                     : "bg-priority-low";
 
                 return (
                   <div
                     key={key}
-                    className="rounded-lg border border-civic-line bg-civic-soft/50 p-4 space-y-3"
+                    className={classNames(
+                      "rounded-lg border p-4 space-y-3",
+                      inverted
+                        ? "border-indigo-200 bg-indigo-50/30"
+                        : "border-civic-line bg-civic-soft/50"
+                    )}
                   >
-                    {/* Icon + label */}
+                    {/* Icon + label row */}
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex items-center gap-2">
                         <span className="text-civic-ink flex items-center">{INDICATOR_ICONS[key]}</span>
@@ -258,27 +269,39 @@ export default function RegionDetailPage() {
                           {INDICATOR_LABELS[key]}
                         </span>
                       </div>
-                      <span className={classNames("text-xs", sev.cls)}>
-                        {sev.label}
-                      </span>
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        {inverted && (
+                          <span className="inline-flex items-center rounded-full border border-indigo-200 bg-indigo-100 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-indigo-700">
+                            Inversi
+                          </span>
+                        )}
+                        <span className={classNames("text-xs", sev.cls)}>
+                          {sev.label}
+                        </span>
+                      </div>
                     </div>
 
-                    {/* Numeric display */}
+                    {/* Numeric display — always shows raw value */}
                     <div className="flex items-end gap-2">
                       <span className="text-3xl font-bold tabular-nums text-civic-ink">
                         {val}
                       </span>
                       <span className="mb-1 text-xs text-civic-muted">/ 100</span>
+                      {inverted && (
+                        <span className="mb-1 text-xs text-indigo-600 font-medium">
+                          (efektif: {effectiveVal})
+                        </span>
+                      )}
                     </div>
 
-                    {/* Bar */}
+                    {/* Bar — based on effectiveVal */}
                     <div className="h-2 w-full overflow-hidden rounded-full bg-civic-line">
                       <div
                         className={classNames(
                           "h-full rounded-full transition-all duration-700",
                           barColor
                         )}
-                        style={{ width: `${fill}%` }}
+                        style={{ width: `${effectiveVal}%` }}
                       />
                     </div>
 
@@ -291,6 +314,16 @@ export default function RegionDetailPage() {
                   </div>
                 );
               })}
+            </div>
+
+            {/* Panel footer — inversion explanation */}
+            <div className="mt-2 rounded-lg border border-indigo-200 bg-indigo-50/50 px-4 py-3">
+              <p className="text-xs text-indigo-700 leading-relaxed">
+                <span className="font-semibold">Catatan:</span> Untuk{" "}
+                <span className="font-semibold">Akses Layanan Publik</span> dan{" "}
+                <span className="font-semibold">Aktivitas UMKM</span>, nilai tinggi menunjukkan kondisi lebih baik sehingga prioritas intervensi lebih rendah.
+                Bar dan label status mencerminkan nilai efektif setelah inversi.
+              </p>
             </div>
           </section>
 
@@ -419,7 +452,7 @@ export default function RegionDetailPage() {
             </div>
           </section>
 
-          {/* ── Laporan Masyarakat Terkait ───────────────────────────────── */}
+          {/* ── Laporan & Masukan Warga Terkait ───────────────────────────────── */}
           <section
             id="related-reports"
             className="rounded-xl border border-civic-line bg-civic-surface p-6 shadow-sm"
@@ -430,39 +463,205 @@ export default function RegionDetailPage() {
                   Citizen Intelligence
                 </p>
                 <h2 className="mt-1 text-base font-semibold text-civic-ink">
-                  Laporan Masyarakat Terkait
+                  Laporan & Masukan Warga Terkait
                 </h2>
+                <p className="text-xs text-civic-muted mt-0.5">Keluhan, kritik, saran, dan apresiasi warga di wilayah ini</p>
               </div>
               <Link to={`/reports?region=${region.id}`} className="text-xs font-semibold text-civic-primary hover:underline">
-                Lihat Semua Laporan Kecamatan Ini &rarr;
+                Lihat Semua &rarr;
               </Link>
             </div>
 
-            <div className="grid gap-3">
+            {/* Feedback Composition */}
+            <div className="mb-5">
+              <p className="text-xs font-bold uppercase tracking-wider text-civic-primary mb-3">Komposisi Feedback Wilayah</p>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-2 border-b border-civic-line pb-5">
+              <div className="rounded border border-civic-line bg-civic-soft/50 p-2 text-center">
+                <p className="text-xl font-bold text-rose-600">{toneSummary.complaints}</p>
+                <p className="text-[10px] uppercase font-semibold text-civic-muted">Keluhan</p>
+              </div>
+              <div className="rounded border border-civic-line bg-civic-soft/50 p-2 text-center">
+                <p className="text-xl font-bold text-amber-600">{toneSummary.criticisms}</p>
+                <p className="text-[10px] uppercase font-semibold text-civic-muted">Kritik</p>
+              </div>
+              <div className="rounded border border-civic-line bg-civic-soft/50 p-2 text-center">
+                <p className="text-xl font-bold text-blue-600">{toneSummary.suggestions}</p>
+                <p className="text-[10px] uppercase font-semibold text-civic-muted">Saran</p>
+              </div>
+              <div className="rounded border border-civic-line bg-civic-soft/50 p-2 text-center">
+                <p className="text-xl font-bold text-green-600">{toneSummary.appreciations}</p>
+                <p className="text-[10px] uppercase font-semibold text-civic-muted">Apresiasi</p>
+              </div>
+              <div className="rounded border border-civic-primary/20 bg-civic-primary/5 p-2 text-center md:col-span-1 col-span-2">
+                <p className="text-sm mt-1 font-bold text-civic-primary">{toneSummary.publicSignal}</p>
+                <p className="text-[10px] uppercase font-semibold text-civic-muted">Sinyal Persepsi</p>
+              </div>
+            </div>
+            </div>
+
+            <div className="grid gap-4">
               {recentReports.length > 0 ? recentReports.map(r => (
-                <div key={r.id} className="rounded-lg border border-civic-line p-3 flex flex-col sm:flex-row justify-between sm:items-center gap-2 hover:shadow-sm transition">
-                  <div>
-                    <h3 className="text-sm font-bold text-civic-ink line-clamp-1">{r.title}</h3>
-                    <p className="text-xs text-civic-muted mt-0.5 flex items-center gap-1.5"><MapPinned size={12} /> {r.locationDetail}</p>
-                  </div>
-                  <div className="flex items-center gap-2 shrink-0">
-                    <span className="text-[10px] font-medium bg-civic-soft border border-civic-line px-1.5 py-0.5 rounded text-civic-muted">
-                      {r.category}
-                    </span>
-                    <span className={classNames(
-                      "text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded border",
-                      r.urgency === "Kritis" ? "bg-rose-100 text-rose-700 border-rose-200" :
-                      r.urgency === "Tinggi" ? "bg-orange-100 text-orange-700 border-orange-200" :
-                      "bg-amber-100 text-amber-700 border-amber-200"
-                    )}>{r.urgency}</span>
-                    <span className="text-[10px] font-medium text-civic-ink bg-civic-soft px-1.5 py-0.5 rounded-full">
+                <div key={r.id} className="rounded-lg border border-civic-line p-4 hover:shadow-sm transition bg-civic-soft/20 flex flex-col gap-3">
+                  <div className="flex flex-col md:flex-row justify-between md:items-start gap-2">
+                    <div>
+                      <div className="flex items-center gap-2 mb-1 flex-wrap">
+                        <span className={classNames("text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border", getFeedbackBadge(r.feedbackType))}>
+                          {r.feedbackType}
+                        </span>
+                        {["Keluhan", "Kritik"].includes(r.feedbackType) && (
+                          <span className={classNames(
+                            "text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded border",
+                            r.urgency === "Kritis" ? "bg-rose-100 text-rose-700 border-rose-200" :
+                            r.urgency === "Tinggi" ? "bg-orange-100 text-orange-700 border-orange-200" :
+                            "bg-amber-100 text-amber-700 border-amber-200"
+                          )}>{r.urgency}</span>
+                        )}
+                        <span className="text-[10px] font-medium bg-civic-soft border border-civic-line px-1.5 py-0.5 rounded text-civic-muted">
+                          {r.category}
+                        </span>
+                      </div>
+                      <h3 className="text-sm font-bold text-civic-ink line-clamp-1">{r.title}</h3>
+                      <p className="text-xs text-civic-muted mt-1 flex items-center gap-1.5"><MapPinned size={12} /> {r.locationDetail}</p>
+                    </div>
+                    <span className="text-[10px] font-medium text-civic-ink bg-civic-soft px-2 py-1 rounded-full whitespace-nowrap self-start md:self-auto border border-civic-line">
                       {r.status}
                     </span>
                   </div>
+
+                  {r.citizenStatement && (
+                    <div className="bg-white/60 p-2.5 rounded border border-civic-line/50">
+                      <p className="text-xs italic text-civic-muted">"{r.citizenStatement}"</p>
+                    </div>
+                  )}
+
+                  {r.classificationParameters && r.classificationParameters.length > 0 && (
+                    <div className="flex flex-wrap gap-1">
+                      {r.classificationParameters.map((p: string, i: number) => (
+                        <span key={i} className="text-[9px] px-1.5 py-0.5 rounded bg-civic-soft border border-civic-line text-civic-muted">{p}</span>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                    <div>
+                      <p className="font-semibold text-civic-ink">Alasan Klasifikasi CivicSense:</p>
+                      <p className="text-civic-muted line-clamp-2 mt-0.5">{r.aiClassificationReason}</p>
+                      {r.publicInterpretation && (
+                        <p className="text-civic-muted/70 mt-0.5 text-[10px]">{r.publicInterpretation}</p>
+                      )}
+                    </div>
+                    <div>
+                      <p className="font-semibold text-civic-ink">OPD Terkait:</p>
+                      <p className="text-civic-muted mt-0.5">{r.recommendedAgency}</p>
+                    </div>
+                  </div>
+                  <p className="text-[10px] text-civic-muted/80 pt-2 border-t border-civic-line/40">
+                    Klasifikasi ini adalah draf awal CivicSense dan perlu validasi petugas/OPD.
+                  </p>
                 </div>
               )) : (
                 <p className="text-sm text-civic-muted italic">Belum ada laporan dari masyarakat di wilayah ini.</p>
               )}
+            </div>
+
+            <div className="mt-4 rounded border border-civic-line bg-civic-soft/30 p-3 text-[10px] text-civic-muted">
+              <span className="font-semibold text-civic-ink">Catatan Scoring:</span> Indikator Laporan Warga pada Priority Score terutama membaca keluhan dan kritik yang membutuhkan tindak lanjut. Saran dan apresiasi digunakan sebagai konteks persepsi publik, bukan otomatis menaikkan prioritas intervensi.
+            </div>
+          </section>
+
+          {/* ── Akuntabilitas Tindak Lanjut ──────────────────────────────── */}
+          <section
+            id="resolution-accountability"
+            className="rounded-xl border border-civic-line bg-civic-surface p-6 shadow-sm"
+          >
+            <div className="mb-4">
+              <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
+                Resolution Accountability
+              </p>
+              <h2 className="mt-1 text-base font-semibold text-civic-ink">
+                Akuntabilitas Tindak Lanjut
+              </h2>
+              <p className="text-xs text-civic-muted mt-0.5">Laporan penyelesaian dari OPD terkait wilayah ini</p>
+            </div>
+
+            {/* Stats Row */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-5 border-b border-civic-line pb-5">
+              <div className="rounded border border-green-200 bg-green-50 p-2 text-center">
+                <p className="text-xl font-bold text-green-700">{resolutionStats.validated}</p>
+                <p className="text-[10px] uppercase font-semibold text-civic-muted">Tervalidasi</p>
+              </div>
+              <div className="rounded border border-blue-200 bg-blue-50 p-2 text-center">
+                <p className="text-xl font-bold text-blue-700">{resolutionStats.pendingValidation}</p>
+                <p className="text-[10px] uppercase font-semibold text-civic-muted">Menunggu Validasi</p>
+              </div>
+              <div className="rounded border border-amber-200 bg-amber-50 p-2 text-center">
+                <p className="text-xl font-bold text-amber-700">{resolutionStats.needsRevision}</p>
+                <p className="text-[10px] uppercase font-semibold text-civic-muted">Perlu Revisi</p>
+              </div>
+              <div className="rounded border border-civic-line bg-civic-soft/50 p-2 text-center">
+                <p className="text-xl font-bold text-civic-ink">{resolutionStats.draft}</p>
+                <p className="text-[10px] uppercase font-semibold text-civic-muted">Draft OPD</p>
+              </div>
+            </div>
+
+            {/* Completion Report Cards */}
+            <div className="grid gap-4">
+              {completionReports.length > 0 ? completionReports.map(cr => (
+                <div key={cr.id} className="rounded-lg border border-civic-line p-4 bg-civic-soft/20 flex flex-col gap-3 hover:shadow-sm transition">
+                  <div className="flex flex-col md:flex-row justify-between md:items-start gap-2">
+                    <div>
+                      <div className="flex items-center gap-2 mb-1 flex-wrap">
+                        <span className={classNames("text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border", getValidationBadge(cr.validationStatus))}>
+                          {cr.validationStatus}
+                        </span>
+                        <span className="text-[10px] font-medium bg-civic-soft border border-civic-line px-1.5 py-0.5 rounded text-civic-muted">
+                          {cr.agency}
+                        </span>
+                      </div>
+                      <p className="text-sm font-bold text-civic-ink">{cr.actionTaken}</p>
+                      <p className="text-xs text-civic-muted mt-1">Laporan warga terkait: {cr.reportId}</p>
+                    </div>
+                    <span className="text-[10px] font-medium text-civic-muted whitespace-nowrap">
+                      Selesai: {new Date(cr.completedAt).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                    <div>
+                      <p className="font-semibold text-civic-ink">Sebelum:</p>
+                      <p className="text-civic-muted mt-0.5">{cr.beforeEvidenceLabel}</p>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-civic-ink">Sesudah:</p>
+                      <p className="text-civic-muted mt-0.5">{cr.afterEvidenceLabel}</p>
+                    </div>
+                  </div>
+
+                  {cr.fieldObstacle && (
+                    <div className="text-xs">
+                      <p className="font-semibold text-civic-ink">Kendala Lapangan:</p>
+                      <p className="text-civic-muted mt-0.5">{cr.fieldObstacle}</p>
+                    </div>
+                  )}
+
+                  {cr.publicSummary && (
+                    <div className="bg-white/60 p-2.5 rounded border border-civic-line/50">
+                      <p className="text-xs text-civic-ink"><span className="font-semibold">Ringkasan Publik:</span> {cr.publicSummary}</p>
+                    </div>
+                  )}
+
+                  <div className="flex items-center justify-between text-[10px] text-civic-muted/80 pt-2 border-t border-civic-line/40">
+                    <span>Validator: {cr.validatorRole}</span>
+                    <span>Data simulasi prototype</span>
+                  </div>
+                </div>
+              )) : (
+                <p className="text-sm text-civic-muted italic">Belum ada laporan penyelesaian dari OPD untuk wilayah ini.</p>
+              )}
+            </div>
+
+            <div className="mt-4 rounded border border-civic-line bg-civic-soft/30 p-3 text-[10px] text-civic-muted">
+              {COMPLETION_REPORT_DISCLAIMER}
             </div>
           </section>
 
@@ -592,7 +791,9 @@ export default function RegionDetailPage() {
               ))}
             </div>
             <p className="text-xs text-civic-muted/70 italic pt-1">
-              Bar panjang = kebutuhan intervensi tinggi
+              Bar panjang = kebutuhan intervensi tinggi.{" "}
+              <span className="text-indigo-600 not-italic font-medium">Inversi</span>{" "}
+              = Akses Layanan Publik &amp; Aktivitas UMKM (nilai tinggi = kondisi baik).
             </p>
           </div>
 

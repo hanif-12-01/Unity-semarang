@@ -15,6 +15,7 @@ import {
   getReportsByUrgency,
   ReportCategory,
 } from "../data/citizenReports";
+import { getResolutionStats } from "../data/completionReports";
 import type { PriorityCategory } from "../data/mockData";
 import type { ScoredRegion } from "../utils";
 
@@ -240,7 +241,7 @@ export default function DashboardPage() {
       id: "stat-top",
       label: "Wilayah Teratas",
       value: stats.topRegion,
-      sub: `skor ${stats.topScore} — prioritas tertinggi`,
+      sub: `skor ${stats.topScore}, prioritas tertinggi`,
       icon: <TriangleAlert size={24} className="text-amber-600" />,
       accent: "border-amber-200 bg-amber-50/40",
     },
@@ -485,7 +486,7 @@ export default function DashboardPage() {
               Visualisasi Skor
             </p>
             <h2 className="mt-1 text-base font-semibold text-civic-ink">
-              Perbandingan Priority Score — Semua Wilayah
+              Perbandingan Priority Score: Semua Wilayah
             </h2>
           </div>
           <div className="flex items-center gap-4 text-xs text-civic-muted">
@@ -518,7 +519,7 @@ export default function DashboardPage() {
             ))}
           </div>
           <p className="mt-1.5 text-xs text-civic-muted/70">
-            * Akses Layanan Publik dan Aktivitas UMKM dibalik logikanya — nilai rendah = prioritas intervensi lebih tinggi.
+            * Akses Layanan Publik dan Aktivitas UMKM dibalik logikanya: nilai rendah = prioritas intervensi lebih tinggi.
           </p>
         </div>
       </section>
@@ -670,6 +671,56 @@ export default function DashboardPage() {
           ))}
         </ol>
       </section>
+
+      {/* ── Resolution Accountability ──────────────────────────────────── */}
+      {(() => {
+        const rs = getResolutionStats();
+        return (
+          <section
+            id="resolution-accountability"
+            className="rounded-xl border border-civic-line bg-civic-surface p-6 shadow-sm"
+          >
+            <div className="flex items-start justify-between mb-4">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
+                  Resolution Accountability
+                </p>
+                <h2 className="mt-1 text-base font-semibold text-civic-ink">
+                  Akuntabilitas Tindak Lanjut
+                </h2>
+              </div>
+              <span className="text-[10px] text-civic-muted bg-civic-soft px-2 py-1 rounded border border-civic-line">Data Simulasi</span>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+              <div className="rounded border border-civic-line bg-civic-soft/50 p-3 text-center">
+                <p className="text-2xl font-bold text-civic-ink">{rs.total}</p>
+                <p className="text-[10px] uppercase font-semibold text-civic-muted">Total Laporan</p>
+              </div>
+              <div className="rounded border border-green-200 bg-green-50 p-3 text-center">
+                <p className="text-2xl font-bold text-green-700">{rs.validated}</p>
+                <p className="text-[10px] uppercase font-semibold text-civic-muted">Tervalidasi</p>
+              </div>
+              <div className="rounded border border-blue-200 bg-blue-50 p-3 text-center">
+                <p className="text-2xl font-bold text-blue-700">{rs.pendingValidation}</p>
+                <p className="text-[10px] uppercase font-semibold text-civic-muted">Menunggu</p>
+              </div>
+              <div className="rounded border border-amber-200 bg-amber-50 p-3 text-center">
+                <p className="text-2xl font-bold text-amber-700">{rs.needsRevision}</p>
+                <p className="text-[10px] uppercase font-semibold text-civic-muted">Perlu Revisi</p>
+              </div>
+              <div className="rounded border border-civic-line bg-civic-soft/50 p-3 text-center">
+                <p className="text-2xl font-bold text-civic-ink">{rs.averageResolutionDays}<span className="text-sm"> hari</span></p>
+                <p className="text-[10px] uppercase font-semibold text-civic-muted">Rata-rata</p>
+              </div>
+              <div className="rounded border border-civic-primary/20 bg-civic-primary/5 p-3 text-center">
+                <p className="text-2xl font-bold text-civic-primary">{rs.resolutionRate}%</p>
+                <p className="text-[10px] uppercase font-semibold text-civic-muted">Resolution Rate</p>
+              </div>
+            </div>
+            <p className="text-[10px] text-civic-muted mt-3">Laporan penyelesaian merupakan simulasi prototype. Validasi dilakukan oleh petugas/OPD.</p>
+          </section>
+        );
+      })()}
 
       {/* ── Data Notice ────────────────────────────────────────────────── */}
       <aside
