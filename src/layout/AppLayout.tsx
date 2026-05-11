@@ -10,7 +10,7 @@ import {
   BookOpenCheck,
   PlayCircle,
   TriangleAlert,
-  Sparkles,
+  BrainCircuit,
   ChevronDown,
   UserCircle
 } from "lucide-react";
@@ -103,7 +103,7 @@ export default function AppLayout() {
               <TriangleAlert size={14} /> Data Prototype POC
             </span>
             <span className="inline-flex items-center gap-1.5 rounded border border-civic-primary/20 bg-civic-primary/5 px-2.5 py-1 text-[11px] font-semibold text-civic-primary">
-              <Sparkles size={14} /> CivicSense Policy Assistant
+              <BrainCircuit size={14} /> CivicSense Policy Assistant
             </span>
             {demoRole && (
               <div className="flex items-center gap-2 ml-2 border-l border-civic-line pl-4">

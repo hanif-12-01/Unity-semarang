@@ -190,7 +190,7 @@ export default function DashboardPage() {
   const ranked = getRankedRegions(mockRegions, "general");
   const stats  = getCityScoringStats(ranked);
 
-  // -- Citizen Reports Snapshot Calculations --
+  // -- Citizen Feedback Snapshot Calculations --
   const reportStats = getReportStats();
   const categoryStats = getReportsByCategory();
   const categoryKeys = Object.keys(categoryStats) as ReportCategory[];
@@ -254,7 +254,7 @@ export default function DashboardPage() {
         <PageHeader
           eyebrow="Dashboard Kota"
           title="Ranking Prioritas Wilayah"
-          description="Memantau prioritas wilayah berdasarkan indikator sosial, ekonomi, lingkungan, layanan publik, dan laporan warga."
+          description="Memantau prioritas wilayah berdasarkan indikator sosial, ekonomi, lingkungan, layanan publik, serta laporan dan masukan warga."
         />
         <Link
           to="/simulator"
@@ -323,7 +323,7 @@ export default function DashboardPage() {
         <SemarangPriorityMap regions={ranked} />
       </section>
 
-      {/* ── Citizen Reports Snapshot ───────────────────────────────────── */}
+      {/* ── Citizen Feedback Snapshot ──────────────────────────────────── */}
       <section id="citizen-reports-snapshot" className="rounded-xl border border-civic-line bg-civic-surface p-6 shadow-sm">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-5 gap-4">
           <div>
@@ -331,23 +331,23 @@ export default function DashboardPage() {
               <MessageSquareWarning size={14} /> Intelligence Data
             </p>
             <h2 className="mt-1 text-base font-semibold text-civic-ink">
-              Citizen Reports Snapshot
+              Citizen Feedback Snapshot
             </h2>
             <p className="text-xs text-civic-muted mt-1 max-w-2xl">
-              Ringkasan laporan masyarakat yang dibantu draf awalnya oleh CivicSense AI untuk membantu pemerintah melihat isu kota yang paling mendesak.
+              Ringkasan laporan dan masukan warga yang dibantu draf awalnya oleh CivicSense AI untuk membantu pemerintah melihat isu kota yang paling mendesak.
             </p>
           </div>
           <Link
             to="/reports"
             className={classNames(buttonClasses("secondary"), "shrink-0 text-xs")}
           >
-            Buka Dashboard Laporan Masyarakat &rarr;
+            Buka Dashboard Masukan Warga &rarr;
           </Link>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-6">
           <div className="rounded-lg bg-civic-soft p-4 border border-civic-line">
-            <p className="text-xs font-medium text-civic-muted">Total Laporan</p>
+            <p className="text-xs font-medium text-civic-muted">Total Masukan</p>
             <p className="mt-1 text-xl font-bold text-civic-ink">{reportStats.total}</p>
           </div>
           <div className="rounded-lg bg-rose-50 p-4 border border-rose-100">
@@ -364,7 +364,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <h3 className="text-xs font-bold text-civic-ink uppercase tracking-wider mb-3">3 Laporan Paling Urgent</h3>
+        <h3 className="text-xs font-bold text-civic-ink uppercase tracking-wider mb-3">3 Masukan Paling Mendesak</h3>
         <div className="grid gap-3 md:grid-cols-3">
           {urgentReports.map(report => (
             <div key={report.id} className="rounded-lg border border-civic-line p-4 flex flex-col hover:shadow-sm transition bg-civic-surface">
@@ -391,7 +391,7 @@ export default function DashboardPage() {
 
         <div className="mt-6 rounded border border-amber-200 bg-amber-50 p-3 text-center">
           <p className="text-[10px] font-medium text-amber-700 flex items-start gap-1.5">
-            <TriangleAlert size={14} className="shrink-0" /> Data laporan pada prototype ini adalah simulasi. Pada implementasi nyata, laporan harus diverifikasi melalui kanal resmi dan OPD terkait.
+            <TriangleAlert size={14} className="shrink-0" /> Data laporan dan masukan warga pada prototype ini adalah simulasi. Pada implementasi nyata, masukan warga harus diverifikasi melalui kanal resmi dan OPD terkait.
           </p>
         </div>
       </section>
@@ -509,7 +509,7 @@ export default function DashboardPage() {
                 ["Kerentanan Sosial", "20%"],
                 ["Kepadatan Penduduk", "15%"],
                 ["Akses Layanan Publik*", "15%"],
-                ["Laporan Warga", "15%"],
+                ["Laporan & Masukan Warga", "15%"],
                 ["Aktivitas UMKM", "10%"],
               ] as [string, string][]
             ).map(([name, pct]) => (
