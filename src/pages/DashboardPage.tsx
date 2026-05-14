@@ -273,7 +273,7 @@ export default function DashboardPage() {
         id="city-visual-context"
         className="overflow-hidden rounded-xl border border-civic-line bg-civic-dark text-civic-surface shadow-sm"
       >
-        <div className="grid min-h-[260px] lg:grid-cols-[minmax(0,1fr)_360px]">
+        <div className="grid min-h-[260px] lg:grid-cols-1">
           <div className="relative z-10 flex flex-col justify-between gap-6 p-6 md:p-7">
             <div>
               <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-civic-gold">
@@ -305,19 +305,7 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <figure className="relative min-h-[280px] overflow-hidden lg:min-h-full">
-            <img
-              src={dashboardCityImage}
-              alt="Menara Lawang Sewu Semarang"
-              className="absolute inset-0 h-full w-full object-cover"
-              loading="eager"
-            />
-            <div className="absolute inset-0 bg-civic-dark/50" />
-            <div className="absolute inset-0 bg-gradient-to-t from-civic-dark via-civic-dark/20 to-transparent lg:bg-gradient-to-r lg:from-civic-dark/80 lg:via-civic-dark/25 lg:to-transparent" />
-            <figcaption className="absolute bottom-4 left-4 right-4 border-t border-white/15 pt-3 text-xs font-medium text-white/75">
-              Lawang Sewu, Semarang
-            </figcaption>
-          </figure>
+
         </div>
       </section>
 

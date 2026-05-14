@@ -103,7 +103,7 @@ export default function LandingPage() {
           className="pointer-events-none absolute -bottom-16 -left-10 h-56 w-56 rounded-full bg-civic-brick opacity-10 blur-2xl"
         />
 
-        <div className="relative z-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.86fr)] lg:items-center">
+        <div className="relative z-10 grid gap-8 lg:grid-cols-1 lg:items-center">
           <div className="max-w-2xl">
             {/* Badge */}
             <span className="inline-flex items-center gap-1.5 rounded-full border border-civic-gold/30 bg-civic-gold/10 px-3 py-1 text-xs font-semibold text-civic-surface backdrop-blur-sm">
@@ -153,21 +153,7 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <figure className="relative min-h-[260px] overflow-hidden rounded-xl border border-civic-gold/20 bg-civic-ink shadow-2xl shadow-black/30 sm:min-h-[320px] lg:min-h-[430px]">
-            <img
-              src={semarangHeroImage}
-              alt="Lawang Sewu, salah satu landmark Kota Semarang"
-              className="absolute inset-0 h-full w-full object-cover"
-              loading="eager"
-            />
-            <div className="absolute inset-0 bg-civic-dark/60 lg:bg-civic-dark/45" />
-            <div className="absolute inset-0 bg-gradient-to-t from-civic-dark via-civic-dark/25 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-r from-civic-dark/80 via-civic-dark/20 to-transparent lg:from-civic-dark/70" />
-            <figcaption className="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-3 border-t border-white/15 pt-3 text-xs font-medium text-white/75">
-              <span>Lawang Sewu, Semarang</span>
-              <span className="text-civic-gold">Civic view</span>
-            </figcaption>
-          </figure>
+
         </div>
 
         {/* Quick stats */}
