@@ -12,14 +12,16 @@ export default function IndicatorBar({
   label,
   value,
   inverted = false,
-  colorClass = "bg-civic-primary",
+  colorClass = "auto",
 }: IndicatorBarProps) {
-  const fill = inverted ? 100 - value : value;
+  // Gunakan effectiveValue untuk menentukan tingkat prioritas (warna)
+  // Untuk indikator inverted, nilai asli tinggi = effectiveValue rendah (aman/hijau)
+  const effectiveValue = inverted ? 100 - value : value;
 
   const autoColor =
-    fill >= 75
+    effectiveValue >= 75
       ? "bg-priority-high"
-      : fill >= 50
+      : effectiveValue >= 50
       ? "bg-priority-medium"
       : "bg-priority-low";
 
@@ -35,7 +37,7 @@ export default function IndicatorBar({
             "h-full rounded-full transition-all duration-500",
             colorClass === "auto" ? autoColor : colorClass
           )}
-          style={{ width: `${fill}%` }}
+          style={{ width: `${value}%` }}
         />
       </div>
     </div>

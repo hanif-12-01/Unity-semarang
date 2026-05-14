@@ -49,6 +49,9 @@ function scoreColor(score: number) {
   return "text-priority-low";
 }
 
+const dashboardCityImage =
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Menara_Lawang_Sewu_Semarang.jpg/682px-Menara_Lawang_Sewu_Semarang.jpg";
+
 // ─── Sub-section: Bar Chart Visual ───────────────────────────────────────────
 
 function ScoreBarChart({ regions }: { regions: ScoredRegion[] }) {
@@ -264,6 +267,59 @@ export default function DashboardPage() {
           <SlidersHorizontal size={16} /> Buka Policy Simulator
         </Link>
       </div>
+
+      {/* ── City Visual Context ──────────────────────────────────────────── */}
+      <section
+        id="city-visual-context"
+        className="overflow-hidden rounded-xl border border-civic-line bg-civic-dark text-civic-surface shadow-sm"
+      >
+        <div className="grid min-h-[260px] lg:grid-cols-[minmax(0,1fr)_360px]">
+          <div className="relative z-10 flex flex-col justify-between gap-6 p-6 md:p-7">
+            <div>
+              <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-civic-gold">
+                <Building size={14} /> City Context
+              </p>
+              <h2 className="mt-2 max-w-2xl text-xl font-bold text-white md:text-2xl">
+                CIVICTWIN Semarang Command View
+              </h2>
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/70">
+                Foto Lawang Sewu menjadi penanda konteks kota pada dashboard,
+                sementara prioritas wilayah tetap dibaca melalui skor, peta,
+                laporan warga, dan simulasi kebijakan.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-3 text-xs">
+              <span className="rounded-md border border-white/15 bg-white/10 px-3 py-2 font-semibold text-white/80">
+                {citySummary.totalRegionsInPrototype} kecamatan prototype
+              </span>
+              <span className="rounded-md border border-civic-primary/40 bg-civic-primary/20 px-3 py-2 font-semibold text-white/80">
+                {stats.highPriority} prioritas tinggi
+              </span>
+              <a
+                href="#priority-map"
+                className="rounded-md border border-civic-gold/40 bg-civic-gold/15 px-3 py-2 font-semibold text-civic-gold transition hover:bg-civic-gold/25"
+              >
+                Lihat peta prioritas →
+              </a>
+            </div>
+          </div>
+
+          <figure className="relative min-h-[280px] overflow-hidden lg:min-h-full">
+            <img
+              src={dashboardCityImage}
+              alt="Menara Lawang Sewu Semarang"
+              className="absolute inset-0 h-full w-full object-cover"
+              loading="eager"
+            />
+            <div className="absolute inset-0 bg-civic-dark/50" />
+            <div className="absolute inset-0 bg-gradient-to-t from-civic-dark via-civic-dark/20 to-transparent lg:bg-gradient-to-r lg:from-civic-dark/80 lg:via-civic-dark/25 lg:to-transparent" />
+            <figcaption className="absolute bottom-4 left-4 right-4 border-t border-white/15 pt-3 text-xs font-medium text-white/75">
+              Lawang Sewu, Semarang
+            </figcaption>
+          </figure>
+        </div>
+      </section>
 
       {/* ── Quick Policy Brief ─────────────────────────────────────────── */}
       <section className="rounded-xl border border-civic-primary bg-civic-primary/5 p-5 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">

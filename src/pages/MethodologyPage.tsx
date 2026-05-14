@@ -90,7 +90,7 @@ const INDICATORS = [
     desc: "Daya hidup usaha kecil dan menengah sebagai cerminan ketahanan ekonomi lokal. Nilai rendah = kerentanan ekonomi = perlu stimulus.",
     source: "Dinas UMKM, Dinas Perindustrian, survei lapangan",
     weight: "10%",
-    inverted: false,
+    inverted: true,
   },
 ];
 
@@ -312,12 +312,12 @@ export default function MethodologyPage() {
             </p>
             <p className="text-white/50 text-xs mt-2">di mana nilai_indikator ∈ [0, 100] dan Σ bobot = 1.0</p>
             <div className="mt-3 pt-3 border-t border-white/10">
-              <p className="text-amber-300 text-xs font-semibold">Catatan Inversi: Akses Layanan Publik:</p>
+              <p className="text-amber-300 text-xs font-semibold">Catatan Inversi:</p>
               <p className="text-white/80 text-xs mt-1">
-                nilai_efektif = 100 − nilai_akses_layanan
+                Akses Layanan Publik dan Aktivitas UMKM menggunakan logika inversi: nilai rendah berarti kebutuhan intervensi lebih tinggi.
               </p>
-              <p className="text-white/40 text-xs mt-0.5">
-                Semakin rendah akses → semakin tinggi kebutuhan intervensi → semakin besar kontribusi ke Priority Score.
+              <p className="text-white/80 text-xs mt-1">
+                Khusus Aktivitas UMKM, nilai tinggi menunjukkan ekonomi lokal aktif sehingga prioritas intervensi lebih rendah. Nilai rendah menunjukkan kebutuhan penguatan ekonomi lebih tinggi.
               </p>
             </div>
           </div>
@@ -365,7 +365,7 @@ export default function MethodologyPage() {
                 { label: "Kepadatan Penduduk", w: 0.15, inv: false },
                 { label: "Akses Layanan Publik", w: 0.15, inv: true },
                 { label: "Laporan Warga", w: 0.15, inv: false },
-                { label: "Aktivitas UMKM", w: 0.10, inv: false },
+                { label: "Aktivitas UMKM", w: 0.10, inv: true },
               ].map((row) => (
                 <tr key={row.label} className="py-2">
                   <td className="py-2.5 font-medium text-civic-ink">{row.label}</td>

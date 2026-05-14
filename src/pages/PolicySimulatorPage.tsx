@@ -69,11 +69,11 @@ const MODE_RECOMMENDATIONS: Record<PolicyMode, string[]> = {
     "Tingkatkan kapasitas Posyandu dan Pusat Kesehatan Komunitas di wilayah rawan",
   ],
   economy: [
-    "Buka program kredit mikro dan modal usaha bagi UMKM di wilayah skor rendah",
+    "Prioritas intervensi ekonomi diberikan kepada wilayah dengan aktivitas UMKM relatif rendah",
+    "Buka program kredit mikro dan modal usaha bagi UMKM di wilayah prioritas",
     "Bangun pasar desa dan ruang UMKM terintegrasi di kecamatan prioritas",
     "Fasilitasi pendampingan digitalisasi UMKM: marketplace, pembayaran digital, branding",
     "Sambungkan UMKM lokal dengan program pengadaan barang/jasa pemerintah kota",
-    "Gelar festival ekonomi dan pameran produk lokal untuk mendorong permintaan",
   ],
   citizenReports: [
     "Tingkatkan kapasitas respons OPD terhadap laporan warga dari sistem digital",

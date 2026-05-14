@@ -27,8 +27,8 @@ const problems = [
 const solutions = [
   {
     icon: <MapPinned />,
-    label: "Digital Twin Wilayah",
-    desc: "Representasi digital setiap kecamatan dengan 6 indikator kunci (dari risiko banjir hingga aktivitas UMKM) dalam satu tampilan terpadu.",
+    label: "Lapisan Intelijen Wilayah",
+    desc: "Profil data setiap kecamatan dengan 6 indikator kunci (dari risiko banjir hingga aktivitas UMKM) dalam satu tampilan terpadu.",
   },
   {
     icon: <BarChart3 />,
@@ -60,6 +60,9 @@ const values = [
   { label: "Smart Governance", detail: "Mendukung agenda tata kelola cerdas" },
 ];
 
+const semarangHeroImage =
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Lawang_sewu_semarang.jpg/1280px-Lawang_sewu_semarang.jpg";
+
 // ─── Sub-komponen kecil ───────────────────────────────────────────────────────
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
@@ -85,16 +88,10 @@ export default function LandingPage() {
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
       <section
         id="hero"
-        className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-civic-dark to-civic-ink px-8 py-14 text-white shadow-xl md:px-14 md:py-20"
+        className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-civic-dark to-civic-ink px-6 py-10 text-white shadow-xl md:px-10 md:py-14 lg:px-14 lg:py-20"
       >
         {/* Subtle batik-stripes pattern */}
         <div className="absolute inset-0 bg-batik-stripes opacity-10 pointer-events-none" />
-
-        {/* Semarang Landmark Identity */}
-        <div
-          className="absolute inset-y-0 right-0 w-2/3 bg-no-repeat bg-right-bottom opacity-[0.08] pointer-events-none mix-blend-screen"
-          style={{ backgroundImage: "url('/semarang-landmark.png')", backgroundSize: "contain" }}
-        />
 
         {/* Decorative blobs — coastal teal + terracotta for Semarang identity */}
         <div
@@ -106,50 +103,71 @@ export default function LandingPage() {
           className="pointer-events-none absolute -bottom-16 -left-10 h-56 w-56 rounded-full bg-civic-brick opacity-10 blur-2xl"
         />
 
-        {/* Badge */}
-        <span className="relative z-10 inline-flex items-center gap-1.5 rounded-full border border-civic-gold/30 bg-civic-gold/10 px-3 py-1 text-xs font-semibold text-civic-surface backdrop-blur-sm">
-          <span className="h-1.5 w-1.5 rounded-full bg-civic-gold" />
-          Data Prototype POC · CIVICTWIN 2026
-        </span>
+        <div className="relative z-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.86fr)] lg:items-center">
+          <div className="max-w-2xl">
+            {/* Badge */}
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-civic-gold/30 bg-civic-gold/10 px-3 py-1 text-xs font-semibold text-civic-surface backdrop-blur-sm">
+              <span className="h-1.5 w-1.5 rounded-full bg-civic-gold" />
+              Data Prototype POC · CIVICTWIN 2026
+            </span>
 
-        <h1 className="relative z-10 mt-5 max-w-2xl text-3xl font-bold leading-snug tracking-tight text-civic-surface md:text-4xl lg:text-5xl">
-          CIVICTWIN{" "}
-          <span className="text-civic-primary">Semarang</span>
-        </h1>
+            <h1 className="mt-5 text-3xl font-bold leading-snug tracking-tight text-civic-surface md:text-4xl lg:text-5xl">
+              CIVICTWIN{" "}
+              <span className="text-civic-primary">Semarang</span>
+            </h1>
 
-        <p className="relative z-10 mt-3 max-w-xl text-base font-medium text-white/70 md:text-lg">
-          Digital Twin Wilayah untuk Prioritas Kebijakan Kota yang{" "}
-          <span className="text-civic-surface">Transparan</span> dan{" "}
-          <span className="text-civic-surface">Berbasis Data</span>
-        </p>
+            <p className="mt-3 max-w-xl text-base font-medium text-white/75 md:text-lg">
+              Civic Intelligence Layer untuk Prioritas Kebijakan Kota yang{" "}
+              <span className="text-civic-surface">Transparan</span> dan{" "}
+              <span className="text-civic-surface">Berbasis Data</span>
+            </p>
 
-        <p className="mt-5 max-w-lg text-sm leading-relaxed text-white/60">
-          CIVICTWIN membantu pemerintah kota membaca kondisi wilayah, menghitung
-          priority score, mensimulasikan fokus kebijakan, dan menghasilkan
-          policy brief berbasis data dalam satu platform terintegrasi.
-        </p>
+            <p className="mt-5 max-w-lg text-sm leading-relaxed text-white/60">
+              CIVICTWIN membantu pemerintah kota membaca kondisi wilayah,
+              menghitung priority score, mensimulasikan fokus kebijakan, dan
+              menghasilkan policy brief berbasis data dalam satu platform
+              terintegrasi.
+            </p>
 
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Link
-            id="cta-login"
-            to="/login"
-            className={classNames(
-              buttonClasses("primary"),
-              "bg-civic-primary border-civic-primary hover:bg-teal-700 hover:border-teal-700 text-white px-6 py-2.5"
-            )}
-          >
-            Masuk Mode Demo →
-          </Link>
-          <Link
-            id="cta-public"
-            to="/public"
-            className={classNames(
-              buttonClasses("secondary"),
-              "border-civic-line bg-civic-surface text-civic-ink hover:bg-civic-soft hover:border-civic-primary px-6 py-2.5"
-            )}
-          >
-            Lihat Transparansi Publik
-          </Link>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link
+                id="cta-login"
+                to="/login"
+                className={classNames(
+                  buttonClasses("primary"),
+                  "bg-civic-primary border-civic-primary hover:bg-teal-700 hover:border-teal-700 text-white px-6 py-2.5"
+                )}
+              >
+                Masuk Mode Demo →
+              </Link>
+              <Link
+                id="cta-public"
+                to="/public"
+                className={classNames(
+                  buttonClasses("secondary"),
+                  "border-civic-line bg-civic-surface text-civic-ink hover:bg-civic-soft hover:border-civic-primary px-6 py-2.5"
+                )}
+              >
+                Lihat Transparansi Publik
+              </Link>
+            </div>
+          </div>
+
+          <figure className="relative min-h-[260px] overflow-hidden rounded-xl border border-civic-gold/20 bg-civic-ink shadow-2xl shadow-black/30 sm:min-h-[320px] lg:min-h-[430px]">
+            <img
+              src={semarangHeroImage}
+              alt="Lawang Sewu, salah satu landmark Kota Semarang"
+              className="absolute inset-0 h-full w-full object-cover"
+              loading="eager"
+            />
+            <div className="absolute inset-0 bg-civic-dark/60 lg:bg-civic-dark/45" />
+            <div className="absolute inset-0 bg-gradient-to-t from-civic-dark via-civic-dark/25 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-civic-dark/80 via-civic-dark/20 to-transparent lg:from-civic-dark/70" />
+            <figcaption className="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-3 border-t border-white/15 pt-3 text-xs font-medium text-white/75">
+              <span>Lawang Sewu, Semarang</span>
+              <span className="text-civic-gold">Civic view</span>
+            </figcaption>
+          </figure>
         </div>
 
         {/* Quick stats */}
@@ -214,7 +232,7 @@ export default function LandingPage() {
             Empat pilar CIVICTWIN
           </h2>
           <p className="max-w-xl text-sm leading-relaxed text-civic-muted">
-            Dari representasi digital wilayah hingga simulasi kebijakan.
+            Dari profil data wilayah hingga simulasi kebijakan.
             setiap fitur dirancang untuk mendukung pengambilan keputusan
             yang cepat dan dapat dipertanggungjawabkan.
           </p>
@@ -285,7 +303,7 @@ export default function LandingPage() {
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {[
             { step: 1, label: "Dashboard Kota",       to: "/dashboard",                  icon: <BarChart3 size={16} />, hint: "Lihat ranking prioritas 6 wilayah" },
-            { step: 2, label: "Detail Wilayah",       to: "/regions/genuk",              icon: <Search size={16} />, hint: "Eksplorasi digital twin Genuk" },
+            { step: 2, label: "Detail Wilayah",       to: "/regions/genuk",              icon: <Search size={16} />, hint: "Eksplorasi profil data Genuk" },
             { step: 3, label: "Policy Simulator",     to: "/simulator",                  icon: <SlidersHorizontal size={16} />, hint: "Ubah fokus ke Banjir/Rob" },
             { step: 4, label: "AI Policy Brief",      to: "/policy-brief?region=genuk",  icon: <Sparkles size={16} />, hint: "Draft brief dengan CivicSense Policy Assistant" },
             { step: 5, label: "Transparansi Publik",  to: "/public",                     icon: <Globe2 size={16} />, hint: "Portal warga berbasis data" },
