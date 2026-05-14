@@ -205,7 +205,7 @@ export function generateSimulatorNarration(
     economy:
       "Aktivitas UMKM menjadi indikator utama. Wilayah dengan ekonomi warga paling lemah diprioritaskan untuk stimulus dan pemberdayaan usaha mikro.",
     citizenReports:
-      "Laporan warga diberi bobot 50%. Kecamatan paling aktif melaporkan masalah (yang berarti kebutuhan responsnya paling tinggi) naik peringkat.",
+      "Sistem membaca komposisi feedback warga secara mendalam. Wilayah dengan dominasi keluhan dan kritik akan naik peringkat prioritas, sedangkan apresiasi menjadi sinyal persepsi positif.",
   };
 
   const policyImplications: Record<PolicyMode, string> = {
@@ -220,7 +220,7 @@ export function generateSimulatorNarration(
     economy:
       "Arahkan kredit mikro, pelatihan UMKM, dan pasar desa ke wilayah dengan ekonomi paling lemah.",
     citizenReports:
-      "Perkuat kanal pengaduan, respons OPD, dan pelibatan warga sebagai mitra pemantau.",
+      "Prioritaskan tindak lanjut respons operasional di wilayah teratas dan pertahankan capaian layanan di wilayah dengan apresiasi tinggi.",
   };
 
   const summary =

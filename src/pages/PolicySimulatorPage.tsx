@@ -5,6 +5,7 @@ import { buttonClasses } from "../components/ui/Button";
 import IndicatorBar from "../components/ui/IndicatorBar";
 import PageHeader from "../components/ui/PageHeader";
 import { mockRegions } from "../data/mockData";
+import { getFeedbackToneSummaryByRegion, getFeedbackBadge } from "../data/citizenReports";
 import {
   POLICY_MODES,
   INDICATOR_LABELS,
@@ -76,11 +77,11 @@ const MODE_RECOMMENDATIONS: Record<PolicyMode, string[]> = {
     "Sambungkan UMKM lokal dengan program pengadaan barang/jasa pemerintah kota",
   ],
   citizenReports: [
-    "Tingkatkan kapasitas respons OPD terhadap laporan warga dari sistem digital",
-    "Buka kanal pengaduan warga yang terintegrasi (aplikasi, WhatsApp, media sosial)",
-    "Tetapkan SLA (Service Level Agreement) respons laporan per kategori isu",
-    "Libatkan warga dalam verifikasi data dan pemantauan pelaksanaan program",
-    "Gunakan pola laporan warga untuk mengidentifikasi hotspot masalah baru",
+    "Prioritaskan alokasi sumber daya operasional OPD ke wilayah dengan tekanan keluhan tertinggi",
+    "Jadikan kritik warga sebagai bahan evaluasi kualitas layanan dasar di kecamatan prioritas",
+    "Tetapkan SLA (Service Level Agreement) respons laporan per kategori isu dan sentimen",
+    "Pertahankan dan replikasi program dari wilayah yang mendapat apresiasi tertinggi",
+    "Gunakan pola komposisi laporan untuk mengidentifikasi pergeseran kebutuhan publik",
   ],
 };
 
@@ -312,6 +313,13 @@ export default function PolicySimulatorPage() {
   const topWeightKey = (Object.entries(weights) as [keyof RegionIndicator, number][])
     .sort((a, b) => b[1] - a[1])[0][0];
 
+  // Custom stats for citizenReports
+  const citizenStats = useMemo(() => {
+    return simulatedRanked.map(r => ({ region: r, tone: getFeedbackToneSummaryByRegion(r.id) }));
+  }, [simulatedRanked]);
+  const topPressure = [...citizenStats].sort((a, b) => (b.tone.complaints + b.tone.criticisms) - (a.tone.complaints + a.tone.criticisms)).slice(0, 3);
+  const topAppreciation = [...citizenStats].sort((a, b) => b.tone.appreciations - a.tone.appreciations).slice(0, 3);
+
   return (
     <div className="space-y-8 pb-12">
 
@@ -453,7 +461,9 @@ export default function PolicySimulatorPage() {
                 Hasil Simulasi
               </p>
               <h2 className="mt-0.5 text-base font-semibold text-civic-ink">
-                Ranking Prioritas Intervensi: {modeConfig.label}
+                {activeMode === "citizenReports" 
+                  ? "Ranking Prioritas Respons Publik"
+                  : `Ranking Prioritas Intervensi: ${modeConfig.label}`}
               </h2>
               <p className="mt-0.5 text-xs text-civic-muted">
                 Ranking ini menunjukkan prioritas intervensi pemerintah, bukan peringkat wilayah terbaik.
@@ -501,6 +511,11 @@ export default function PolicySimulatorPage() {
                   Nilai UMKM tinggi berarti ekonomi lokal lebih aktif sehingga prioritas intervensi lebih rendah.
                 </p>
               )}
+              {activeMode === "citizenReports" && (
+                <p className="text-xs text-rose-700 bg-rose-50 border border-rose-200 rounded px-3 py-2 leading-relaxed">
+                  <span className="font-semibold">Fokus Persepsi Publik:</span> Mode ini membaca indikasi persepsi publik berdasarkan komposisi keluhan, kritik, saran, dan apresiasi. Kesimpulan bersifat indikatif dan perlu divalidasi melalui kanal resmi, survei kepuasan, serta evaluasi OPD.
+                </p>
+              )}
             </div>
           </div>
 
@@ -534,16 +549,36 @@ export default function PolicySimulatorPage() {
                       {region.computedScore}
                     </span>
                   </div>
-                  <IndicatorBar
-                    label={INDICATOR_LABELS[topWeightKey]}
-                    value={region.indicators[topWeightKey]}
-                    inverted={isIndicatorInvertedForMode(topWeightKey, activeMode)}
-                    colorClass="auto"
-                  />
-                  {topWeightKey === "smeActivity" && (
-                    <p className="text-[10px] text-civic-muted/70 italic">
-                      Nilai tinggi = ekonomi aktif; nilai rendah = prioritas intervensi ekonomi tinggi.
-                    </p>
+                  {activeMode === "citizenReports" ? (() => {
+                    const tone = citizenStats.find(c => c.region.id === region.id)?.tone;
+                    if (!tone) return null;
+                    return (
+                      <div className="space-y-3 mt-1 pt-3 border-t border-civic-line">
+                        <div className="flex flex-wrap gap-2">
+                          <span className={classNames("text-[10px] px-2 py-0.5 rounded border font-medium", getFeedbackBadge("Keluhan"))}>Keluhan: {tone.complaints}</span>
+                          <span className={classNames("text-[10px] px-2 py-0.5 rounded border font-medium", getFeedbackBadge("Kritik"))}>Kritik: {tone.criticisms}</span>
+                          <span className={classNames("text-[10px] px-2 py-0.5 rounded border font-medium", getFeedbackBadge("Saran"))}>Saran: {tone.suggestions}</span>
+                          <span className={classNames("text-[10px] px-2 py-0.5 rounded border font-medium", getFeedbackBadge("Apresiasi"))}>Apresiasi: {tone.appreciations}</span>
+                        </div>
+                        <p className="text-[11px] text-civic-muted flex items-center justify-between">
+                          Sinyal Persepsi: <span className="font-semibold text-civic-ink">{tone.publicSignal}</span>
+                        </p>
+                      </div>
+                    );
+                  })() : (
+                    <>
+                      <IndicatorBar
+                        label={INDICATOR_LABELS[topWeightKey]}
+                        value={region.indicators[topWeightKey]}
+                        inverted={isIndicatorInvertedForMode(topWeightKey, activeMode)}
+                        colorClass="auto"
+                      />
+                      {topWeightKey === "smeActivity" && (
+                        <p className="text-[10px] text-civic-muted/70 italic">
+                          Nilai tinggi = ekonomi aktif; nilai rendah = prioritas intervensi ekonomi tinggi.
+                        </p>
+                      )}
+                    </>
                   )}
                 </div>
               ))}
@@ -554,36 +589,76 @@ export default function PolicySimulatorPage() {
         {/* ── Right Sidebar ────────────────────────────────────────────── */}
         <aside className="space-y-5">
 
-          {/* Wilayah yang naik prioritas */}
-          <div className="rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm space-y-3">
-            <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
-              Wilayah yang Naik Prioritas Intervensi
-            </p>
-            {movedUp.length === 0 ? (
-              <p className="text-xs text-civic-muted">
-                Tidak ada perubahan ranking dari General Priority.
+          {activeMode === "citizenReports" ? (
+            <>
+              {/* Tekanan Keluhan dan Kritik Tertinggi */}
+              <div className="rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm space-y-3">
+                <p className="text-xs font-bold uppercase tracking-wider text-rose-600">
+                  Tekanan Keluhan & Kritik Tertinggi
+                </p>
+                <ul className="space-y-2">
+                  {topPressure.map(({ region, tone }) => (
+                    <li key={region.id} className="flex flex-col rounded-lg border border-civic-line bg-rose-50/50 px-3 py-2.5">
+                      <div className="flex items-center justify-between">
+                        <p className="text-sm font-semibold text-civic-ink">{region.name}</p>
+                        <span className="text-xs font-bold text-rose-600">{tone.complaints + tone.criticisms} Isu</span>
+                      </div>
+                      <p className="text-[10px] text-civic-muted mt-0.5">{tone.complaints} Keluhan, {tone.criticisms} Kritik</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Apresiasi Tertinggi */}
+              <div className="rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm space-y-3">
+                <p className="text-xs font-bold uppercase tracking-wider text-teal-600">
+                  Apresiasi Tertinggi
+                </p>
+                <ul className="space-y-2">
+                  {topAppreciation.map(({ region, tone }) => (
+                    <li key={region.id} className="flex flex-col rounded-lg border border-civic-line bg-teal-50/50 px-3 py-2.5">
+                      <div className="flex items-center justify-between">
+                        <p className="text-sm font-semibold text-civic-ink">{region.name}</p>
+                        <span className="text-xs font-bold text-teal-600">{tone.appreciations} Apresiasi</span>
+                      </div>
+                      <p className="text-[10px] text-civic-muted mt-0.5">Sinyal: {tone.publicSignal}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </>
+          ) : (
+            /* Wilayah yang naik prioritas */
+            <div className="rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm space-y-3">
+              <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
+                Wilayah yang Naik Prioritas Intervensi
               </p>
-            ) : (
-              <ul className="space-y-2">
-                {movedUp.map(({ region, simRank, genRank }) => (
-                  <li
-                    key={region.id}
-                    className="flex items-center justify-between rounded-lg border border-civic-line bg-civic-soft/60 px-3 py-2.5"
-                  >
-                    <div>
-                      <p className="text-sm font-semibold text-civic-ink">{region.name}</p>
-                      <p className="text-xs text-civic-muted">
-                        #{genRank} → #{simRank}
-                      </p>
-                    </div>
-                    <span className="text-xs font-bold text-priority-high">
-                      ▲ {genRank - simRank}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+              {movedUp.length === 0 ? (
+                <p className="text-xs text-civic-muted">
+                  Tidak ada perubahan ranking dari General Priority.
+                </p>
+              ) : (
+                <ul className="space-y-2">
+                  {movedUp.map(({ region, simRank, genRank }) => (
+                    <li
+                      key={region.id}
+                      className="flex items-center justify-between rounded-lg border border-civic-line bg-civic-soft/60 px-3 py-2.5"
+                    >
+                      <div>
+                        <p className="text-sm font-semibold text-civic-ink">{region.name}</p>
+                        <p className="text-xs text-civic-muted">
+                          #{genRank} → #{simRank}
+                        </p>
+                      </div>
+                      <span className="text-xs font-bold text-priority-high">
+                        ▲ {genRank - simRank}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
 
           {/* Mode Recommendations */}
           <div className="rounded-xl border border-civic-line bg-civic-surface p-5 shadow-sm space-y-3">

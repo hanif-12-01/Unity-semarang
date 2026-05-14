@@ -4,6 +4,7 @@
 // =============================================================================
 
 import type { Region, RegionIndicator, PriorityCategory, EmergencySignals } from "../data/mockData/regions";
+import { mockCitizenReports } from "../data/citizenReports";
 
 // ---------------------------------------------------------------------------
 // TYPE DEFINITIONS
@@ -199,9 +200,9 @@ export const POLICY_MODES: PolicyModeConfig[] = [
   },
   {
     id: "citizenReports",
-    label: "Fokus Laporan Warga",
+    label: "Fokus Persepsi Publik",
     description:
-      "Mengutamakan wilayah dengan volume laporan warga tertinggi. Cocok untuk respons cepat dan program participatory governance.",
+      "Memprioritaskan wilayah dengan tekanan keluhan dan kritik tertinggi, sekaligus menampilkan wilayah dengan apresiasi warga terbanyak.",
     weights: WEIGHTS_CITIZEN,
   },
 ];
@@ -365,12 +366,36 @@ export function getDominantIndicators(
  * Aman dipakai di semua halaman tanpa mengubah data asli.
  */
 export function scoreRegion(region: Region, mode: PolicyMode = "general"): ScoredRegion {
-  const computedScore = calculatePriorityScore(region.indicators, mode);
+  let indicatorsToScore = region.indicators;
+
+  // Custom logic untuk Fokus Persepsi Publik
+  if (mode === "citizenReports") {
+    // We can't import getFeedbackToneSummaryByRegion here directly due to circular dependency risk or keeping scoring pure,
+    // but since we must use it, we will require it dynamically or assume it's imported at the top.
+    // I'll add the import at the top later, but for now I will use mockCitizenReports directly.
+    // Let's import mockCitizenReports at the top of the file!
+    const regionReports = mockCitizenReports.filter(r => r.regionId === region.id);
+    let complaints = 0;
+    let criticisms = 0;
+    regionReports.forEach(r => {
+      if (r.feedbackType === "Keluhan") complaints++;
+      if (r.feedbackType === "Kritik") criticisms++;
+    });
+    const perceptionScore = Math.min(100, (complaints * 15) + (criticisms * 20));
+    
+    indicatorsToScore = {
+      ...region.indicators,
+      citizenReports: perceptionScore,
+    };
+  }
+
+  const computedScore = calculatePriorityScore(indicatorsToScore, mode);
   const computedCategory = getPriorityCategory(computedScore);
-  const dominantIndicators = getDominantIndicators(region.indicators, mode);
+  const dominantIndicators = getDominantIndicators(indicatorsToScore, mode);
 
   return {
     ...region,
+    indicators: indicatorsToScore,
     computedScore,
     computedCategory,
     dominantIndicators,
