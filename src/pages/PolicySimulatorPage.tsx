@@ -339,6 +339,18 @@ export default function PolicySimulatorPage() {
         </Link>
       </div>
 
+      {/* Catatan Kecil Tren */}
+      <div className="rounded-lg border border-indigo-200 bg-indigo-50/50 p-3.5 flex items-start gap-2.5 shadow-sm">
+        <Info size={16} className="text-indigo-600 shrink-0 mt-0.5" />
+        <p className="text-xs text-indigo-800 leading-relaxed font-medium">
+          Simulator membaca prioritas kondisi saat ini. Untuk evaluasi lintas waktu, gunakan{" "}
+          <Link to="/dashboard#regional-trend-intelligence" className="font-bold underline hover:text-indigo-950">
+            Trend & Accountability Analytics
+          </Link>.
+        </p>
+      </div>
+
+
       {/* ── Mode Selector ──────────────────────────────────────────────── */}
       <section id="mode-selector">
         <p className="mb-3 text-xs font-bold uppercase tracking-wider text-civic-primary">

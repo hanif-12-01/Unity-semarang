@@ -1,5 +1,5 @@
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { Waves, UsersRound, Users, Hospital, MessageSquareWarning, Store, MapPinned, TriangleAlert, ClipboardList, CheckCircle2, Tag, FileText, SlidersHorizontal, Info, Map } from "lucide-react";
+import { Waves, UsersRound, Users, Hospital, MessageSquareWarning, Store, MapPinned, TriangleAlert, ClipboardList, CheckCircle2, Tag, FileText, SlidersHorizontal, Info, Map, Presentation, TrendingUp } from "lucide-react";
 import { buttonClasses } from "../components/ui/Button";
 import IndicatorBar from "../components/ui/IndicatorBar";
 import CivicSenseInsightCard from "../components/ui/CivicSenseInsightCard";
@@ -15,6 +15,12 @@ import type { PriorityCategory } from "../data/mockData";
 import type { RegionIndicator } from "../data/mockData";
 import { getHotspotsByRegion, getReportsByRegion, getFeedbackToneSummaryByRegion, getFeedbackBadge } from "../data/citizenReports";
 import { getCompletionReportsByRegion, getResolutionStatsByRegion, getValidationBadge, COMPLETION_REPORT_DISCLAIMER } from "../data/completionReports";
+
+// Trend & Accountability Analytics Imports
+import { mockHistoricalMetrics } from "../data/mockHistoricalMetrics";
+import LineTrendChart from "../components/charts/LineTrendChart";
+import TrendDeltaBadge from "../components/charts/TrendDeltaBadge";
+
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -135,6 +141,28 @@ export default function RegionDetailPage() {
   const toneSummary = getFeedbackToneSummaryByRegion(region.id);
   const completionReports = getCompletionReportsByRegion(region.id);
   const resolutionStats = getResolutionStatsByRegion(region.id);
+
+  // -- Trend & Accountability Analytics Calculations --
+  const historicalData = mockHistoricalMetrics
+    .filter((m) => m.regionId === region.id)
+    .sort((a, b) => a.year - b.year);
+
+  // Map to format for LineTrendChart
+  const priorityTrend = historicalData.map(d => ({ year: d.year, value: d.priorityScore }));
+  const smeTrend = historicalData.map(d => ({ year: d.year, value: d.smeActivity }));
+  const publicServiceTrend = historicalData.map(d => ({ year: d.year, value: d.publicServiceAccess }));
+  const complaintTrend = historicalData.map(d => ({ year: d.year, value: d.citizenComplaint }));
+  const resolutionTrend = historicalData.map(d => ({ year: d.year, value: d.validatedResolutionRate }));
+
+  // Period delta calculations (2024 to 2026)
+  const metric2024 = historicalData.find(d => d.year === 2024) || historicalData[0];
+  const metric2026 = historicalData.find(d => d.year === 2026) || historicalData[historicalData.length - 1];
+
+  const deltaSme = metric2026.smeActivity - metric2024.smeActivity;
+  const deltaComplaint = metric2026.citizenComplaint - metric2024.citizenComplaint;
+  const deltaResolution = metric2026.validatedResolutionRate - metric2024.validatedResolutionRate;
+  const deltaPriority = metric2026.priorityScore - metric2024.priorityScore;
+
 
   return (
     <div className="space-y-6 pb-12">
@@ -725,6 +753,105 @@ export default function RegionDetailPage() {
             <p className="mt-3 text-sm leading-relaxed text-civic-ink">
               {region.estimatedImpact}
             </p>
+          </section>
+
+          {/* ── Riwayat Indikator Wilayah ───────────────────────────────────── */}
+          <section
+            id="historical-indicators"
+            className="rounded-xl border border-civic-line bg-civic-surface p-6 shadow-sm space-y-6"
+          >
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
+                Trend & Accountability Analytics
+              </p>
+              <h2 className="mt-1 text-base font-semibold text-civic-ink">
+                Riwayat Indikator Wilayah — {region.name}
+              </h2>
+              <p className="text-xs text-civic-muted mt-1">
+                Informasi analisis indikatif perkembangan wilayah berdasarkan <span className="font-semibold text-civic-ink">data simulasi historis untuk kebutuhan proof of concept</span> (bukan data resmi final).
+              </p>
+            </div>
+
+            {/* Auto Insight box */}
+            <div className="rounded-lg border border-civic-primary/20 bg-civic-primary/5 p-4 flex items-start gap-3">
+              <TrendingUp size={18} className="text-civic-primary shrink-0 mt-0.5" />
+              <p className="text-xs leading-relaxed text-civic-ink">
+                Pada periode 2024–2026, Aktivitas UMKM wilayah ini <strong className="text-civic-ink">{deltaSme >= 0 ? "meningkat" : "menurun"} {Math.abs(deltaSme)} poin</strong>, sementara aduan/keluhan warga <strong className="text-civic-ink">{deltaComplaint >= 0 ? "meningkat" : "menurun"} {Math.abs(deltaComplaint)} poin</strong>. Hal ini mengindikasikan adanya {deltaSme >= 0 ? "perbaikan" : "tekanan pada"} kondisi ekonomi lokal, namun tetap perlu validasi data OPD.
+              </p>
+            </div>
+
+            {/* Grid of charts */}
+            <div className="grid gap-6 sm:grid-cols-2">
+              {/* Chart 1: Priority Score */}
+              <div className="rounded-lg border border-civic-line p-4 space-y-3">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="text-xs font-bold text-civic-ink uppercase">Priority Score</h3>
+                    <p className="text-[10px] text-civic-muted">Kebutuhan Intervensi Wilayah</p>
+                  </div>
+                  <TrendDeltaBadge delta={deltaPriority} indicatorType="risk" />
+                </div>
+                <div className="h-36 flex items-center justify-center">
+                  <LineTrendChart data={priorityTrend} color="brick" minY={0} maxY={100} height={130} />
+                </div>
+              </div>
+
+              {/* Chart 2: Aktivitas UMKM */}
+              <div className="rounded-lg border border-civic-line p-4 space-y-3">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="text-xs font-bold text-civic-ink uppercase">Aktivitas UMKM</h3>
+                    <p className="text-[10px] text-civic-muted">Kondisi Ekonomi Lokal</p>
+                  </div>
+                  <TrendDeltaBadge delta={deltaSme} indicatorType="positive" />
+                </div>
+                <div className="h-36 flex items-center justify-center">
+                  <LineTrendChart data={smeTrend} color="gold" minY={0} maxY={100} height={130} />
+                </div>
+              </div>
+
+              {/* Chart 3: Akses Layanan Publik */}
+              <div className="rounded-lg border border-civic-line p-4 space-y-3">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="text-xs font-bold text-civic-ink uppercase">Akses Layanan Publik</h3>
+                    <p className="text-[10px] text-civic-muted">Aksesibilitas Fasilitas Publik</p>
+                  </div>
+                  <TrendDeltaBadge delta={metric2026.publicServiceAccess - metric2024.publicServiceAccess} indicatorType="positive" />
+                </div>
+                <div className="h-36 flex items-center justify-center">
+                  <LineTrendChart data={publicServiceTrend} color="moss" minY={0} maxY={100} height={130} />
+                </div>
+              </div>
+
+              {/* Chart 4: Keluhan & Kritik */}
+              <div className="rounded-lg border border-civic-line p-4 space-y-3">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="text-xs font-bold text-civic-ink uppercase">Keluhan Warga</h3>
+                    <p className="text-[10px] text-civic-muted">Tingkat Pengaduan Masyarakat</p>
+                  </div>
+                  <TrendDeltaBadge delta={deltaComplaint} indicatorType="risk" />
+                </div>
+                <div className="h-36 flex items-center justify-center">
+                  <LineTrendChart data={complaintTrend} color="brick" minY={0} maxY={100} height={130} />
+                </div>
+              </div>
+
+              {/* Chart 5: Completion Report / Selesai Tervalidasi */}
+              <div className="rounded-lg border border-civic-line p-4 space-y-3 sm:col-span-2">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="text-xs font-bold text-civic-ink uppercase">Tindak Lanjut Tervalidasi OPD</h3>
+                    <p className="text-[10px] text-civic-muted">Rasio Penyelesaian Laporan Lapangan (%)</p>
+                  </div>
+                  <TrendDeltaBadge delta={deltaResolution} indicatorType="accountability" unit="%" />
+                </div>
+                <div className="h-36 flex items-center justify-center">
+                  <LineTrendChart data={resolutionTrend} color="primary" minY={0} maxY={100} height={130} valueSuffix="%" />
+                </div>
+              </div>
+            </div>
           </section>
         </div>
 

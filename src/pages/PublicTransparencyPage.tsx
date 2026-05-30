@@ -431,6 +431,81 @@ export default function PublicTransparencyPage() {
         </ul>
       </section>
 
+      {/* ── Ringkasan Tren Agregat Kota (Aman & Agregat) ───────────────── */}
+      <section
+        id="public-trend-summary"
+        className="rounded-2xl border border-civic-line bg-civic-surface p-8 shadow-sm space-y-6"
+      >
+        <div>
+          <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
+            Tren & Akuntabilitas Publik
+          </p>
+          <h2 className="text-xl font-bold text-civic-ink">
+            Ringkasan Tren Agregat Kota
+          </h2>
+          <p className="text-xs text-civic-muted mt-1">
+            Gambaran agregat tren pelayanan publik Kota Semarang (periode 2024–2026) secara transparan. Informasi ini bersifat kolektif tanpa menampilkan identitas pelapor maupun data mentah sensitif.
+          </p>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-2">
+          {/* Card 1: Akuntabilitas Pelayanan */}
+          <div className="rounded-xl border border-civic-line bg-civic-panel p-5 flex flex-col justify-between">
+            <div className="space-y-1">
+              <h3 className="text-sm font-bold text-civic-ink">Perkembangan Tindak Lanjut OPD</h3>
+              <p className="text-xs text-civic-muted">Rasio penyelesaian laporan warga oleh dinas se-Semarang terverifikasi meningkat.</p>
+            </div>
+            <div className="mt-4 flex items-center justify-between">
+              <div>
+                <span className="text-xs text-civic-muted block">Rerata Tahun 2024</span>
+                <span className="text-lg font-bold text-civic-muted">61%</span>
+              </div>
+              <div className="text-center font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 rounded px-2.5 py-1 text-xs">
+                Meningkat +10%
+              </div>
+              <div className="text-right">
+                <span className="text-xs text-civic-muted block">Rerata Tahun 2026</span>
+                <span className="text-2xl font-bold text-civic-primary">71%</span>
+              </div>
+            </div>
+            <p className="text-[10px] text-civic-muted mt-4">
+              * Kenaikan menunjukkan perbaikan akuntabilitas respon dinas terhadap pengaduan sipil.
+            </p>
+          </div>
+
+          {/* Card 2: Komposisi Laporan Publik */}
+          <div className="rounded-xl border border-civic-line bg-civic-panel p-5 space-y-4">
+            <div>
+              <h3 className="text-sm font-bold text-civic-ink">Komposisi Masukan Publik Teragregasi (2026)</h3>
+              <p className="text-xs text-civic-muted">Pola aduan warga yang masuk ke dalam sistem dari seluruh kecamatan.</p>
+            </div>
+            {/* Horizontal progress/distribution bars */}
+            <div className="space-y-2">
+              {[
+                { label: "Keluhan", pct: 40, color: "bg-red-600", val: "394 aduan" },
+                { label: "Kritik", pct: 28, color: "bg-amber-500", val: "277 masukan" },
+                { label: "Saran", pct: 22, color: "bg-teal-600", val: "220 saran" },
+                { label: "Apresiasi", pct: 10, color: "bg-emerald-600", val: "91 apresiasi" },
+              ].map((item) => (
+                <div key={item.label} className="space-y-1">
+                  <div className="flex justify-between text-xs font-semibold">
+                    <span className="text-civic-ink">{item.label}</span>
+                    <span className="text-civic-muted">{item.pct}% ({item.val})</span>
+                  </div>
+                  <div className="h-2 w-full overflow-hidden rounded bg-civic-line/60">
+                    <div className={classNames("h-full rounded", item.color)} style={{ width: `${item.pct}%` }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="rounded-lg border border-civic-line bg-civic-soft/30 p-3 text-[10px] text-civic-muted leading-relaxed">
+          <strong>Catatan Transparansi:</strong> Data tren di atas dikalkulasikan secara agregat untuk melindungi privasi pengirim laporan. Seluruh angka merupakan <span className="font-semibold text-civic-ink">data simulasi historis untuk kebutuhan proof of concept (POC)</span> dan memerlukan pencocokan berkala dengan data resmi dinas terkait.
+        </div>
+      </section>
+
       {/* ── Transparansi Tindak Lanjut ──────────────────────────── */}
       {(() => {
         const rs = getResolutionStats();

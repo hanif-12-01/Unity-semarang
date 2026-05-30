@@ -78,15 +78,15 @@ export default function AppLayout() {
   return (
     <div className="min-h-screen bg-civic-panel text-civic-ink font-sans flex flex-col">
       {/* ── Sticky Header ── */}
-      <header className="sticky top-0 z-50 border-b border-civic-line bg-civic-surface/95 backdrop-blur-sm shadow-sm">
+      <header className="sticky top-0 z-50 border-b border-civic-line bg-civic-surface shadow-sm">
         {/* Top Brand Row */}
         <div className="mx-auto flex max-w-[1500px] flex-col gap-3 px-5 py-3 md:flex-row md:items-center md:justify-between lg:px-8">
-          <Link to="/" className="group flex items-center gap-3">
-            <div className="flex h-10 w-16 items-center justify-center rounded-md bg-civic-surface overflow-hidden">
+          <Link to="/" className="group flex items-center gap-3 animate-fadeIn">
+            <div className="flex h-10 w-16 items-center justify-center rounded-lg border border-civic-line/80 bg-transparent px-1.5 py-0.5 shadow-sm overflow-hidden transition-all duration-300 group-hover:border-civic-primary/30 group-hover:shadow-md">
               <img
                 src={civictwinLogo}
                 alt="CIVICTWIN Semarang Logo"
-                className="h-9 w-auto object-contain mix-blend-multiply transition group-hover:opacity-90"
+                className="h-8 w-auto object-contain mix-blend-multiply transition group-hover:scale-105"
               />
             </div>
             <div>

@@ -1,69 +1,147 @@
 import { Link } from "react-router-dom";
-import { Database, Search, Link as LinkIcon, MapPinned, BarChart3, SlidersHorizontal, Sparkles, Globe2, Presentation, ClipboardList, Info } from "lucide-react";
+import {
+  Database,
+  Search,
+  Link as LinkIcon,
+  MapPinned,
+  BarChart3,
+  SlidersHorizontal,
+  Sparkles,
+  Globe2,
+  Presentation,
+  ClipboardList,
+  Info,
+  ShieldCheck,
+  Brain,
+  UserCheck,
+  CheckSquare,
+  Map,
+  MessageSquareWarning,
+  FileCheck2,
+  Building,
+  HelpCircle,
+  Eye,
+  FileText
+} from "lucide-react";
 import { buttonClasses } from "../components/ui/Button";
 import { citySummary, mockRegions } from "../data/mockData";
 import { classNames, getCityScoringStats, getRankedRegions } from "../utils";
 
-// ─── Data konten ─────────────────────────────────────────────────────────────
+// ─── Data Konten ─────────────────────────────────────────────────────────────
 
-const problems = [
+const valueProps = [
   {
-    icon: <Database />,
-    title: "Data Kota Masih Tersebar",
-    body: "Informasi wilayah tersimpan di banyak sumber berbeda (laporan dinas, survei lapangan, pengaduan warga) tanpa satu titik integrasi yang mudah diakses.",
+    icon: <Database className="text-civic-primary h-5 w-5" />,
+    title: "Data Wilayah Terhubung",
+    desc: "Konsolidasi indikator spasial dan sektoral tingkat kecamatan dalam satu model data terpadu.",
   },
   {
-    icon: <Search />,
-    title: "Prioritas Kebijakan Sulit Dijelaskan",
-    body: "Keputusan alokasi anggaran dan intervensi wilayah sering tidak disertai dasar numerik yang transparan, sehingga sulit dipertanggungjawabkan kepada publik.",
+    icon: <MessageSquareWarning className="text-civic-primary h-5 w-5" />,
+    title: "Feedback Warga Terklasifikasi",
+    desc: "Triage pengaduan sipil berbasis geografi untuk mengidentifikasi tingkat kerawanan isu lokal.",
   },
   {
-    icon: <LinkIcon />,
-    title: "Koordinasi Lintas Dinas Belum Optimal",
-    body: "Setiap OPD bekerja dalam silo data masing-masing. Tanpa platform bersama, kolaborasi lintas sektor untuk menangani masalah kota yang kompleks menjadi lambat.",
+    icon: <BarChart3 className="text-civic-primary h-5 w-5" />,
+    title: "Prioritas Kebijakan Terukur",
+    desc: "Perhitungan priority score intervensi pembangunan kota berbasis rumusan objektif dan transparan.",
+  },
+  {
+    icon: <FileCheck2 className="text-civic-primary h-5 w-5" />,
+    title: "Tindak Lanjut Tervalidasi",
+    desc: "Pencatatan akuntabilitas respon dinas teknis yang dilengkapi bukti visual lapangan.",
+  },
+  {
+    icon: <Globe2 className="text-civic-primary h-5 w-5" />,
+    title: "Transparansi Publik Aman",
+    desc: "Penyajian ringkasan keterbukaan informasi berbasis data agregat yang melestarikan privasi sipil.",
   },
 ];
 
-const solutions = [
+const needs = [
   {
-    icon: <MapPinned />,
-    label: "Lapisan Intelijen Wilayah",
-    desc: "Profil data setiap kecamatan dengan 6 indikator kunci (dari risiko banjir hingga aktivitas UMKM) dalam satu tampilan terpadu.",
+    title: "Satu Kerangka Kerja Lintas OPD",
+    desc: "Data pemerintah daerah seringkali tersebar di berbagai dinas. CIVICTWIN mengkonsolidasikan data indikator sektoral tersebut agar dapat dibaca dalam satu kesatuan analisis wilayah.",
   },
   {
-    icon: <BarChart3 />,
-    label: "Priority Score Engine",
-    desc: "Algoritma berbasis bobot yang menghitung skor prioritas setiap wilayah secara transparan dan dapat diaudit oleh siapa pun.",
+    title: "Kontekstualisasi Aduan & Kritik Warga",
+    desc: "Laporan aduan warga tidak boleh dibaca sebagai tiket terisolasi. Sistem memadukan pengaduan tersebut dengan konteks kerawanan sosial dan bencana di wilayah setempat.",
   },
   {
-    icon: <SlidersHorizontal />,
-    label: "Policy Simulator",
-    desc: "Ubah fokus kebijakan (banjir, layanan publik, kerentanan sosial, UMKM) dan lihat bagaimana peringkat wilayah berubah secara real-time.",
+    title: "Akuntabilitas Prioritas Kebijakan",
+    desc: "Setiap keputusan alokasi anggaran pembangunan daerah harus dapat dijelaskan metodologinya secara matematis dan objektif kepada publik.",
   },
   {
-    icon: <Sparkles />,
-    label: "CivicSense AI Assistant",
-    desc: "Asisten analisis kebijakan berbasis data wilayah, menghasilkan narasi, penjelasan prioritas, dan policy brief otomatis tanpa API eksternal.",
+    title: "Pelacakan Tindak Lanjut Dinas",
+    desc: "Setiap disposisi penanganan isu perkotaan oleh OPD pelaksana wajib tercatat, terpantau progresnya, dan tervalidasi hasil kerjanya di lapangan.",
   },
   {
-    icon: <Globe2 />,
-    label: "Public Transparency Portal",
-    desc: "Halaman terbuka untuk warga dan pemangku kepentingan agar dapat memantau kondisi dan prioritas kota tanpa perlu login.",
+    title: "Portal Keterbukaan Informasi Aman",
+    desc: "Masyarakat berhak mendapatkan transparansi pembangunan kota yang akurat dengan pembatasan keamanan informasi yang tetap terlindungi.",
   },
 ];
 
-const values = [
-  { label: "Cepat", detail: "Insight wilayah dalam hitungan detik" },
-  { label: "Transparan", detail: "Metodologi terbuka & dapat diaudit" },
-  { label: "Berbasis Data", detail: "Keputusan didukung indikator kuantitatif" },
-  { label: "Lintas Dinas", detail: "Satu platform untuk semua OPD" },
-  { label: "Smart Governance", detail: "Mendukung agenda tata kelola cerdas" },
+const features = [
+  {
+    icon: <BarChart3 className="text-civic-primary h-6 w-6" />,
+    title: "Command Center Dashboard",
+    desc: "Pusat komando eksekutif untuk melihat peringkat prioritas kecamatan, status intervensi dinas, dan ringkasan performa kota.",
+  },
+  {
+    icon: <Map className="text-civic-primary h-6 w-6" />,
+    title: "Priority Map Semarang",
+    desc: "Pemetaan spasial interaktif untuk mengidentifikasi hotspot prioritas intervensi berdasarkan bobot indikator.",
+  },
+  {
+    icon: <MessageSquareWarning className="text-civic-primary h-6 w-6" />,
+    title: "Citizen Feedback Intelligence",
+    desc: "Triage pengaduan dan masukan warga yang terintegrasi secara kontekstual dengan data wilayah.",
+  },
+  {
+    icon: <SlidersHorizontal className="text-civic-primary h-6 w-6" />,
+    title: "Policy Simulator",
+    desc: "Simulasi bobot kebijakan kota untuk melihat perubahan prioritas penanganan wilayah secara langsung.",
+  },
+  {
+    icon: <Sparkles className="text-civic-primary h-6 w-6" />,
+    title: "CivicSense Policy Brief",
+    desc: "Penyusunan rekomendasi kebijakan otomatis berbasis aturan untuk mempercepat keputusan strategis.",
+  },
+  {
+    icon: <FileCheck2 className="text-civic-primary h-6 w-6" />,
+    title: "Resolution Accountability Center",
+    desc: "Pemantauan proses penyelesaian laporan dan verifikasi hasil kerja lapangan oleh OPD.",
+  },
+  {
+    icon: <Globe2 className="text-civic-primary h-6 w-6" />,
+    title: "Public Transparency Page",
+    desc: "Portal publik yang menyajikan informasi prioritas pembangunan kota tanpa otentikasi login.",
+  },
 ];
 
-const semarangHeroImage =
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Lawang_sewu_semarang.jpg/1280px-Lawang_sewu_semarang.jpg";
+const govValues = [
+  {
+    title: "Membantu membaca prioritas wilayah",
+    desc: "Mengidentifikasi wilayah yang paling mendesak membutuhkan intervensi menggunakan formulasi kuantitatif yang objektif.",
+  },
+  {
+    title: "Mempercepat triage laporan dan masukan warga",
+    desc: "Menghubungkan pengaduan masyarakat langsung dengan profil statistik setempat untuk mempermudah prioritisasi penanganan.",
+  },
+  {
+    title: "Memperkuat akuntabilitas tindak lanjut OPD",
+    desc: "Setiap laporan penyelesaian dilampiri dengan bukti visual lapangan dan terekam secara historis dalam alur kerja sistem.",
+  },
+  {
+    title: "Mendukung transparansi publik berbasis data agregat",
+    desc: "Menyediakan basis informasi data teragregasi yang siap disajikan untuk membangun kepercayaan publik terhadap kebijakan daerah.",
+  },
+  {
+    title: "Menjaga keputusan tetap divalidasi manusia",
+    desc: "Teknologi berperan sebagai penyaji rekomendasi kebijakan, sementara wewenang keputusan akhir sepenuhnya berada pada pejabat terkait.",
+  },
+];
 
-// ─── Sub-komponen kecil ───────────────────────────────────────────────────────
+// ─── Sub-komponen ───────────────────────────────────────────────────────
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
@@ -74,7 +152,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 }
 
 function Divider() {
-  return <div className="border-t border-civic-line" />;
+  return <div className="border-t border-civic-line/60" />;
 }
 
 // ─── Landing Page ─────────────────────────────────────────────────────────────
@@ -83,165 +161,81 @@ export default function LandingPage() {
   const cityStats = getCityScoringStats(getRankedRegions(mockRegions, "general"));
 
   return (
-    <article className="space-y-16 pb-12">
+    <article className="space-y-24 pb-20 pt-4">
 
-      {/* ── HERO ─────────────────────────────────────────────────────────── */}
+      {/* ── HERO SECTION ─────────────────────────────────────────────────── */}
       <section
         id="hero"
-        className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-civic-dark to-civic-ink px-6 py-10 text-white shadow-xl md:px-10 md:py-14 lg:px-14 lg:py-20"
+        className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-civic-dark to-[#241d18] text-white shadow-xl min-h-[500px] flex items-center"
+        style={{
+          backgroundImage: `linear-gradient(to right, rgba(31, 26, 23, 0.95) 40%, rgba(47, 117, 110, 0.6) 100%), url('/semarang-hero.jpg'), url('/public/semarang-hero.jpg'), linear-gradient(135deg, #1F1A17 0%, #2F756E 100%)`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
       >
-        {/* Subtle batik-stripes pattern */}
+        {/* Subtle city grid overlay */}
         <div className="absolute inset-0 bg-batik-stripes opacity-10 pointer-events-none" />
 
-        {/* Decorative blobs — coastal teal + terracotta for Semarang identity */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-civic-primary opacity-15 blur-3xl"
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -bottom-16 -left-10 h-56 w-56 rounded-full bg-civic-brick opacity-10 blur-2xl"
-        />
-
-        <div className="relative z-10 grid gap-8 lg:grid-cols-1 lg:items-center">
-          <div className="max-w-2xl">
-            {/* Badge */}
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-civic-gold/30 bg-civic-gold/10 px-3 py-1 text-xs font-semibold text-civic-surface backdrop-blur-sm">
-              <span className="h-1.5 w-1.5 rounded-full bg-civic-gold" />
-              Data Prototype POC · CIVICTWIN 2026
-            </span>
-
-            <h1 className="mt-5 text-3xl font-bold leading-snug tracking-tight text-civic-surface md:text-4xl lg:text-5xl">
-              CIVICTWIN{" "}
-              <span className="text-civic-primary">Semarang</span>
-            </h1>
-
-            <p className="mt-3 max-w-xl text-base font-medium text-white/75 md:text-lg">
-              Civic Intelligence Layer untuk Prioritas Kebijakan Kota yang{" "}
-              <span className="text-civic-surface">Transparan</span> dan{" "}
-              <span className="text-civic-surface">Berbasis Data</span>
-            </p>
-
-            <p className="mt-5 max-w-lg text-sm leading-relaxed text-white/60">
-              CIVICTWIN membantu pemerintah kota membaca kondisi wilayah,
-              menghitung priority score, mensimulasikan fokus kebijakan, dan
-              menghasilkan policy brief berbasis data dalam satu platform
-              terintegrasi.
-            </p>
-
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                id="cta-login"
-                to="/login"
-                className={classNames(
-                  buttonClasses("primary"),
-                  "bg-civic-primary border-civic-primary hover:bg-teal-700 hover:border-teal-700 text-white px-6 py-2.5"
-                )}
-              >
-                Masuk Mode Demo →
-              </Link>
-              <Link
-                id="cta-public"
-                to="/public"
-                className={classNames(
-                  buttonClasses("secondary"),
-                  "border-civic-line bg-civic-surface text-civic-ink hover:bg-civic-soft hover:border-civic-primary px-6 py-2.5"
-                )}
-              >
-                Lihat Transparansi Publik
-              </Link>
-            </div>
+        <div className="relative z-10 px-6 py-16 md:px-12 lg:px-16 w-full max-w-4xl space-y-6">
+          {/* Badge Disclaimer */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-civic-gold/40 bg-civic-dark/80 px-3.5 py-1.5 text-xs font-semibold text-civic-surface backdrop-blur-sm shadow-sm">
+            <span className="h-2 w-2 rounded-full bg-civic-gold animate-pulse" />
+            Prototype POC — Smart Government
           </div>
 
+          <div className="space-y-4">
+            <h1 className="text-4xl font-extrabold leading-none tracking-tight text-civic-surface md:text-6xl">
+              CIVICTWIN Semarang
+            </h1>
+            <h2 className="text-lg font-medium text-white/95 md:text-xl leading-relaxed max-w-3xl border-l-4 border-civic-primary pl-4">
+              Civic Intelligence Layer untuk Smart Governance yang Transparan dan Berbasis Data
+            </h2>
+          </div>
 
-        </div>
-
-        {/* Quick stats */}
-        <div className="relative z-10 mt-10 flex flex-wrap gap-6 border-t border-civic-gold/20 pt-6">
-          {[
-            { val: citySummary.totalRegionsInPrototype, unit: "Kecamatan", sub: "dalam prototype" },
-            { val: cityStats.highPriority, unit: "Prioritas Tinggi", sub: "butuh intervensi segera" },
-            { val: `${cityStats.averageScore}`, unit: "Rata-rata Skor", sub: "dari skala 100" },
-            { val: "6", unit: "Indikator", sub: "kunci per wilayah" },
-          ].map((s) => (
-            <div key={s.unit} className="min-w-[90px]">
-              <p className="text-2xl font-bold text-civic-primary">{s.val}</p>
-              <p className="text-sm font-semibold text-civic-surface/90">{s.unit}</p>
-              <p className="text-xs text-civic-surface/50">{s.sub}</p>
-            </div>
-          ))}
-        </div>
-        
-        {/* Decorative subtle border at the bottom of hero */}
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-civic-dark via-civic-gold/30 to-civic-dark" />
-      </section>
-
-      {/* ── PROBLEM ──────────────────────────────────────────────────────── */}
-      <section id="problem" className="space-y-8">
-        <div className="space-y-2">
-          <SectionLabel>Tantangan</SectionLabel>
-          <h2 className="text-2xl font-bold text-civic-ink">
-            Mengapa kota membutuhkan sistem seperti ini?
-          </h2>
-          <p className="max-w-xl text-sm leading-relaxed text-civic-muted">
-            Pemerintah kota menghadapi tantangan nyata dalam mengintegrasikan
-            data dan menyusun prioritas kebijakan secara transparan.
+          <p className="max-w-2xl text-sm leading-relaxed text-white/80 md:text-base">
+            Membantu pemerintah menghubungkan data wilayah, masukan warga, prioritas kebijakan, tindak lanjut OPD, dan transparansi publik dalam satu siklus akuntabilitas.
           </p>
-        </div>
 
-        <div className="grid gap-4 md:grid-cols-3">
-          {problems.map((p, i) => (
-            <div
-              key={p.title}
-              className="group relative rounded-xl border border-civic-line bg-civic-surface p-6 shadow-sm transition hover:border-civic-primary hover:shadow-md"
-            >
-              <span className="text-3xl text-civic-primary">{p.icon}</span>
-              <div className="mt-1 text-xs font-bold text-civic-muted/60">
-                {String(i + 1).padStart(2, "0")}
-              </div>
-              <h3 className="mt-3 font-semibold text-civic-ink">{p.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-civic-muted">
-                {p.body}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <Divider />
-
-      {/* ── SOLUTION ─────────────────────────────────────────────────────── */}
-      <section id="solution" className="space-y-8">
-        <div className="space-y-2">
-          <SectionLabel>Solusi</SectionLabel>
-          <h2 className="text-2xl font-bold text-civic-ink">
-            Empat pilar CIVICTWIN
-          </h2>
-          <p className="max-w-xl text-sm leading-relaxed text-civic-muted">
-            Dari profil data wilayah hingga simulasi kebijakan.
-            setiap fitur dirancang untuk mendukung pengambilan keputusan
-            yang cepat dan dapat dipertanggungjawabkan.
-          </p>
-        </div>
-
-        <div className="grid gap-4 sm:grid-cols-2">
-          {solutions.map((s, i) => (
-            <div
-              key={s.label}
+          <div className="flex flex-wrap gap-4 pt-4">
+            <Link
+              id="cta-login"
+              to="/login"
               className={classNames(
-                "flex gap-4 rounded-xl border bg-civic-surface p-6 shadow-sm transition hover:shadow-md",
-                i === 0
-                  ? "border-civic-primary/30 bg-civic-primary/5"
-                  : "border-civic-line"
+                buttonClasses("primary"),
+                "bg-civic-primary border-civic-primary hover:bg-teal-700 hover:border-teal-700 text-white px-8 py-3.5 text-sm font-semibold rounded-lg shadow-lg hover:shadow-teal-900/25 transition-all"
               )}
             >
-              <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-civic-soft text-xl">
-                {s.icon}
-              </span>
+              Masuk ke Dashboard
+            </Link>
+            <Link
+              id="cta-public"
+              to="/public"
+              className={classNames(
+                buttonClasses("secondary"),
+                "border-white/20 bg-civic-dark/40 text-white hover:bg-white/10 hover:border-white/40 px-8 py-3.5 text-sm font-semibold rounded-lg backdrop-blur-sm transition-all"
+              )}
+            >
+              Lihat Transparansi Publik
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── VALUE PROPOSITION CARDS (BELOW HERO) ─────────────────────────── */}
+      <section id="value-props" className="space-y-6">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          {valueProps.map((vp) => (
+            <div
+              key={vp.title}
+              className="rounded-xl border border-civic-line/60 bg-civic-surface p-5 shadow-sm hover:border-civic-primary/50 hover:shadow-md transition duration-300 flex flex-col justify-between"
+            >
               <div>
-                <h3 className="font-semibold text-civic-ink">{s.label}</h3>
-                <p className="mt-1 text-sm leading-relaxed text-civic-muted">
-                  {s.desc}
+                <div className="mb-4 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-civic-soft/50 text-civic-primary">
+                  {vp.icon}
+                </div>
+                <h3 className="text-xs font-bold text-civic-ink leading-snug">{vp.title}</h3>
+                <p className="mt-2 text-[11px] leading-relaxed text-civic-muted">
+                  {vp.desc}
                 </p>
               </div>
             </div>
@@ -251,25 +245,38 @@ export default function LandingPage() {
 
       <Divider />
 
-      {/* ── VALUE PROPOSITION ────────────────────────────────────────────── */}
-      <section id="value" className="space-y-6">
-        <div className="space-y-2">
-          <SectionLabel>Nilai Utama</SectionLabel>
-          <h2 className="text-2xl font-bold text-civic-ink">
-            Dibangun untuk Smart Governance
+      {/* ── MENGAPA PEMERINTAH MEMBUTUHKAN CIVICTWIN? ───────────────────────── */}
+      <section id="why-civictwin" className="grid gap-10 lg:grid-cols-12 items-start">
+        {/* Left title side */}
+        <div className="lg:col-span-4 space-y-4 lg:sticky lg:top-24">
+          <SectionLabel>Urgensi Platform</SectionLabel>
+          <h2 className="text-3xl font-extrabold text-civic-ink leading-tight">
+            Mengapa Pemerintah Membutuhkan CIVICTWIN?
           </h2>
+          <p className="text-sm leading-relaxed text-civic-muted">
+            Tata kelola kota modern menuntut pengambilan keputusan yang berbasis bukti, terintegrasi antardinas, serta transparan bagi publik secara aman.
+          </p>
+          <div className="rounded-lg bg-civic-soft/40 p-4 border border-civic-line/40 text-xs text-civic-muted leading-relaxed">
+            Sistem dirancang sebagai media koordinasi internal dan transparansi eksternal (proof of concept prototype).
+          </div>
         </div>
 
-        <div className="flex flex-wrap gap-3">
-          {values.map((v) => (
+        {/* Right card-list side */}
+        <div className="lg:col-span-8 space-y-4">
+          {needs.map((need, index) => (
             <div
-              key={v.label}
-              className="group flex flex-col gap-1 rounded-xl border border-civic-line bg-civic-surface px-5 py-4 shadow-sm transition hover:border-civic-primary hover:bg-civic-soft"
+              key={need.title}
+              className="rounded-xl border border-civic-line/50 bg-civic-surface p-5 shadow-sm flex items-start gap-4 hover:border-civic-primary/30 transition duration-200"
             >
-              <span className="text-sm font-bold text-civic-primary group-hover:text-civic-primary">
-                ✓ {v.label}
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-civic-primary/10 text-xs font-bold text-civic-primary">
+                0{index + 1}
               </span>
-              <span className="text-xs text-civic-muted">{v.detail}</span>
+              <div>
+                <h3 className="text-sm font-bold text-civic-ink leading-none">{need.title}</h3>
+                <p className="mt-2 text-xs leading-relaxed text-civic-muted">
+                  {need.desc}
+                </p>
+              </div>
             </div>
           ))}
         </div>
@@ -277,90 +284,185 @@ export default function LandingPage() {
 
       <Divider />
 
-      {/* ── DEMO FLOW ───────────────────────────────────────────────────── */}
-      <section id="demo-flow" className="space-y-6">
-        <div className="space-y-2">
-          <SectionLabel><span className="flex items-center gap-1.5"><Presentation size={14} /> Demo Flow</span></SectionLabel>
-          <h2 className="text-2xl font-bold text-civic-ink">Panduan Eksplorasi Prototype</h2>
-          <p className="max-w-xl text-sm leading-relaxed text-civic-muted">
-            Ikuti urutan berikut untuk demo yang paling optimal kepada juri. Setiap tahap menampilkan fitur berbeda.
+      {/* ── FEATURE PREVIEW ─────────────────────────────────────────────── */}
+      <section id="features" className="space-y-8">
+        <div className="space-y-3">
+          <SectionLabel>Komponen Utama</SectionLabel>
+          <h2 className="text-2xl font-bold text-civic-ink md:text-3xl">
+            Ringkasan Fitur Utama Platform
+          </h2>
+          <p className="max-w-2xl text-sm leading-relaxed text-civic-muted">
+            Berbagai modul penunjang keputusan dirancang terintegrasi guna memberikan analisis wilayah yang kredibel bagi pimpinan daerah.
           </p>
         </div>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {features.map((f) => (
+            <div
+              key={f.title}
+              className="flex gap-4 rounded-xl border border-civic-line/60 bg-civic-surface p-6 shadow-sm transition hover:border-civic-primary/40 hover:shadow-md"
+            >
+              <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-civic-soft/50 text-civic-primary">
+                {f.icon}
+              </div>
+              <div className="space-y-1">
+                <h3 className="font-bold text-civic-ink text-sm leading-snug">{f.title}</h3>
+                <p className="text-xs leading-relaxed text-civic-muted">{f.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Divider />
+
+      {/* ── GOVERNMENT VALUE PROPOSITION ───────────────────────────────── */}
+      <section id="value-proposition" className="space-y-10">
+        <div className="space-y-3">
+          <SectionLabel>Value Proposition</SectionLabel>
+          <h2 className="text-2xl font-bold text-civic-ink md:text-3xl">
+            Nilai untuk Pemerintah Daerah
+          </h2>
+          <p className="max-w-2xl text-sm leading-relaxed text-civic-muted">
+            Bagaimana penerapan CIVICTWIN mendukung peningkatan akuntabilitas dan efisiensi birokrasi pemerintahan daerah.
+          </p>
+        </div>
+
+        <div className="grid gap-6 lg:grid-cols-12 lg:items-center">
+          {/* Text content side */}
+          <div className="lg:col-span-7 space-y-4">
+            {govValues.map((vp, index) => (
+              <div
+                key={vp.title}
+                className="flex items-start gap-4 rounded-xl border border-civic-line/40 bg-civic-surface p-4 shadow-sm transition hover:border-civic-primary/30"
+              >
+                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-civic-primary/10 text-xs font-bold text-civic-primary">
+                  {index + 1}
+                </div>
+                <div>
+                  <h3 className="font-bold text-civic-ink text-xs leading-none">{vp.title}</h3>
+                  <p className="mt-1.5 text-[11.5px] leading-relaxed text-civic-muted">
+                    {vp.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Graphical side-panel */}
+          <div className="lg:col-span-5 bg-gradient-to-br from-civic-primary/10 to-civic-primary/5 rounded-2xl border border-civic-primary/15 p-6 space-y-6">
+            <h3 className="text-sm font-bold text-civic-ink">Fokus Tata Kelola Cerdas</h3>
+            <p className="text-xs leading-relaxed text-civic-muted">
+              CIVICTWIN dirancang selaras dengan arah kebijakan transformasi digital nasional, mengedepankan efektivitas layanan publik melalui perbaikan sistem pemrosesan data internal pemerintah.
+            </p>
+
+            <div className="border-t border-civic-line/60 pt-4 space-y-3">
+              <div className="flex justify-between items-center text-xs">
+                <span className="font-semibold text-civic-muted">Akuntabilitas Data</span>
+                <span className="font-bold text-civic-primary">Tinggi</span>
+              </div>
+              <div className="flex justify-between items-center text-xs">
+                <span className="font-semibold text-civic-muted">Validasi Manual</span>
+                <span className="font-bold text-civic-primary">Dipertahankan</span>
+              </div>
+              <div className="flex justify-between items-center text-xs">
+                <span className="font-semibold text-civic-muted">Keamanan Akses</span>
+                <span className="font-bold text-civic-primary">Role-Based</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Divider />
+
+      {/* ── DEMO FLOW (Jury Presentation) ────────────────────────────────── */}
+      <section id="demo-flow" className="space-y-8">
+        <div className="space-y-3">
+          <SectionLabel>
+            <span className="flex items-center gap-1.5">
+              <Presentation size={14} /> Panduan Presentasi
+            </span>
+          </SectionLabel>
+          <h2 className="text-2xl font-bold text-civic-ink md:text-3xl">
+            Panduan Eksplorasi Prototype
+          </h2>
+          <p className="max-w-xl text-sm leading-relaxed text-civic-muted">
+            Ikuti urutan skenario berikut untuk mendemonstrasikan kapabilitas koordinasi antardinas dan pemodelan kebijakan kota secara terstruktur.
+          </p>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[
-            { step: 1, label: "Dashboard Kota",       to: "/dashboard",                  icon: <BarChart3 size={16} />, hint: "Lihat ranking prioritas 6 wilayah" },
-            { step: 2, label: "Detail Wilayah",       to: "/regions/genuk",              icon: <Search size={16} />, hint: "Eksplorasi profil data Genuk" },
-            { step: 3, label: "Policy Simulator",     to: "/simulator",                  icon: <SlidersHorizontal size={16} />, hint: "Ubah fokus ke Banjir/Rob" },
-            { step: 4, label: "AI Policy Brief",      to: "/policy-brief?region=genuk",  icon: <Sparkles size={16} />, hint: "Draft brief dengan CivicSense Policy Assistant" },
-            { step: 5, label: "Transparansi Publik",  to: "/public",                     icon: <Globe2 size={16} />, hint: "Portal warga berbasis data" },
-            { step: 6, label: "Metodologi",           to: "/methodology",                icon: <ClipboardList size={16} />, hint: "Jawab pertanyaan teknis juri" },
+            { step: 1, label: "Dashboard Kota",       to: "/dashboard",                  icon: <BarChart3 size={16} />, hint: "Tampilan agregat prioritas penanganan wilayah" },
+            { step: 2, label: "Detail Wilayah",       to: "/regions/genuk",              icon: <Search size={16} />, hint: "Analisis spasial detail kecamatan pencontohan Genuk" },
+            { step: 3, label: "Policy Simulator",     to: "/simulator",                  icon: <SlidersHorizontal size={16} />, hint: "Simulasi perubahan bobot fokus pembangunan" },
+            { step: 4, label: "AI Policy Brief",      to: "/policy-brief?region=genuk",  icon: <Sparkles size={16} />, hint: "Penyusunan draf rekomendasi kebijakan" },
+            { step: 5, label: "Transparansi Publik",  to: "/public",                     icon: <Globe2 size={16} />, hint: "Portal agregat kinerja untuk masyarakat umum" },
+            { step: 6, label: "Metodologi",           to: "/methodology",                icon: <ClipboardList size={16} />, hint: "Dokumentasi formula scoring dan model data" },
           ].map((d) => (
             <Link
               key={d.step}
               to={d.to}
-              className="flex gap-3 rounded-xl border border-civic-line bg-civic-surface p-4 shadow-sm transition hover:border-civic-primary hover:shadow-md group"
+              className="flex gap-4 rounded-xl border border-civic-line/60 bg-civic-surface p-4 shadow-sm transition hover:border-civic-primary hover:shadow-md group"
             >
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-civic-ink text-sm font-bold text-white group-hover:bg-civic-primary transition">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-civic-ink text-xs font-bold text-white group-hover:bg-civic-primary transition">
                 {d.step}
               </span>
               <div>
-                <p className="flex items-center gap-1.5 text-sm font-semibold text-civic-ink">
+                <p className="flex items-center gap-1.5 text-xs font-bold text-civic-ink group-hover:text-civic-primary transition-colors">
                   <span>{d.icon}</span> {d.label}
                 </p>
-                <p className="mt-0.5 text-xs text-civic-muted">{d.hint}</p>
+                <p className="mt-1 text-[11px] leading-relaxed text-civic-muted">{d.hint}</p>
               </div>
             </Link>
           ))}
         </div>
       </section>
 
-      <Divider />
-
-      {/* ── CTA BOTTOM ───────────────────────────────────────────────────── */}
+      {/* ── BOTTOM CTA SECTION ───────────────────────────────────────────── */}
       <section
         id="cta"
-        className="flex flex-col items-center gap-5 rounded-2xl border border-civic-line bg-civic-soft px-8 py-12 text-center shadow-sm"
+        className="flex flex-col items-center gap-6 rounded-2xl border border-civic-line/60 bg-civic-soft/30 px-8 py-14 text-center shadow-sm max-w-4xl mx-auto"
       >
-        <span className="rounded-full bg-civic-primary/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-civic-primary">
-          Mulai Eksplorasi
+        <span className="rounded-full bg-civic-primary/10 px-4 py-1 text-xs font-bold uppercase tracking-wider text-civic-primary border border-civic-primary/20">
+          Uji Coba Konsep
         </span>
-        <h2 className="max-w-lg text-2xl font-bold text-civic-ink">
-          Siap melihat CIVICTWIN bekerja?
+        <h2 className="max-w-lg text-2xl font-bold text-civic-ink md:text-3xl">
+          Eksplorasi Lapisan Intelijen Sipil Semarang
         </h2>
-        <p className="max-w-md text-sm leading-relaxed text-civic-muted">
-          Jelajahi dashboard wilayah, jalankan simulasi kebijakan, dan lihat
-          bagaimana data menggerakkan keputusan.
+        <p className="max-w-md text-xs leading-relaxed text-civic-muted">
+          Masuk ke area dasbor simulasi, jalankan visualisasi pemodelan bobot indikator prioritas, dan verifikasi alur kerja akuntabilitas daerah.
         </p>
-        <div className="flex flex-wrap justify-center gap-3">
+
+        <div className="flex flex-wrap justify-center gap-3 pt-2">
           <Link
             id="cta-bottom-dashboard"
-            to="/dashboard"
-            className={buttonClasses("primary")}
+            to="/login"
+            className={classNames(buttonClasses("primary"), "px-6 py-2.5")}
           >
-            Masuk Dashboard
+            Masuk ke Dashboard
           </Link>
           <Link
             id="cta-bottom-simulator"
             to="/simulator"
-            className={buttonClasses("secondary")}
+            className={classNames(buttonClasses("secondary"), "px-6 py-2.5")}
           >
             Coba Policy Simulator
           </Link>
           <Link
             id="cta-bottom-public"
             to="/public"
-            className={buttonClasses("secondary")}
+            className={classNames(buttonClasses("secondary"), "px-6 py-2.5")}
           >
             Lihat Transparansi Publik
           </Link>
         </div>
-        <p className="mt-2 text-xs text-civic-muted/60 flex justify-center items-center gap-1.5">
-          <Info size={14} /> {citySummary.dataLabel}
+
+        <p className="mt-4 text-[10.5px] text-civic-muted/80 flex justify-center items-center gap-1.5 max-w-lg">
+          <Info size={14} className="shrink-0 text-civic-primary" /> {citySummary.dataLabel}
         </p>
       </section>
     </article>
   );
 }
-
-
-

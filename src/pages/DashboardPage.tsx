@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { MapPinned, BarChart3, TriangleAlert, MessageSquareWarning, Tag, Building, FileCog, Waves, Hospital, Store, Info, SlidersHorizontal } from "lucide-react";
+import { MapPinned, BarChart3, TriangleAlert, MessageSquareWarning, Tag, Building, FileCog, Waves, Hospital, Store, Info, SlidersHorizontal, ArrowUpRight, TrendingUp, ShieldAlert, Award, Presentation } from "lucide-react";
 import IndicatorBar from "../components/ui/IndicatorBar";
 import PageHeader from "../components/ui/PageHeader";
 import PriorityBadge from "../components/ui/PriorityBadge";
@@ -18,6 +18,24 @@ import {
 import { getResolutionStats } from "../data/completionReports";
 import type { PriorityCategory } from "../data/mockData";
 import type { ScoredRegion } from "../utils";
+
+// Trend and Accountability Analytics Imports
+import {
+  getRegionTrend,
+  getTopImprovingRegions,
+  getTopDecliningRegions,
+  getMeetingHighlights,
+  getAccountabilityTrend,
+} from "../utils/trendAnalytics";
+import { mockHistoricalMetrics } from "../data/mockHistoricalMetrics";
+import LineTrendChart from "../components/charts/LineTrendChart";
+import BarComparisonChart from "../components/charts/BarComparisonChart";
+import StackedFeedbackChart from "../components/charts/StackedFeedbackChart";
+import TrendDeltaBadge from "../components/charts/TrendDeltaBadge";
+import RingProgressChart from "../components/charts/RingProgressChart";
+import MiniBarChart from "../components/charts/MiniBarChart";
+
+
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -49,8 +67,7 @@ function scoreColor(score: number) {
   return "text-priority-low";
 }
 
-const dashboardCityImage =
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Menara_Lawang_Sewu_Semarang.jpg/682px-Menara_Lawang_Sewu_Semarang.jpg";
+const dashboardCityImage = "/semarang-hero.jpg";
 
 // ─── Sub-section: Bar Chart Visual ───────────────────────────────────────────
 
@@ -215,6 +232,55 @@ export default function DashboardPage() {
     .slice(0, 3);
   // -------------------------------------------
 
+  // -- Regional Trend & Accountability Intelligence Calculations --
+  const years = [2022, 2023, 2024, 2025, 2026];
+  
+  // 1. Tren Priority Score Kota (Rata-rata)
+  const cityPriorityScoreTrend = years.map(y => {
+    const yearMetrics = mockHistoricalMetrics.filter(m => m.year === y);
+    const avg = Math.round(yearMetrics.reduce((sum, m) => sum + m.priorityScore, 0) / yearMetrics.length);
+    return { year: y, value: avg };
+  });
+
+  // 2. Perbandingan Aktivitas UMKM Antarwilayah 2026
+  const regionsSme2026 = mockRegions.map(r => {
+    const metric = mockHistoricalMetrics.find(m => m.regionId === r.id && m.year === 2026);
+    return {
+      label: r.name,
+      value: metric ? metric.smeActivity : 0
+    };
+  });
+
+  // 3. Komposisi Keluhan/Kritik/Saran/Apresiasi 2026
+  const feedbackComposition2026 = mockRegions.map(r => {
+    const metric = mockHistoricalMetrics.find(m => m.regionId === r.id && m.year === 2026);
+    return {
+      label: r.name,
+      complaint: metric ? metric.citizenComplaint : 0,
+      criticism: metric ? metric.citizenCriticism : 0,
+      suggestion: metric ? metric.citizenSuggestion : 0,
+      appreciation: metric ? metric.citizenAppreciation : 0,
+    };
+  });
+
+  // 4. Top cards calculations (from 2024 to 2026)
+  const topSmeImproving = getTopImprovingRegions("smeActivity", 2024, 2026)[0];
+  const topSmeDeclining = getTopDecliningRegions("smeActivity", 2024, 2026)[0];
+  const topComplaintIncreasing = getTopDecliningRegions("citizenComplaint", 2024, 2026)[0];
+  const topResolutionImproving = getTopImprovingRegions("validatedResolutionRate", 2024, 2026)[0];
+
+  // City-wide accountability average for 2026 vs 2024
+  const avgResolution2024 = Math.round(
+    mockHistoricalMetrics.filter(m => m.year === 2024).reduce((sum, m) => sum + m.validatedResolutionRate, 0) / 6
+  );
+  const avgResolution2026 = Math.round(
+    mockHistoricalMetrics.filter(m => m.year === 2026).reduce((sum, m) => sum + m.validatedResolutionRate, 0) / 6
+  );
+  const deltaAvgResolution = avgResolution2026 - avgResolution2024;
+
+  const meetingHighlights = getMeetingHighlights(2024, 2026);
+
+
   const summaryCards = [
     {
       id: "stat-total",
@@ -271,7 +337,12 @@ export default function DashboardPage() {
       {/* ── City Visual Context ──────────────────────────────────────────── */}
       <section
         id="city-visual-context"
-        className="overflow-hidden rounded-xl border border-civic-line bg-civic-dark text-civic-surface shadow-sm"
+        className="relative overflow-hidden rounded-xl border border-civic-line bg-civic-dark text-civic-surface shadow-sm"
+        style={{
+          backgroundImage: `linear-gradient(to right, rgba(42, 33, 28, 0.95) 45%, rgba(42, 33, 28, 0.4) 100%), url(${dashboardCityImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
       >
         <div className="grid min-h-[260px] lg:grid-cols-1">
           <div className="relative z-10 flex flex-col justify-between gap-6 p-6 md:p-7">
@@ -283,7 +354,7 @@ export default function DashboardPage() {
                 CIVICTWIN Semarang Command View
               </h2>
               <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/70">
-                Foto Lawang Sewu menjadi penanda konteks kota pada dashboard,
+                Identitas lokal ditampilkan sebagai konteks kota, bukan klaim penggunaan data lokasi tertentu,
                 sementara prioritas wilayah tetap dibaca melalui skor, peta,
                 laporan warga, dan simulasi kebijakan.
               </p>
@@ -304,7 +375,6 @@ export default function DashboardPage() {
               </a>
             </div>
           </div>
-
 
         </div>
       </section>
@@ -565,6 +635,228 @@ export default function DashboardPage() {
           <p className="mt-1.5 text-xs text-civic-muted/70">
             * Akses Layanan Publik dan Aktivitas UMKM dibalik logikanya: nilai rendah = prioritas intervensi lebih tinggi.
           </p>
+        </div>
+      </section>
+
+      {/* ── Regional Trend Intelligence ───────────────────────────────── */}
+      <section
+        id="regional-trend-intelligence"
+        className="rounded-xl border border-civic-line bg-civic-surface p-6 shadow-sm space-y-8 animate-fadeIn"
+      >
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-wider text-civic-primary">
+              Trend & Accountability Analytics
+            </p>
+            <h2 className="mt-1 text-lg font-bold text-civic-ink">
+              Regional Trend Intelligence
+            </h2>
+            <p className="text-xs text-civic-muted mt-1">
+              Visualisasi perkembangan kondisi wilayah dan akuntabilitas penanganan laporan warga (periode 2022–2026). Data menggunakan <span className="font-semibold text-civic-ink">data simulasi historis untuk proof of concept</span> dan bukan data resmi final.
+            </p>
+          </div>
+          <span className="shrink-0 bg-civic-soft/50 text-civic-ink border border-civic-line px-3 py-1 rounded text-[11px] font-semibold">
+            Bahan Rapat Kebijakan
+          </span>
+        </div>
+
+        {/* Top Metric Cards */}
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {/* Card 1: Rerata Priority Score */}
+          <div className="rounded-xl border border-civic-line bg-civic-panel/60 p-5 flex items-center justify-between hover:shadow-sm transition">
+            <div className="space-y-1">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-civic-muted block">Rata-rata Priority Score</span>
+              <div className="flex items-baseline gap-2">
+                <span className="text-3xl font-extrabold text-civic-ink tabular-nums">
+                  {cityPriorityScoreTrend[cityPriorityScoreTrend.length - 1].value}
+                </span>
+                <span className="text-xs text-civic-muted">/100</span>
+              </div>
+              <span className="text-[10px] text-civic-muted block">Prioritas intervensi kota</span>
+            </div>
+            <div className="flex flex-col items-end gap-2">
+              <MiniBarChart data={cityPriorityScoreTrend} color="#A33A2C" />
+              <span className="text-[9px] text-civic-muted font-semibold font-mono">2022-2026</span>
+            </div>
+          </div>
+
+          {/* Card 2: Ekonomi Wilayah Meningkat */}
+          <div className="rounded-xl border border-civic-line bg-civic-panel/60 p-5 flex items-center justify-between hover:shadow-sm transition">
+            <div className="space-y-1">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-civic-muted block">Ekonomi Meningkat</span>
+              <div className="flex items-baseline gap-1">
+                <span className="text-xl font-bold text-civic-ink truncate max-w-[130px] block" title={topSmeImproving.regionName}>
+                  {topSmeImproving.regionName}
+                </span>
+                <span className="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 rounded px-1 py-0.5">
+                  +{topSmeImproving.delta}
+                </span>
+              </div>
+              <span className="text-[10px] text-civic-muted block">Aktivitas UMKM (2024-2026)</span>
+            </div>
+            <div className="flex flex-col items-end gap-2">
+              <MiniBarChart
+                data={getRegionTrend(topSmeImproving.regionId).map(d => ({ year: d.year, value: d.smeActivity }))}
+                color="#3F7D5D"
+              />
+              <span className="text-[9px] text-civic-muted font-semibold font-mono">2022-2026</span>
+            </div>
+          </div>
+
+          {/* Card 3: Tekanan Kritik/Keluhan Tertinggi */}
+          <div className="rounded-xl border border-civic-line bg-civic-panel/60 p-5 flex items-center justify-between hover:shadow-sm transition">
+            <div className="space-y-1">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-civic-muted block">Keluhan Naik</span>
+              <div className="flex items-baseline gap-1">
+                <span className="text-xl font-bold text-civic-ink truncate max-w-[130px] block" title={topComplaintIncreasing.regionName}>
+                  {topComplaintIncreasing.regionName}
+                </span>
+                <span className="text-xs font-bold text-red-700 bg-red-50 border border-red-100 rounded px-1 py-0.5">
+                  +{topComplaintIncreasing.delta}
+                </span>
+              </div>
+              <span className="text-[10px] text-civic-muted block">Aduan warga (2024-2026)</span>
+            </div>
+            <div className="flex flex-col items-end gap-2">
+              <MiniBarChart
+                data={getRegionTrend(topComplaintIncreasing.regionId).map(d => ({ year: d.year, value: d.citizenComplaint }))}
+                color="#A33A2C"
+              />
+              <span className="text-[9px] text-civic-muted font-semibold font-mono">2022-2026</span>
+            </div>
+          </div>
+
+          {/* Card 4: Tingkat Selesai Tervalidasi */}
+          <div className="rounded-xl border border-civic-line bg-civic-panel/60 p-5 flex items-center justify-between hover:shadow-sm transition">
+            <div className="space-y-1">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-civic-muted block">Selesai Tervalidasi</span>
+              <div className="flex items-baseline gap-1">
+                <span className="text-3xl font-extrabold text-civic-ink tabular-nums">
+                  {avgResolution2026}%
+                </span>
+                <span className="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 rounded px-1 py-0.5">
+                  +{deltaAvgResolution}%
+                </span>
+              </div>
+              <span className="text-[10px] text-civic-muted block">Rerata penyelesaian OPD kota</span>
+            </div>
+            <div className="flex flex-col items-end gap-2">
+              <MiniBarChart
+                data={years.map(y => {
+                  const m = mockHistoricalMetrics.filter(metric => metric.year === y);
+                  return { year: y, value: Math.round(m.reduce((sum, metric) => sum + metric.validatedResolutionRate, 0) / m.length) };
+                })}
+                color="#2F756E"
+              />
+              <span className="text-[9px] text-civic-muted font-semibold font-mono">2022-2026</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Upgraded Layout: 3 Columns Grid */}
+        <div className="grid gap-6 lg:grid-cols-3">
+          {/* Column 1: Akuntabilitas & Rapat (Ring progress + Highlights) */}
+          <div className="space-y-6 flex flex-col justify-between h-full">
+            {/* Card: Resolution Completion Level (Ring Progress Chart) */}
+            <div className="rounded-xl border border-civic-line p-5 bg-civic-panel/30 flex flex-col items-center justify-center text-center space-y-4 flex-1">
+              <div>
+                <h3 className="text-xs font-bold uppercase tracking-wider text-civic-ink">Resolution Completion Level</h3>
+                <p className="text-[11px] text-civic-muted mt-1">Rasio aduan tervalidasi selesai dari Completion Report tahun 2026.</p>
+              </div>
+              <div className="py-2">
+                <RingProgressChart
+                  percentage={avgResolution2026}
+                  label="Tingkat Akuntabilitas Kota"
+                  subLabel="Tervalidasi"
+                  size={120}
+                  color="#2F756E"
+                />
+              </div>
+              <p className="text-[10.5px] text-civic-muted leading-relaxed">
+                Tingkat akuntabilitas tindak lanjut meningkat sebesar <strong className="text-civic-ink">+{deltaAvgResolution}%</strong> sejak tahun 2024 (perubahan periode). Evaluasi memerlukan validasi langsung Inspektorat Kota.
+              </p>
+            </div>
+
+            {/* Card: Bahan Rapat Kebijakan */}
+            <div className="rounded-xl border border-civic-primary/20 bg-civic-primary/5 p-5 space-y-3 flex-1">
+              <h3 className="text-xs font-bold text-civic-primary uppercase tracking-wider flex items-center gap-1.5 border-b border-civic-primary/10 pb-2">
+                <Presentation size={14} className="text-civic-primary" /> Bahan Rapat Kebijakan
+              </h3>
+              <ul className="space-y-3">
+                <li className="text-[11px] text-civic-ink leading-relaxed flex items-start gap-2">
+                  <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-civic-brick" />
+                  <span>Aktivitas UMKM Genuk meningkat 7 poin sejak 2024 (perubahan periode), tetapi keluhan kemacetan masih tinggi dan perlu validasi OPD.</span>
+                </li>
+                <li className="text-[11px] text-civic-ink leading-relaxed flex items-start gap-2">
+                  <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-civic-brick" />
+                  <span>Semarang Utara masih memiliki tekanan banjir/rob tertinggi (tren indikatif) dan perlu validasi lapangan oleh dinas terkait.</span>
+                </li>
+                <li className="text-[11px] text-civic-ink leading-relaxed flex items-start gap-2">
+                  <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-civic-primary" />
+                  <span>Wilayah dengan apresiasi meningkat dapat menjadi pembanding praktik baik untuk koordinasi program dinas.</span>
+                </li>
+                <li className="text-[11px] text-civic-ink leading-relaxed flex items-start gap-2">
+                  <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-civic-primary" />
+                  <span>Tingkat akuntabilitas tindak lanjut secara agregat menunjukkan peningkatan, namun memerlukan validasi OPD lebih lanjut.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Column 2: Analisis Spasial & Tren Prioritas */}
+          <div className="space-y-6">
+            {/* Chart: Line Chart - Priority Score */}
+            <div className="rounded-xl border border-civic-line p-5 bg-civic-panel/30 space-y-4">
+              <div>
+                <h3 className="text-xs font-bold uppercase tracking-wider text-civic-ink">Tren Rata-rata Priority Score Kota</h3>
+                <p className="text-[11px] text-civic-muted mt-0.5">Representasi tahunan. Priority Score tinggi = prioritas intervensi tinggi.</p>
+              </div>
+              <div className="h-44 flex items-center justify-center bg-civic-surface/80 rounded-lg p-3 border border-civic-line/40">
+                <LineTrendChart data={cityPriorityScoreTrend} color="brick" minY={0} maxY={100} />
+              </div>
+            </div>
+
+            {/* Chart: Bar Chart - Aktivitas UMKM */}
+            <div className="rounded-xl border border-civic-line p-5 bg-civic-panel/30 space-y-4">
+              <div>
+                <h3 className="text-xs font-bold uppercase tracking-wider text-civic-ink">Perbandingan Aktivitas UMKM (Tahun 2026)</h3>
+                <p className="text-[11px] text-civic-muted mt-0.5">UMKM tinggi ditampilkan sebagai kondisi ekonomi baik (bukan bahaya/risiko).</p>
+              </div>
+              <div className="bg-civic-surface/80 rounded-lg p-3 border border-civic-line/40">
+                <BarComparisonChart data={regionsSme2026} color="moss" maxValue={100} />
+              </div>
+            </div>
+          </div>
+
+          {/* Column 3: Partisipasi Publik & Komposisi Kritik */}
+          <div className="space-y-6 flex flex-col justify-between">
+            {/* Chart: Stacked Bar Chart - Feedback Composition */}
+            <div className="rounded-xl border border-civic-line p-5 bg-civic-panel/30 space-y-4 flex-1">
+              <div>
+                <h3 className="text-xs font-bold uppercase tracking-wider text-civic-ink">Komposisi Masukan & Keluhan Warga (2026)</h3>
+                <p className="text-[11px] text-civic-muted mt-0.5">Keluhan/Kritik = tekanan publik. Saran = aspirasi. Apresiasi = sinyal positif.</p>
+              </div>
+              <div className="bg-civic-surface/80 rounded-lg p-3 border border-civic-line/40">
+                <StackedFeedbackChart data={feedbackComposition2026} />
+              </div>
+            </div>
+
+            {/* Explanatory Context Footer Card */}
+            <div className="rounded-xl border border-civic-line p-5 bg-civic-panel/20 space-y-3 flex-1 flex flex-col justify-between">
+              <div>
+                <h4 className="text-xs font-bold text-civic-ink uppercase">Interpretasi Indikator Tren</h4>
+                <p className="text-[11px] text-civic-muted leading-relaxed mt-1">
+                  Seluruh tren diolah secara agregat dari data sektoral daerah. Analisis ini bersifat indikatif dan tidak menggambarkan prediksi pasti, melainkan dirancang sebagai pemetaan prioritas untuk penentuan alokasi program lintas OPD.
+                </p>
+              </div>
+              <div className="rounded border border-amber-200 bg-amber-50/50 p-2.5 text-[9.5px] text-amber-800 leading-normal flex items-start gap-1.5">
+                <Info size={12} className="shrink-0 mt-0.5 text-amber-700" />
+                <span>
+                  <strong>Disclaimer:</strong> Grafik ini menggunakan data simulasi historis untuk proof of concept. Hasil analisis perlu dikonfirmasikan ulang kepada OPD pelaksana.
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
